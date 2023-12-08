@@ -54,43 +54,52 @@ class ProjectResource extends Resource
                     ->placeholder('Enter Project Date'),
                 FileUpload::make('purchase_request')
                     ->multiple(false)
-                    ->placeholder('Upload a file'),
-                FileUpload::make('purchase_request')
-                    ->multiple(false)
-                    ->placeholder('Upload a file'),
+                    ->placeholder('Upload a file')
+                    ->acceptedFileTypes(['application/pdf']),
                 FileUpload::make('price_quotation')
                     ->multiple(false)
-                    ->placeholder('Upload a file'),
+                    ->placeholder('Upload a file')
+                    ->acceptedFileTypes(['application/pdf']),
                 FileUpload::make('abstract_of_canvass')
                     ->multiple(false)
-                    ->placeholder('Upload a file'),
+                    ->placeholder('Upload a file')
+                    ->acceptedFileTypes(['application/pdf']),
                 FileUpload::make('material_and_cost_estimates')
                     ->multiple(false)
-                    ->placeholder('Upload a file'),
+                    ->placeholder('Upload a file')
+                    ->acceptedFileTypes(['application/pdf']),
                 FileUpload::make('budget_utilization_request')
                     ->multiple(false)
-                    ->placeholder('Upload a file'),
+                    ->placeholder('Upload a file')
+                    ->acceptedFileTypes(['application/pdf']),
                 FileUpload::make('project_initiation_proposal')
                     ->multiple(false)
-                    ->placeholder('Upload a file'),
+                    ->placeholder('Upload a file')
+                    ->acceptedFileTypes(['application/pdf']),
                 FileUpload::make('annual_procurement_plan')
                     ->multiple(false)
-                    ->placeholder('Upload a file'),
+                    ->placeholder('Upload a file')
+                    ->acceptedFileTypes(['application/pdf']),
                 FileUpload::make('purchase_request_with_number')
                     ->multiple(false)
-                    ->placeholder('Upload a file'),
+                    ->placeholder('Upload a file')
+                    ->acceptedFileTypes(['application/pdf']),
                 FileUpload::make('market_study')
                     ->multiple(false)
-                    ->placeholder('Upload a file'),
+                    ->placeholder('Upload a file')
+                    ->acceptedFileTypes(['application/pdf']),
                 FileUpload::make('certificate_of_fund_allotment')
                     ->multiple(false)
-                    ->placeholder('Upload a file'),
+                    ->placeholder('Upload a file')
+                    ->acceptedFileTypes(['application/pdf']),
                 FileUpload::make('csw')
                     ->multiple(false)
-                    ->placeholder('Upload a file'),
+                    ->placeholder('Upload a file')
+                    ->acceptedFileTypes(['application/pdf']),
                 FileUpload::make('accomplishment_report')
                     ->multiple(false)
-                    ->placeholder('Upload a file'),
+                    ->placeholder('Upload a file')
+                    ->acceptedFileTypes(['application/pdf']),
                 ]);
     }
 
