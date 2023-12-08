@@ -33,9 +33,9 @@ return new class extends Migration
             $table->float('sub_total_average', 11, 2);
             $table->timestamps();
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
-            $table->foreign('project_title')->references('project_title')->on('projects')->onDelete('cascade');
-            $table->foreign('end_user')->references('department_office')->on('projects')->onDelete('cascade');
-            $table->foreign('project_date')->references('project_date')->on('projects')->onDelete('cascade');
+            $table->foreign('project_title')->references('project_title')->on('projects')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('end_user')->references('department_office')->on('projects')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('project_date')->references('project_date')->on('projects')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

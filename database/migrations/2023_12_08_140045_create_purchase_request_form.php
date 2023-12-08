@@ -36,9 +36,9 @@ return new class extends Migration
             $table->string('approved_by_designation', 25);
             $table->timestamps();
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
-            $table->foreign('department')->references('department_office')->on('projects')->onDelete('cascade');
-            $table->foreign('project_title')->references('project_title')->on('projects')->onDelete('cascade');
-            $table->foreign('project_date')->references('project_date')->on('projects')->onDelete('cascade');
+            $table->foreign('department')->references('department_office')->on('projects')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('project_title')->references('project_title')->on('projects')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('project_date')->references('project_date')->on('projects')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 
