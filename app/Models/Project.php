@@ -36,27 +36,27 @@ class Project extends Model
 
     public function supplementary_documents()
     {
-        return $this->belongsTo(SupplementaryDocument::class);
+        return $this->hasMany(SupplementaryDocument::class);
     }
 
     public function purchase_request_forms()
     {
-        return $this->belongsTo(Purchase_Request_Form::class);
+        return $this->hasMany(Purchase_Request_Form::class);
     }
 
     public function abstract_of_canvass_forms()
     {
-        return $this->belongsTo(Abstract_of_Canvass_Form::class);
+        return $this->hasMany(Abstract_of_Canvass_Form::class);
     }
 
     public function suppliers()
     {
-        return $this->belongsTo(Supplier::class);
+        return $this->hasMany(Supplier::class);
     }
 
     public function price_quotations()
     {
-        return $this->belongsTo(PriceQuotation::class);
+        return $this->hasMany(PriceQuotation::class);
     }
 
 

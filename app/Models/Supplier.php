@@ -11,8 +11,19 @@ class Supplier extends Model
 
     protected $table = 'suppliers';
 
+    protected $fillable = [
+        'project_id',
+        'supplier_name',
+        'address',
+        'tel_no',
+        'fax_no',
+        'website',
+        'contact_person',
+        'email',
+    ];
+
     public function project()
     {
-        return $this->hasMany(Project::class);
+        return $this->belongsTo(Project::class);
     }
 }

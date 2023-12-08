@@ -11,8 +11,17 @@ class SupplementaryDocument extends Model
 
     protected $table = 'supplementary_documents';
 
+    protected $fillable = [
+        'project_id',
+        'project_title',
+        'department_office',
+        'project_date',
+        'file_name',
+        'file_content',
+    ];
+
     public function project()
     {
-        return $this->hasMany(Project::class);
+        return $this->belongsTo(Project::class);
     }
 }

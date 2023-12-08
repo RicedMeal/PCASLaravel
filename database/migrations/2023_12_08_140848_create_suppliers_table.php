@@ -13,8 +13,16 @@ return new class extends Migration
     {
         Schema::create('suppliers', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('project_id');
+            $table->string('supplier_name')->index();
+            $table->string('address');
+            $table->string('tel_no');
+            $table->string('fax_no')->nullable();
+            $table->string('website')->nullable();
+            $table->string('contact_person');
+            $table->string('email');
             $table->timestamps();
-        });
+            $table->foreign('project_id')->references('id')->on('projects')->onUpdate('cascade')->onDelete('cascade');        });
     }
 
     /**
