@@ -13,6 +13,6 @@ class Abstract_of_Canvass_Form extends Model
 
     public function project()
     {
-        return $this->belongsTo(Project::class);
+        return $this->hasMany(Project::class);
     }
 }

@@ -10,4 +10,9 @@ class Purchase_Request_Form extends Model
     use HasFactory;
 
     protected $table = 'purchase_request_form';
+
+    public function project()
+    {
+        return $this->hasMany(Project::class);
+    }
 }

@@ -11,8 +11,8 @@ class PriceQuotation extends Model
 
     protected $table = 'price_quotations';
 
-    public function purchase_request_form()
+    public function project()
     {
-        return $this->belongsTo(Project::class);
+        return $this->hasMany(Project::class);
     }
 }
