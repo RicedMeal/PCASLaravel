@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('project_id');
             $table->string('project_title', 75);
-            $table->date('project_date');
             $table->float('approved_budget_contract', 11, 2);
             $table->string('end_user', 30);
             $table->string('particulars', 75);
@@ -34,8 +33,7 @@ return new class extends Migration
             $table->timestamps();
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
             $table->foreign('project_title')->references('project_title')->on('projects')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('end_user')->references('department_office')->on('projects')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('project_date')->references('project_date')->on('projects')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('end_user')->references('department')->on('projects')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

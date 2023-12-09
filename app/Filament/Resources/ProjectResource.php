@@ -6,16 +6,15 @@ use App\Filament\Resources\ProjectResource\Pages;
 use App\Filament\Resources\ProjectResource\RelationManagers;
 use App\Models\Project;
 use Filament\Forms;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\FileUpload;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Tables\Columns\TextColumn;
 
 class ProjectResource extends Resource
 {
@@ -31,7 +30,7 @@ class ProjectResource extends Resource
                     ->required()
                     ->autofocus()
                     ->placeholder('Enter Project Title'),
-                Select::make('department_office')
+                Select::make('department')
                     ->required()
                     ->options([
                         'PFMO' => 'PFMO',
@@ -52,55 +51,7 @@ class ProjectResource extends Resource
                     ->readonly()
                     ->default(now()->format('Y-m-d'))
                     ->placeholder('Enter Project Date'),
-                FileUpload::make('purchase_request')
-                    ->multiple(false)
-                    ->placeholder('Upload a file')
-                    ->acceptedFileTypes(['application/pdf']),
-                FileUpload::make('price_quotation')
-                    ->multiple(false)
-                    ->placeholder('Upload a file')
-                    ->acceptedFileTypes(['application/pdf']),
-                FileUpload::make('abstract_of_canvass')
-                    ->multiple(false)
-                    ->placeholder('Upload a file')
-                    ->acceptedFileTypes(['application/pdf']),
-                FileUpload::make('material_and_cost_estimates')
-                    ->multiple(false)
-                    ->placeholder('Upload a file')
-                    ->acceptedFileTypes(['application/pdf']),
-                FileUpload::make('budget_utilization_request')
-                    ->multiple(false)
-                    ->placeholder('Upload a file')
-                    ->acceptedFileTypes(['application/pdf']),
-                FileUpload::make('project_initiation_proposal')
-                    ->multiple(false)
-                    ->placeholder('Upload a file')
-                    ->acceptedFileTypes(['application/pdf']),
-                FileUpload::make('annual_procurement_plan')
-                    ->multiple(false)
-                    ->placeholder('Upload a file')
-                    ->acceptedFileTypes(['application/pdf']),
-                FileUpload::make('purchase_request_with_number')
-                    ->multiple(false)
-                    ->placeholder('Upload a file')
-                    ->acceptedFileTypes(['application/pdf']),
-                FileUpload::make('market_study')
-                    ->multiple(false)
-                    ->placeholder('Upload a file')
-                    ->acceptedFileTypes(['application/pdf']),
-                FileUpload::make('certificate_of_fund_allotment')
-                    ->multiple(false)
-                    ->placeholder('Upload a file')
-                    ->acceptedFileTypes(['application/pdf']),
-                FileUpload::make('csw')
-                    ->multiple(false)
-                    ->placeholder('Upload a file')
-                    ->acceptedFileTypes(['application/pdf']),
-                FileUpload::make('accomplishment_report')
-                    ->multiple(false)
-                    ->placeholder('Upload a file')
-                    ->acceptedFileTypes(['application/pdf']),
-                ]);
+            ]);
     }
 
     public static function table(Table $table): Table
@@ -108,12 +59,12 @@ class ProjectResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('id')
-                    ->sortable()
+                    ->searchable()
                     ->label('Project ID'),
                 TextColumn::make('project_title')
                     ->searchable()
                     ->sortable(),
-                TextColumn::make('department_office')
+                TextColumn::make('department')
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('person_in_charge')
@@ -122,7 +73,10 @@ class ProjectResource extends Resource
                 TextColumn::make('project_date')
                     ->searchable()
                     ->sortable(),
-                
+                TextColumn::make('project_status')
+                    ->searchable()
+                    ->sortable(),
+
             ])
             ->filters([
                 //

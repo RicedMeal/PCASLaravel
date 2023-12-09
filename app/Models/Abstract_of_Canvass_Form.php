@@ -13,7 +13,6 @@ class Abstract_of_Canvass_Form extends Model
 
     protected $fillable = [
         'project_title',
-        'project_date',
         'approved_budget_contract',
         'end_user',
         'particulars',

@@ -22,7 +22,8 @@ return new class extends Migration
             $table->string('contact_person');
             $table->string('email');
             $table->timestamps();
-            $table->foreign('project_id')->references('id')->on('projects')->onUpdate('cascade')->onDelete('cascade');        });
+            $table->foreign('project_id')->references('id')->on('projects')->onUpdate('cascade')->onDelete('cascade');
+        });
     }
 
     /**
