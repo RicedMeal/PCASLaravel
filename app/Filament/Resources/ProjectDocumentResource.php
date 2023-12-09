@@ -17,6 +17,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\TextColumn;
 use App\Models\Project;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Section;
 use Filament\Tables\Columns\ButtonColumn;
 
 
@@ -33,65 +34,67 @@ class ProjectDocumentResource extends Resource
                 Select::make('project_id')
                     ->label('Project ID')
                     ->columnSpan(3)
+                    ->required()
                     ->options(
                         Project::all()->mapWithKeys(function ($project) {
                             return [$project->id => $project->id . ' - ' . $project->project_title];
                         })->toArray()
                     ),
-                FileUpload::make('purchase_request')
-                    ->multiple(false)
-                    ->placeholder('Upload a file')
-                    ->preserveFilenames()
-                    ->acceptedFileTypes(['application/pdf']),
-                FileUpload::make('price_quotation')
-                    ->multiple(false)
-                    ->placeholder('Upload a file')
-                    ->acceptedFileTypes(['application/pdf']),
-                FileUpload::make('abstract_of_canvass')
-                    ->multiple(false)
-                    ->placeholder('Upload a file')
-                    ->acceptedFileTypes(['application/pdf']),
-                FileUpload::make('material_and_cost_estimates')
-                    ->multiple(false)
-                    ->placeholder('Upload a file')
-                    ->acceptedFileTypes(['application/pdf']),
-                FileUpload::make('budget_utilization_request')
-                    ->multiple(false)
-                    ->placeholder('Upload a file')
-                    ->acceptedFileTypes(['application/pdf']),
-                FileUpload::make('project_initiation_proposal')
-                    ->multiple(false)
-                    ->placeholder('Upload a file')
-                    ->acceptedFileTypes(['application/pdf']),
-                FileUpload::make('annual_procurement_plan')
-                    ->multiple(false)
-                    ->placeholder('Upload a file')
-                    ->acceptedFileTypes(['application/pdf']),
-                FileUpload::make('purchase_order')
-                    ->multiple(false)
-                    ->placeholder('Upload a file')
-                    ->acceptedFileTypes(['application/pdf']),
-                FileUpload::make('market_study')
-                    ->multiple(false)
-                    ->placeholder('Upload a file')
-                    ->acceptedFileTypes(['application/pdf']),
-                FileUpload::make('certificate_of_fund_allotment')
-                    ->multiple(false)
-                    ->placeholder('Upload a file')
-                    ->acceptedFileTypes(['application/pdf']),
-                FileUpload::make('complete_staff_work')
-                    ->multiple(false)
-                    ->placeholder('Upload a file')
-                    ->acceptedFileTypes(['application/pdf']),
-                FileUpload::make('accomplishment_report')
-                    ->multiple(false)
-                    ->placeholder('Upload a file')
-                    ->acceptedFileTypes(['application/pdf']),
-                FileUpload::make('supplementary_document')
-                    ->multiple(false)
-                    ->placeholder('Upload a file')
-                    ->acceptedFileTypes(['application/pdf']),
-                
+                Section::make()->schema([
+                    FileUpload::make('purchase_request')
+                        ->multiple(false)
+                        ->placeholder('Upload a file')
+                        ->preserveFilenames()
+                        ->acceptedFileTypes(['application/pdf']),
+                    FileUpload::make('price_quotation')
+                        ->multiple(false)
+                        ->placeholder('Upload a file')
+                        ->acceptedFileTypes(['application/pdf']),
+                    FileUpload::make('abstract_of_canvass')
+                        ->multiple(false)
+                        ->placeholder('Upload a file')
+                        ->acceptedFileTypes(['application/pdf']),
+                    FileUpload::make('material_and_cost_estimates')
+                        ->multiple(false)
+                        ->placeholder('Upload a file')
+                        ->acceptedFileTypes(['application/pdf']),
+                    FileUpload::make('budget_utilization_request')
+                        ->multiple(false)
+                        ->placeholder('Upload a file')
+                        ->acceptedFileTypes(['application/pdf']),
+                    FileUpload::make('project_initiation_proposal')
+                        ->multiple(false)
+                        ->placeholder('Upload a file')
+                        ->acceptedFileTypes(['application/pdf']),
+                    FileUpload::make('annual_procurement_plan')
+                        ->multiple(false)
+                        ->placeholder('Upload a file')
+                        ->acceptedFileTypes(['application/pdf']),
+                    FileUpload::make('purchase_order')
+                        ->multiple(false)
+                        ->placeholder('Upload a file')
+                        ->acceptedFileTypes(['application/pdf']),
+                    FileUpload::make('market_study')
+                        ->multiple(false)
+                        ->placeholder('Upload a file')
+                        ->acceptedFileTypes(['application/pdf']),
+                    FileUpload::make('certificate_of_fund_allotment')
+                        ->multiple(false)
+                        ->placeholder('Upload a file')
+                        ->acceptedFileTypes(['application/pdf']),
+                    FileUpload::make('complete_staff_work')
+                        ->multiple(false)
+                        ->placeholder('Upload a file')
+                        ->acceptedFileTypes(['application/pdf']),
+                    FileUpload::make('accomplishment_report')
+                        ->multiple(false)
+                        ->placeholder('Upload a file')
+                        ->acceptedFileTypes(['application/pdf']),
+                    FileUpload::make('supplementary_docuement')
+                        ->multiple(false)
+                        ->placeholder('Upload a file')
+                        ->acceptedFileTypes(['application/pdf']),
+                ])->columns(3),  
             ]);
     }
 
