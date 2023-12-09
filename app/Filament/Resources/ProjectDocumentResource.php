@@ -24,7 +24,11 @@ class ProjectDocumentResource extends Resource
 {
     protected static ?string $model = ProjectDocument::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-document-plus';
+
+    protected static ?int $navigationSort = 2;
+
+    protected static ?string $navigationGroup = 'PROJECT MANAGEMENT';
 
     public static function form(Form $form): Form
     {
@@ -90,7 +94,7 @@ class ProjectDocumentResource extends Resource
                     ->multiple(false)
                     ->placeholder('Upload a file')
                     ->acceptedFileTypes(['application/pdf']),
-                
+
             ]);
     }
 
@@ -108,7 +112,7 @@ class ProjectDocumentResource extends Resource
                     ->searchable()
                     ->label('Project Document ID'),
 
-                
+
             ])
             ->filters([
                 //
@@ -125,14 +129,14 @@ class ProjectDocumentResource extends Resource
                 Tables\Actions\CreateAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -140,5 +144,5 @@ class ProjectDocumentResource extends Resource
             'create' => Pages\CreateProjectDocument::route('/create'),
             'edit' => Pages\EditProjectDocument::route('/{record}/edit'),
         ];
-    }    
+    }
 }
