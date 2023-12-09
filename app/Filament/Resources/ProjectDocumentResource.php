@@ -36,6 +36,7 @@ class ProjectDocumentResource extends Resource
             ->schema([
                 Select::make('project_id')
                     ->label('Project ID')
+                    ->columnSpan(3)
                     ->options(
                         Project::all()->mapWithKeys(function ($project) {
                             return [$project->id => $project->id . ' - ' . $project->project_title];
@@ -90,12 +91,12 @@ class ProjectDocumentResource extends Resource
                     ->multiple(false)
                     ->placeholder('Upload a file')
                     ->acceptedFileTypes(['application/pdf']),
-                FileUpload::make('supplementary_docuement')
+                FileUpload::make('supplementary_document')
                     ->multiple(false)
                     ->placeholder('Upload a file')
                     ->acceptedFileTypes(['application/pdf']),
 
-            ]);
+            ])->columns(3);
     }
 
     public static function table(Table $table): Table

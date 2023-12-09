@@ -26,7 +26,7 @@ return new class extends Migration
             $table->string('certificate_of_fund_allotment')->nullable();
             $table->string('complete_staff_work')->nullable();
             $table->string('accomplishment_report')->nullable();
-            $table->string('supplementary_docuement')->nullable();
+            $table->string('supplementary_document')->nullable();
             $table->timestamps();
             $table->foreign('project_id')->references('id')->on('projects')->onUpdate('cascade')->onDelete('cascade');
         });
