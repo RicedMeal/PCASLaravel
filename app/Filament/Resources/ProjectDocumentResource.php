@@ -94,9 +94,8 @@ class ProjectDocumentResource extends Resource
                         ->multiple(false)
                         ->placeholder('Upload a file')
                         ->acceptedFileTypes(['application/pdf']),
-                ])->columns(3),
-                
-            ])->columns(3);
+                ])->columns(3),  
+            ]);
     }
 
     public static function table(Table $table): Table

@@ -25,7 +25,7 @@ class ProjectDocument extends Model
         'certificate_of_fund_allotment',
         'complete_staff_work',
         'accomplishment_report',
-        'supplementary_docuement',
+        'supplementary_document',
     ];
 
     public function project()
