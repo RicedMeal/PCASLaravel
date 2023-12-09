@@ -13,28 +13,6 @@ class PriceQuotation extends Model
 
     protected $fillable =
     [
-        'project_title',
-        'project_date',
-        'supplier_id',
-        'supplier_name',
-        'address',
-        'tel_no',
-        'fax_no',
-        'website',
-        'contact_person',
-        'email',
-        'item',
-        'quantity',
-        'unit',
-        'unit_price',
-        'amount',
-        'total',
-        'vat',
-        'total_amount',
-        'delivery',
-        'warranty',
-        'validity',
-        'remarks',
     ];
 
     public function project()

@@ -14,47 +14,35 @@ class Project extends Model
     protected $fillable =
     [
         'project_title',
-        'department_office',
+        'department',
         'project_description',
         'person_in_charge',
         'project_date',
-        'purchase_request',
-        'price_quotation',
-        'abstract_of_canvass',
-        'material_and_cost_estimates',
-        'budget_utilization_request',
-        'project_initiation_proposal',
-        'annual_procurement_plan',
-        'purchase_request_with_number',
-        'market_study',
-        'certificate_of_fund_allotment',
-        'csw',
-        'accomplishment_report',
         'project_status',
     ];
 
 
-    public function supplementary_documents()
+    public function project_document()
     {
         return $this->hasMany(SupplementaryDocument::class);
     }
 
-    public function purchase_request_forms()
+    public function purchase_request_form()
     {
         return $this->hasMany(Purchase_Request_Form::class);
     }
 
-    public function abstract_of_canvass_forms()
+    public function abstract_of_canvass_form()
     {
         return $this->hasMany(Abstract_of_Canvass_Form::class);
     }
 
-    public function suppliers()
+    public function supplier()
     {
         return $this->hasMany(Supplier::class);
     }
 
-    public function price_quotations()
+    public function price_quotation()
     {
         return $this->hasMany(PriceQuotation::class);
     }

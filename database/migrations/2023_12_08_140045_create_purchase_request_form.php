@@ -15,10 +15,9 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('project_id');
             $table->string('project_title');
-            $table->date('project_date');
             $table->string('department', 75);
             $table->string('pr_no', 20)->unique();
-            $table->string('date', 20);
+            $table->date('date')->index();
             $table->string('section', 75)->nullable();
             $table->integer('sai_no')->nullable();
             $table->integer('bus_no')->nullable();
@@ -35,10 +34,9 @@ return new class extends Migration
             $table->string('approved_by_name', 25);
             $table->string('approved_by_designation', 25);
             $table->timestamps();
-            $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
-            $table->foreign('department')->references('department_office')->on('projects')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('project_id')->references('id')->on('projects')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('project_title')->references('project_title')->on('projects')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('project_date')->references('project_date')->on('projects')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('department')->references('department')->on('projects')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 
