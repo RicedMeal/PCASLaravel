@@ -6,6 +6,7 @@ use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Navigation\NavigationItem;
+use Filament\Notifications\DatabaseNotification;
 use Filament\Pages;
 use Filament\Pages\Auth\EditProfile;
 use Filament\Panel;
@@ -34,6 +35,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->favicon('https://upload.wikimedia.org/wikipedia/en/d/dc/PLM_Seal_2013.png')
             ->sidebarCollapsibleOnDesktop()
+            ->databaseNotifications()
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
@@ -62,4 +64,5 @@ class AdminPanelProvider extends PanelProvider
             ->darkMode( false)
             ->profile(EditProfile::class);
     }
+
 }

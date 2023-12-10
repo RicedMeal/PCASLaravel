@@ -28,6 +28,7 @@ class ProjectResource extends Resource
 
     protected static ?string $navigationGroup = 'PROJECT MANAGEMENT';
 
+
     public static function form(Form $form): Form
     {
         return $form

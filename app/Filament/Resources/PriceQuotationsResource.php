@@ -4,7 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\PriceQuotationsResource\Pages;
 use App\Filament\Resources\PriceQuotationsResource\RelationManagers;
-use App\Models\PriceQuotations;
+use App\Models\PriceQuotation;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -16,7 +16,7 @@ use Filament\Facades\Filament;
 
 class PriceQuotationsResource extends Resource
 {
-    protected static ?string $model = PriceQuotations::class;
+    protected static ?string $model = PriceQuotation::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-paper-clip';
 
