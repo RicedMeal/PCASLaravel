@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\TablesServiceProvider;
 
 class ProjectResource extends Resource
 {
@@ -90,11 +91,15 @@ class ProjectResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\Action::make('Download')
+                    ->icon('heroicon-o-rectangle-stack')
+                    ->url(fn(Project $record) => route('projects.pdf', $record))
+                    ->openUrlInNewTab(),
+                    
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+
             ])
             ->emptyStateActions([
                 Tables\Actions\CreateAction::make()

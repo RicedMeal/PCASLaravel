@@ -30,9 +30,11 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
+            
             ->colors([
-                'primary' => '#bd9309',
+                'primary' => '#2D349A',
             ])
+            
             ->favicon('https://upload.wikimedia.org/wikipedia/en/d/dc/PLM_Seal_2013.png')
             ->sidebarCollapsibleOnDesktop()
             ->databaseNotifications()
@@ -61,7 +63,8 @@ class AdminPanelProvider extends PanelProvider
                 Authenticate::class,
             ])
             ->darkMode( false)
-            ->profile(EditProfile::class);
+            ->profile(EditProfile::class)
+            ;
     }
 
 }

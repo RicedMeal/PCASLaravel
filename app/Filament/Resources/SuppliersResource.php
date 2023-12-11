@@ -13,6 +13,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Tables\Columns\TextColumn;
 
 class SuppliersResource extends Resource
 {
@@ -36,7 +37,7 @@ class SuppliersResource extends Resource
     {
         return $table
             ->columns([
-                //
+                
             ])
             ->filters([
                 //
