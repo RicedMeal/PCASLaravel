@@ -29,20 +29,20 @@ class AbstractOfCanvassResource extends Resource
     {
         return $form
             ->schema([
-                Select::make('project_id')
-                    ->label('Project ID')
+                Select::make('project_title')
+                    ->label('Project Title')
                     ->columnSpan(3)
                     ->required()
                     ->options(
                         Project::all()->mapWithKeys(function ($project) {
-                            return [$project->id => $project->id . ' - ' . $project->project_title];
+                            return [$project->project_title => $project->id . ' - ' . $project->project_title];
                         })->toArray()
                     ),
-                TextInput::make('project_title')
+                /*TextInput::make('project_title')
                 ->required()
                 ->autofocus()
                 ->columnSpan(3)
-                ->placeholder('Enter Project Title'),
+                ->placeholder('Enter Project Title'),*/     
                 
                 TextInput::make('approved_budget_contract')
                 ->required()
