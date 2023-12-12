@@ -115,8 +115,6 @@ class ProjectDocumentResource extends Resource
                 TextColumn::make('id')
                     ->searchable()
                     ->label('Project Document ID'),
-
-
             ])
             ->filters([
                 //

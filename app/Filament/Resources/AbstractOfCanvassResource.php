@@ -18,6 +18,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use IntlChar;
+use Filament\Tables\Columns\TextColumn;
 
 class AbstractOfCanvassResource extends Resource
 {
@@ -195,7 +196,70 @@ class AbstractOfCanvassResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('project_id')
+                    ->label('Project ID')
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('project.project_title')
+                    ->label('Project Title')
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('approved_budget_contract')
+                    ->label('Approved Budget Contract')
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('particulars')
+                    ->label('Particulars')
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('quantity')
+                    ->label('Quantity')
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('unit')
+                    ->label('Unit')
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('abc_in_table')
+                    ->label('ABC in Table')
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('supplier_company_name')
+                    ->label('Supplier Company Name')
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('supplier_address')
+                    ->label('Supplier Address')
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('supplier_contact_no')
+                    ->label('Supplier Contact No.')
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('unit_price_each_supplier')
+                    ->label('Unit Price Each Supplier')
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('amount_each_supplier')
+                    ->label('Amount Each Supplier')
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('sub_total_each_supplier')
+                    ->label('Sub Total Each Supplier')
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('unit_price_average')
+                    ->label('Unit Price Average')
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('amount_average')
+                    ->label('Amount Average')
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('sub_total_average')
+                    ->label('Sub Total Average')
+                    ->sortable()
+                    ->searchable(),
             ])
             ->filters([
                 //
