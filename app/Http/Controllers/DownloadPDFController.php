@@ -30,4 +30,5 @@ class DownloadPDFController extends Controller
         
         return $invoice->stream();
     }
+    
 }

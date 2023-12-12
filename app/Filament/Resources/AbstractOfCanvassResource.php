@@ -31,13 +31,13 @@ class AbstractOfCanvassResource extends Resource
     {
         return $form
             ->schema([
-                Select::make('project_title')
+                Select::make('project_id')
                     ->label('Project Title')
                     ->columnSpan(3)
                     ->required()
                     ->options(
                         Project::all()->mapWithKeys(function ($project) {
-                            return [$project->project_title => $project->id . ' - ' . $project->project_title];
+                            return [$project->id => $project->id . ' - ' . $project->project_title];
                         })->toArray()
                     ),
                 /*TextInput::make('project_title')
@@ -59,14 +59,14 @@ class AbstractOfCanvassResource extends Resource
                     'pattern' => '\d+(\.\d{2})?',
                 ]),
                 
-                Select::make('end_user')
+                /*Select::make('end_user')
                 ->required()
                 ->options([
                     'PFMO' => 'PFMO',
                     'PSO' => 'PSO',
                 ])
                 ->placeholder('Select End User')
-                ->label('End-User'),
+                ->label('End-User'),*/
 
                 TextInput::make('particulars')
                 ->required()

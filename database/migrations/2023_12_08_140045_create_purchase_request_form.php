@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('purchase_request_form', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('project_id');
-            $table->string('project_title');
-            $table->string('department', 75);
+            /*$table->string('project_title');
+            $table->string('department', 75);*/
             $table->string('pr_no', 20)->unique();
             $table->date('date')->index();
             $table->string('section', 75)->nullable();
@@ -35,8 +35,8 @@ return new class extends Migration
             $table->string('approved_by_designation', 25);
             $table->timestamps();
             $table->foreign('project_id')->references('id')->on('projects')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('project_title')->references('project_title')->on('projects')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('department')->references('department')->on('projects')->onUpdate('cascade')->onDelete('cascade');
+            /*->foreign('project_title')->references('project_title')->on('projects')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('department')->references('department')->on('projects')->onUpdate('cascade')->onDelete('cascade');*/
         });
     }
 

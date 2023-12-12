@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('abstract_of_canvass_form', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('project_id');
-            $table->string('project_title', 75);
+            /*$table->string('project_title', 75);*/
             $table->float('approved_budget_contract', 11, 2);
-            $table->string('end_user', 30);
+            /*$table->string('end_user', 30);*/
             $table->string('particulars', 75);
             $table->bigInteger('quantity');
             $table->string('unit', 10);
@@ -32,8 +32,8 @@ return new class extends Migration
             $table->float('sub_total_average', 11, 2);
             $table->timestamps();
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
-            $table->foreign('project_title')->references('project_title')->on('projects')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('end_user')->references('department')->on('projects')->onUpdate('cascade')->onDelete('cascade');
+            /*$table->foreign('project_title')->references('project_title')->on('projects')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('end_user')->references('department')->on('projects')->onUpdate('cascade')->onDelete('cascade');*/
         });
     }
 

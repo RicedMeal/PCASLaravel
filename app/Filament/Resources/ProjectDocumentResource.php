@@ -123,11 +123,17 @@ class ProjectDocumentResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\Action::make('Download')
+                    ->icon('heroicon-o-rectangle-stack')
+                    ->url(fn(ProjectDocument $record) => route('projects.pdf', $record))
+                    ->openUrlInNewTab(),
+                
+
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                //Tables\Actions\BulkActionGroup::make([
+                //Tables\Actions\DeleteBulkAction::make(),
+
             ])
             ->emptyStateActions([
                 Tables\Actions\CreateAction::make(),

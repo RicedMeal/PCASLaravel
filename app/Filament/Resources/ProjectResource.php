@@ -91,7 +91,7 @@ class ProjectResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                //Tables\Actions\DeleteAction::make(),
                 Tables\Actions\Action::make('Download')
                     ->icon('heroicon-o-rectangle-stack')
                     ->url(fn(Project $record) => route('projects.pdf', $record))

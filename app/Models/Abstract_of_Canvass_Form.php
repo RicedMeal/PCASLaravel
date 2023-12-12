@@ -12,9 +12,8 @@ class Abstract_of_Canvass_Form extends Model
     protected $table = 'abstract_of_canvass_form';
 
     protected $fillable = [
-        'project_title',
+        'project_id',
         'approved_budget_contract',
-        'end_user',
         'particulars',
         'quantity',
         'unit',

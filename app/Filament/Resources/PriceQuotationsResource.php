@@ -43,6 +43,10 @@ class PriceQuotationsResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\Action::make('Download')
+                    ->icon('heroicon-o-rectangle-stack')
+                    ->url(fn(PriceQuotation $record) => route('projects.pdf', $record))
+                    ->openUrlInNewTab(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

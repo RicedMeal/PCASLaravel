@@ -41,7 +41,7 @@ class PurchaseRequestFormResource extends Resource
                             return [$project->id => $project->id . ' - ' . $project->project_title];
                         })->toArray()
                     ),
-                TextInput::make('project_title')
+                /*TextInput::make('project_title')
                     ->label('Project Title')
                     ->columnSpan(3)
                     ->required()
@@ -55,7 +55,7 @@ class PurchaseRequestFormResource extends Resource
                         'PSO' => 'PSO',
                         // Add more options as needed
                     ])
-                    ->placeholder('Select Department/Office'),
+                    ->placeholder('Select Department/Office'),*/
                 TextInput::make('pr_no')
                     ->label('PR No.')
                     ->required()  
@@ -177,11 +177,11 @@ class PurchaseRequestFormResource extends Resource
                     ->label('Project ID')
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('project_title')
+                Tables\Columns\TextColumn::make('project.project_title')
                     ->label('Project Title')
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('department')
+                Tables\Columns\TextColumn::make('project.department')
                     ->label('Department/Office')
                     ->searchable()
                     ->sortable(),
@@ -261,10 +261,14 @@ class PurchaseRequestFormResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\Action::make('Download')
+                        ->icon('heroicon-o-rectangle-stack')
+                        ->url(fn(Purchase_Request_Form   $record) => route('projects.pdf', $record))
+                        ->openUrlInNewTab(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    //Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ])
             ->emptyStateActions([

@@ -12,9 +12,7 @@ class Purchase_Request_Form extends Model
     protected $table = 'purchase_request_form';
 
     protected $fillable =
-    [
-        'project_title',
-        'department',
+    [   'project_id',
         'pr_no',
         'date',
         'section',
