@@ -9,6 +9,7 @@ class Project extends Model
 {
     use HasFactory;
 
+
     protected $table = 'projects';
 
     protected $fillable =
@@ -24,7 +25,7 @@ class Project extends Model
 
     public function project_document()
     {
-        return $this->hasMany(SupplementaryDocument::class);
+        //return $this->hasMany(SupplementaryDocument::class);
     }
 
     public function purchase_request_form()

@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\DownloadPDFController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AbstractofCanvassFormPDFController;
+use App\Http\Controllers\PurchaseRequestFormPDFController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,5 +27,7 @@ Route::view('profile', 'profile')
     ->name('profile');
 
 Route::get('/{record}/pdf', [DownloadPDFController::class, 'download'])->name('projects.pdf');
+Route::get('/download-abstract-pdf/{id}', [AbstractofCanvassFormPDFController::class, 'download'])->name('download.abstract.pdf');
+Route::get('/download-purchase-request-pdf/{id}', [PurchaseRequestFormPDFController::class, 'download'])->name('download.purchase.request.pdf');
 
 require __DIR__.'/auth.php';

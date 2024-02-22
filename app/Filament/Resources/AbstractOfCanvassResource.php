@@ -266,11 +266,14 @@ class AbstractOfCanvassResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\Action::make('Download')
+                    ->icon('heroicon-o-rectangle-stack')
+                    ->url(fn(Abstract_of_Canvass_Form $record) => route('download.abstract.pdf', $record))
+                    ->openUrlInNewTab(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+
             ])
             ->emptyStateActions([
                 Tables\Actions\CreateAction::make(),

@@ -19,8 +19,8 @@ return new class extends Migration
             $table->string('pr_no', 20)->unique();
             $table->date('date')->index();
             $table->string('section', 75)->nullable();
-            $table->integer('sai_no')->nullable();
-            $table->integer('bus_no')->nullable();
+            $table->string('sai_no')->nullable();
+            $table->string('bus_no')->nullable();
             $table->string('unit', 20);
             $table->string('item_description', 100);
             $table->bigInteger('quantity');

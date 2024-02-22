@@ -261,9 +261,10 @@ class PurchaseRequestFormResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
                 Tables\Actions\Action::make('Download')
                         ->icon('heroicon-o-rectangle-stack')
-                        ->url(fn(Purchase_Request_Form   $record) => route('projects.pdf', $record))
+                        ->url(fn(Purchase_Request_Form   $record) => route('download.purchase.request.pdf', $record))
                         ->openUrlInNewTab(),
             ])
             ->bulkActions([
