@@ -25,7 +25,7 @@ class Project extends Model
 
     public function project_document()
     {
-        //return $this->hasMany(SupplementaryDocument::class);
+        return $this->hasMany(ProjectDocument::class);
     }
 
     public function purchase_request_form()

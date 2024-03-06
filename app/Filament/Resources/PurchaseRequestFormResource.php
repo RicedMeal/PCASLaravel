@@ -60,7 +60,7 @@ class PurchaseRequestFormResource extends Resource
                     ->label('PR No.')
                     ->required()  
                     ->rules(['regex:/^PR-\d{4}$/'])
-                    ->placeholder('Format: PR-0000'),
+                    ->placeholder('PR-0000'),
 
                 DatePicker::make('date')
                     ->label('Date')
@@ -75,12 +75,12 @@ class PurchaseRequestFormResource extends Resource
                 TextInput::make('sai_no')
                     ->label('SAI No.')
                     ->rules(['regex:/^SAI-\d{5}$/'])
-                    ->placeholder('Format: SAI-00000'),
+                    ->placeholder('SAI-00000'),
 
                 TextInput::make('bus_no')
                     ->label('Bus No.')
                     ->rules(['regex:/^Bus-\d{5}$/'])
-                    ->placeholder('Format: Bus-00000'),
+                    ->placeholder('Bus-00000'),
                 
                     Select::make('unit')
                     ->label('Unit')
@@ -102,7 +102,9 @@ class PurchaseRequestFormResource extends Resource
                         ->columnSpan(3),
                     TextInput::make('quantity')
                         ->label('Quantity')
-                        ->type('number')
+                        ->numeric()
+                        ->maxValue(9999999999999999)
+                        ->minValue(0)
                         ->required()
                         ->placeholder('Enter Quantity'),
 
@@ -253,6 +255,7 @@ class PurchaseRequestFormResource extends Resource
                     ->label('Approved By Designation')
                     ->searchable()
                     ->sortable(),
+                    
                 
             ])
             ->filters([
