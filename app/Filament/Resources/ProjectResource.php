@@ -37,6 +37,7 @@ class ProjectResource extends Resource
                 TextInput::make('project_title')
                     ->required()
                     ->autofocus()
+                    ->label('Project Title')
                     ->placeholder('Enter Project Title'),
                 Select::make('department')
                     ->required()
@@ -49,16 +50,31 @@ class ProjectResource extends Resource
                     ->label('Department/Office'),
                 TextInput::make('project_description')
                     ->required()
+                    ->label('Project Description')
                     ->placeholder('Enter Project Description'),
                 TextInput::make('person_in_charge')
                     ->readonly()
+                    ->label('Person in Charge')
                     ->default(function () {
                         return auth()->user()->name;
                     }),
                 TextInput::make('project_date')
                     ->readonly()
+                    ->label('Project Date')
                     ->default(now()->format('Y-m-d'))
                     ->placeholder('Enter Project Date'),
+                Select::make('status')
+                    ->options([
+                        'Pending' => 'Pending',
+                        'Approved' => 'Approved',
+                        'Disapproved' => 'Disapproved',
+                        'Cancelled' => 'Cancelled',
+                        'Completed' => 'Completed',
+                        'Draft' => 'Draft',
+                        'For Clarification' => 'For Clarification',
+                    ])
+                    ->placeholder('Select Status')
+                    ->label('Project Status'),    
             ]);
     }
 
@@ -68,10 +84,12 @@ class ProjectResource extends Resource
             ->columns([
                 TextColumn::make('id')
                     ->searchable()
+                    ->sortable()
                     ->label('Project ID'),
                 TextColumn::make('project_title')
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+,
                 TextColumn::make('department')
                     ->searchable()
                     ->sortable(),
@@ -81,10 +99,6 @@ class ProjectResource extends Resource
                 TextColumn::make('project_date')
                     ->searchable()
                     ->sortable(),
-                TextColumn::make('project_status')
-                    ->searchable()
-                    ->sortable(),
-
             ])
             ->filters([
                 //
