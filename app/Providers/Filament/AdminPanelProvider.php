@@ -45,8 +45,8 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
-                Widgets\AccountWidget::class,
-            ])
+                //Widgets\AccountWidget::class,
+                            ])
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->middleware([
                 EncryptCookies::class,
@@ -64,7 +64,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->darkMode( false)
             ->profile(EditProfile::class)
-            ;
+        ;
     }
 
 }

@@ -11,6 +11,7 @@ class DownloadPDFController extends Controller
 {
     public function download(Project $record)
     {
+        
         // Retrieve project data
         $projectId = $record->id;
         $projectTitle = $record->project_title;

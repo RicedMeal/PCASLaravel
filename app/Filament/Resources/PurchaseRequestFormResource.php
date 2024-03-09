@@ -15,13 +15,21 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Components\DatePicker;
-
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\Fieldset;
+use Illuminate\Http\Request;
+use App\Http\Controllers\PurchaseRequestItemsController;
+use App\Models\Purchase_Request_Items;
 
 class PurchaseRequestFormResource extends Resource
 {
     protected static ?string $model = Purchase_Request_Form::class;
+    protected static ?string $modelItems = Purchase_Request_Items::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?int $navigationSort = 3;
+
+    protected static ?string $navigationIcon = 'heroicon-o-document-plus';
     protected static ?string $navigationGroup = 'PROJECT MANAGEMENT';
     protected static ?string $modelLabel = 'Purchase Request Forms';
 
@@ -32,143 +40,175 @@ class PurchaseRequestFormResource extends Resource
 
         return $form
             ->schema([
+            Fieldset::make('Purchase Request Form')
+                ->columns(5)
+                ->schema([
                 Select::make('project_id')
                     ->label('Project ID')
-                    ->columnSpan(3)
+                    ->columnSpan(1)
                     ->required()
                     ->options(
                         Project::all()->mapWithKeys(function ($project) {
                             return [$project->id => $project->id . ' - ' . $project->project_title];
                         })->toArray()
                     ),
-                /*TextInput::make('project_title')
-                    ->label('Project Title')
-                    ->columnSpan(3)
-                    ->required()
-                    ->autofocus()   
-                    ->placeholder('Enter Project Title'),
-                Select::make('department')
-                    ->label('Department/Office')
-                    ->required()
-                    ->options([
-                        'PFMO' => 'PFMO',
-                        'PSO' => 'PSO',
-                        // Add more options as needed
-                    ])
-                    ->placeholder('Select Department/Office'),*/
                 TextInput::make('pr_no')
                     ->label('PR No.')
                     ->required()  
-                    ->rules(['regex:/^PR-\d{4}$/'])
-                    ->placeholder('PR-0000'),
+                    ->columnSpan(1)
+                    ->placeholder('000-0000-00-00-00'),
 
                 DatePicker::make('date')
                     ->label('Date')
                     ->required()
-                    ->columnSpan(3) 
+                    ->default(now()->format('Y-m-d'))
+                    ->readOnly()
+                    ->columnSpan(1) 
                     ->placeholder('Enter Date'),
 
                 TextInput::make('section')
                     ->label('Section')
+                    ->columnSpan(1)
                     ->placeholder('Enter Section'),
 
                 TextInput::make('sai_no')
                     ->label('SAI No.')
+                    ->columnSpan(1)
                     ->rules(['regex:/^SAI-\d{5}$/'])
                     ->placeholder('SAI-00000'),
 
                 TextInput::make('bus_no')
                     ->label('Bus No.')
+                    ->columnSpan(1)
                     ->rules(['regex:/^Bus-\d{5}$/'])
                     ->placeholder('Bus-00000'),
-                
-                    Select::make('unit')
-                    ->label('Unit')
-                    ->options([
-                        'unit' => 'unit',
-                        'lot' => 'lot',
-                        'set' => 'set',
-                        'pc.' => 'pc.',
-                        'length' => 'length',
-                        'box' => 'box',
-                        'roll' => 'roll',
-                        'pack' => 'pack',
-                        'ream' => 'ream',
-                    ]),
-                    TextInput::make('item_description')
-                        ->label('Item Description')
-                        ->required()
-                        ->placeholder('Enter Item Description')
-                        ->columnSpan(3),
-                    TextInput::make('quantity')
-                        ->label('Quantity')
-                        ->numeric()
-                        ->maxValue(9999999999999999)
-                        ->minValue(0)
-                        ->required()
-                        ->placeholder('Enter Quantity'),
 
-                    TextInput::make('estimate_unit_cost')
-                        ->label('Estimate Unit Cost')
-                        ->type('number') // Use text type for decimal numbers
-                        ->step('0.01') // Specify the precision of the decimal
-                        ->required()
-                        ->placeholder('Enter Estimate Unit Cost'),
-                    
-                    TextInput::make('estimate_cost')
-                        ->label('Estimate Cost')
-                        ->required()
-                        ->type('text') // Use text type for decimal numbers
-                        ->step('0.01') // Specify the precision of the decimal
-                        ->placeholder('Enter Estimate Cost')
-                        ->extraAttributes([
-                            'min' => 0,
-                            'max' => 9999999999999999.99,
-                            'pattern' => '\d+(\.\d{2})?',
-                        ]),
-                    TextInput::make('total')
-                        ->label('Total')
-                        ->type('text') // Use text type for decimal numbers
-                        ->step('0.01') // Specify the precision of the decimal
-                        ->required()
-                        ->placeholder('Enter Total')
-                        ->extraAttributes([
-                            'min' => 0,
-                            'max' => 9999999999999999.99,
-                            'pattern' => '\d+(\.\d{2})?',
-                        ]),
+                TextInput::make('total')
+                    ->label('Total')
+                    ->columnSpan(1)
+                    ->type('number') // Use text type for decimal numbers
+                    ->step('0.01') // Specify the precision of the decimal
+                    ->required()
+                    ->placeholder('Enter Total')
+                    ->extraAttributes([
+                        'min' => 0,
+                        'max' => 9999999999999999.99,
+                        'pattern' => '\d+(\.\d{2})?'
+                    ]),
 
                 TextInput::make('delivery_duration')
                     ->label('Delivery Duration')
                     ->required()
                     ->placeholder('Enter Delivery Duration'),
-
+    
                 TextInput::make('purpose')
                     ->label('Purpose')
                     ->required()
+                    ->columnSpan(2)
                     ->placeholder('Enter Purpose'),
-
+                ]),
+            Fieldset::make('Signatories')
+                ->schema([
                 TextInput::make('recommended_by_name')
                     ->label('Recommended By Name')
                     ->required()
                     ->placeholder('Enter Recommended By Name'),
-
+    
                 TextInput::make('recommended_by_designation')
                     ->label('Recommended By Designation')
                     ->required()
                     ->placeholder('Enter Recommended By Designation'),
-
+    
                 TextInput::make('approved_by_name') //pwede gawing dropdown
                     ->label('Approved By Name')
                     ->required()
                     ->placeholder('Enter Approved By Name'),
-
+    
                 TextInput::make('approved_by_designation')
                     ->label('Approved By Designation')
                     ->required()
                     ->placeholder('Enter Approved By Designation'),
+                ]),
+            Fieldset::make('Add Items in Purchase Request Form')
+                    ->columns(1)
+                    ->schema([
+                        Repeater::make('purchase_request_items')
+                            ->label('Items List')
+                            ->columns(4)
+                            ->relationship('purchase_request_items')
+                            ->addActionLabel('Add Item')
+                            ->reorderableWithButtons()
+                            ->collapsible()
+                            ->itemLabel(fn (array $state): ?string => $state['item_no'] ?? null)
+                            ->schema([
+                                TextInput::make('item_no')
+                                    ->label('Item No.')
+                                    ->type('number')
+                                    ->columnSpan(1)
+                                    ->required()
+                                    ->hint('Current Item No: ' . Purchase_Request_Items::max('item_no') + 1)
+                                    ->placeholder('Enter Item No'),
 
-            ])->columns(7);
+                                Select::make('unit')
+                                    ->label('Unit')
+                                    ->required()
+                                    ->placeholder('Select Unit')
+                                    ->live()
+                                    ->columnSpan(1)
+                                    ->options([
+                                        'unit' => 'unit',
+                                        'lot' => 'lot',
+                                        'set' => 'set',
+                                        'pc.' => 'pc.',
+                                        'length' => 'length',
+                                        'box' => 'box',
+                                        'roll' => 'roll',
+                                        'pack' => 'pack',
+                                        'ream' => 'ream',
+                                    ]),
+                                TextInput::make('item_description')
+                                    ->label('Item Description')
+                                    ->required()
+                                    ->live()
+                                    ->placeholder('Enter Item Description')
+                                    ->columnSpan(2),
+                                TextInput::make('quantity')
+                                    ->label('Quantity')
+                                    ->numeric()
+                                    ->type('number')
+                                    ->live()
+                                    ->maxValue(9999999999999999)
+                                    ->minValue(1)
+                                    ->required()
+                                    ->columnSpan(1)
+                                    ->placeholder('Enter Quantity'),
+
+                                TextInput::make('estimate_unit_cost')
+                                    ->label('Estimate Unit Cost')
+                                    ->type('number') // Use text type for decimal numbers
+                                    ->step('0.01') // Specify the precision of the decimal
+                                    ->required()
+                                    ->live()
+                                    ->columnSpan(1)
+                                    ->placeholder('Enter Estimate Unit Cost'),
+                                
+                                TextInput::make('estimate_cost')
+                                    ->label('Estimate Cost')
+                                    ->required()
+                                    ->live()
+                                    ->columnSpan(2)
+                                    ->type('number') // Use text type for decimal numbers
+                                    ->step('0.01') // Specify the precision of the decimal
+                                    ->placeholder('Enter Estimate Cost')
+                                    ->extraAttributes([
+                                        'min' => 0,
+                                        'max' => 9999999999999999.99,
+                                        'pattern' => '\d+(\.\d{2})?',
+                                    ]),
+                                ]),
+                    ]),
+            ]);
+
     }
 
     public static function table(Table $table): Table
@@ -191,88 +231,27 @@ class PurchaseRequestFormResource extends Resource
                     ->label('PR No.')
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('date')
-                    ->label('Date')
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Last Updated')
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('section')
-                    ->label('Section')
-                    ->searchable()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('sai_no')
-                    ->label('SAI No.')
-                    ->searchable()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('bus_no')
-                    ->label('Bus No.')
-                    ->searchable()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('unit')
-                    ->label('Unit')
-                    ->searchable()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('item_description')
-                    ->label('Item Description')
-                    ->searchable()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('quantity')
-                    ->label('Quantity')
-                    ->searchable()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('estimate_unit_cost')
-                    ->label('Estimate Unit Cost')
-                    ->searchable()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('estimate_cost')
-                    ->label('Estimate Cost')
-                    ->searchable()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('total')
-                    ->label('Total')
-                    ->searchable()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('delivery_duration')
-                    ->label('Delivery Duration')
-                    ->searchable()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('purpose')
-                    ->label('Purpose')
-                    ->searchable()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('recommended_by_name')
-                    ->label('Recommended By Name')
-                    ->searchable()
-                    ->sortable(),  
-                Tables\Columns\TextColumn::make('recommended_by_designation')
-                    ->label('Recommended By Designation')
-                    ->searchable()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('approved_by_name')
-                    ->label('Approved By Name')
-                    ->searchable()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('approved_by_designation')
-                    ->label('Approved By Designation')
-                    ->searchable()
-                    ->sortable(),
-                    
-                
+
             ])
             ->filters([
                 
                 
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
                 Tables\Actions\Action::make('Download')
-                        ->icon('heroicon-o-rectangle-stack')
+                        ->icon('heroicon-o-arrow-down-tray')
                         ->url(fn(Purchase_Request_Form   $record) => route('download.purchase.request.pdf', $record))
                         ->openUrlInNewTab(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    //Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ])
             ->emptyStateActions([

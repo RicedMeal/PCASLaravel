@@ -96,7 +96,10 @@ class ProjectResource extends Resource
                 TextColumn::make('person_in_charge')
                     ->searchable()
                     ->sortable(),
-                TextColumn::make('project_date')
+                TextColumn::make('updated_at')
+                    ->searchable()
+                    ->sortable(),
+            TextColumn::make('project_status')
                     ->searchable()
                     ->sortable(),
             ])
@@ -104,6 +107,7 @@ class ProjectResource extends Resource
                 //
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 //Tables\Actions\DeleteAction::make(),
                 Tables\Actions\Action::make('Download')
@@ -113,7 +117,9 @@ class ProjectResource extends Resource
                     
             ])
             ->bulkActions([
-
+                Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make(),
+                ]),
             ])
             ->emptyStateActions([
                 Tables\Actions\CreateAction::make()

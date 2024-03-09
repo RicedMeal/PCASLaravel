@@ -10,6 +10,11 @@ class PurchaseRequestFormPDFController extends Controller
 {
     public function download($id)
     {
+//         <img
+//     src="https://plm.edu.ph/images/ui/plm-logo--with-header.png"
+//     alt="Pamantasan ng Lungsod ng Maynila Logo"
+//     class="h-15 w-auto"
+// />
         // Retrieve Purchase Request Form data
         $purchaseRequestForm = Purchase_Request_Form::find($id);
 
@@ -51,4 +56,34 @@ class PurchaseRequestFormPDFController extends Controller
         // Output PDF to browser
         return $dompdf->stream("purchase_request_form.pdf");
     }
+
+//     use App\Models\PurchaseRequestForm;
+// use App\Models\PurchaseRequestItem;
+
+// // Retrieve data for purchase request form
+// $purchaseRequestForm = PurchaseRequestForm::first(); // Example of fetching the first record
+// // Or you can use where clause to retrieve specific records
+// // $purchaseRequestForm = PurchaseRequestForm::where('id', $id)->first(); // Example of fetching by ID
+
+// // Retrieve data for purchase request items
+// $purchaseRequestItems = PurchaseRequestItem::all(); // Example of fetching all records
+// // Or you can use where clause to retrieve specific records
+// // $purchaseRequestItems = PurchaseRequestItem::where('purchase_request_form_id', $purchaseRequestForm->id)->get(); // Example of fetching items related to a specific purchase request form
+
+// // You can then access the columns of the retrieved data like this:
+// $prNo = $purchaseRequestForm->pr_no;
+// $date = $purchaseRequestForm->date;
+// $section = $purchaseRequestForm->section;
+// $saiNo = $purchaseRequestForm->sai_no;
+// // And so on for other columns
+
+// // Similarly for purchase request items
+// foreach ($purchaseRequestItems as $item) {
+//     $itemNo = $item->item_no;
+//     $unit = $item->unit;
+//     $itemDescription = $item->item_description;
+//     $quantity = $item->quantity;
+//     // And so on for other columns
+// }
+
 }

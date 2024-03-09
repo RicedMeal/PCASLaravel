@@ -19,178 +19,167 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use IntlChar;
 use Filament\Tables\Columns\TextColumn;
+use App\Models\Abstract_of_Canvass_Items;
+use Filament\Forms\Components\FieldSet;
+use Filament\Forms\Components\Repeater;
+
 
 class AbstractOfCanvassResource extends Resource
 {
     protected static ?string $model = Abstract_of_Canvass_Form::class;
+    protected static ?string $modelItems = Abstract_of_Canvass_Items::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?int $navigationSort = 4;
+
+    protected static ?string $navigationIcon = 'heroicon-o-document-plus';
     protected static ?string $navigationGroup = 'PROJECT MANAGEMENT';
     protected static ?string $modelLabel = 'Abstract of Canvass Form';
 
     public static function form(Form $form): Form
     {
-        return $form
-            ->schema([
-                Select::make('project_id')
-                    ->label('Project Title')
-                    ->columnSpan(3)
-                    ->required()
-                    ->options(
-                        Project::all()->mapWithKeys(function ($project) {
-                            return [$project->id => $project->id . ' - ' . $project->project_title];
-                        })->toArray()
-                    ),
-                /*TextInput::make('project_title')
-                ->required()
-                ->autofocus()
-                ->columnSpan(3)
-                ->placeholder('Enter Project Title'),*/     
-                
-                TextInput::make('approved_budget_contract')
-                ->required()
-                ->columnSpan(3) 
-                ->placeholder('Enter Approved Budget Contract')
-                ->prefix('₱')
-                ->type('number')
-                ->step('0.01')
-                ->extraAttributes([
-                    'min' => 0,
-                    'max' => 9999999999999999.99,
-                    'pattern' => '\d+(\.\d{2})?',
-                ]),
-                
-                /*Select::make('end_user')
-                ->required()
-                ->options([
-                    'PFMO' => 'PFMO',
-                    'PSO' => 'PSO',
-                ])
-                ->placeholder('Select End User')
-                ->label('End-User'),*/
+            return $form
+                ->schema([
+                    FieldSet::make('Abstract of Canvass Form')
+                        ->columns(3)
+                        ->schema([
+                            Select::make('project_id')
+                                ->label('Project Title')
+                                ->columnSpan(1)
+                                ->required()
+                                ->options(
+                                    Project::all()->mapWithKeys(function ($project) {
+                                        return [$project->id => $project->id . ' - ' . $project->project_title];
+                                    })->toArray()
+                                ),
+    
+                            TextInput::make('approved_budget_contract')
+                                ->required()
+                                ->columnSpan(1)
+                                ->placeholder('Enter Approved Budget Contract')
+                                ->prefix('₱')
+                                ->type('number')
+                                ->step('0.01')
+                                ->extraAttributes([
+                                    'min' => 0,
+                                    'max' => 9999999999999999.99,
+                                    'pattern' => '\d+(\.\d{2})?',
+                                ]),
+    
+                            TextInput::make('supplier_company_name')
+                                ->label('Supplier Company Name')
+                                ->placeholder('Enter Supplier Company Name')
+                                ->required()
+                                ->columnSpan(1),
+    
+                            TextInput::make('supplier_address')
+                                ->label('Supplier Address')
+                                ->placeholder('Enter Supplier Address')
+                                ->required()
+                                ->columnSpan(1),
+    
+                            TextInput::make('supplier_contact_no')
+                                ->label('Supplier Contact No.')
+                                ->placeholder('Enter Supplier Contact No.')
+                                ->required()
+                                ->type('phone'),
+                            
+                            TextInput::make('sub_total_each_supplier')
+                                ->label('Sub Total Each Supplier')
+                                ->placeholder('Enter Sub Total For Each Supplier')
+                                ->required()
+                                ->columnSpan(1)
+                                ->type('number')
+                                ->step('0.01')
+                                ->extraAttributes([
+                                    'min' => 0,
+                                    'max' => 9999999999999999.99,
+                                    'pattern' => '\d+(\.\d{2})?',
+                                ]),
+                    ]),
+    
+                    FieldSet::make('Abstract of Canvass Items')
+                        ->columns(1)
+                        ->label('Abstract of Canvass Items')
+                        ->schema([
+                            Repeater::make('abstract_of_canvass_items')
+                                //->addStatePath('abstract_of_canvass_items')
+                               ->relationship('abstract_of_canvass_items')
+                               ->columns(4)
+                               ->label('Items List')
+                               ->addActionLabel('Add Item')
+                               ->reorderableWithButtons()
+                               ->itemLabel(fn (array $state): ?string => $state['item'] ?? null)
+                               ->collapsible()
+                                ->schema([
+                                    TextInput::make('item')
+                                        ->label('Item No.')
+                                        ->columnSpan(1)
+                                        ->required()
+                                        ->type('number')
+                                        ->hint('Current Items: ' . Abstract_of_Canvass_Items::max('item') + 1)
+                                        ->placeholder('Select Item'),
+    
+                                    TextInput::make('particulars')
+                                        ->required()
+                                        ->placeholder('Enter Particulars')
+                                        ->columnSpan(2)
+                                        ->label('Particulars'),
+    
+                                    TextInput::make('quantity')
+                                        ->required()
+                                        ->columnSpan(1)
+                                        ->placeholder('Enter Quantity')
+                                        ->label('Quantity')
+                                        ->type('number'),
+    
+                                    Select::make('unit')
+                                        ->required()
+                                        ->options([
+                                            'unit' => 'unit',
+                                            'lot' => 'lot',
+                                            'set' => 'set',
+                                            'pc.' => 'pc.',
+                                            'length' => 'length',
+                                            'box' => 'box',
+                                            'roll' => 'roll',
+                                            'pack' => 'pack',
+                                            'ream' => 'ream',
+                                        ])
+                                        ->placeholder('Select Unit')
+                                        ->label('Unit'),
+    
+                                    TextInput::make('abc_in_table')
+                                        ->label('ABC in Table')
+                                        ->placeholder('Enter ABC in Table'),
+    
+                                    TextInput::make('unit_price_each_supplier')
+                                        ->type('number') // Use text type for decimal numbers
+                                        ->step('0.01') // Specify the precision of the decimal
+                                        ->required()
+                                        ->label('Unit Price Each Supplier') // Use text type for decimal numbers    
+                                        ->placeholder('Enter Unit Price Each Supplier')
+                                        ->extraAttributes([
+                                            'min' => 0,
+                                            'max' => 9999999999999999.99,
+                                            'pattern' => '\d+(\.\d{2})?',
+                                        ]),
+    
+                                    TextInput::make('amount_each_supplier')
+                                        ->label('Amount Each Supplier') 
+                                        ->type('number') // Use text type for decimal numbers
+                                        ->required()
+                                        ->step('0.01') // Specify the precision of the decimal
+                                        ->placeholder('Enter Amount Each Supplier')
+                                        ->extraAttributes([
+                                            'min' => 0,
+                                            'max' => 999999999999999, // Add comma here
+                                            'pattern' => '\d+(\.\d{2})?',   
+                                        ]),
+                                ]),
+                        ]),
+                ]);
+    }         
 
-                TextInput::make('particulars')
-                ->required()
-                ->placeholder('Enter Particulars')
-                ->columnSpan(3)
-                ->label('Particulars'),
-
-                TextInput::make('quantity')
-                ->required()
-                ->placeholder('Enter Quantity')
-                ->label('Quantity')
-                ->type('number'),
-
-                Select::make('unit')
-                ->required()
-                ->options([
-                    'unit' => 'unit',
-                    'lot' => 'lot',
-                    'set' => 'set',
-                    'pc.' => 'pc.',
-                    'length' => 'length',
-                    'box' => 'box',
-                    'roll' => 'roll',
-                    'pack' => 'pack',
-                    'ream' => 'ream',
-                ])
-                ->placeholder('Select Unit')
-                ->label('Unit'),
-
-                TextInput::make('abc_in_table')
-                ->label('ABC in Table')
-                ->placeholder('Enter ABC in Table'),
-
-                TextInput::make('supplier_company_name')
-                ->label('Supplier Company Name')
-                ->placeholder('Enter Supplier Company Name')
-                ->required()
-                ->columnSpan(3),
-
-                TextInput::make('supplier_address')
-                ->label('Supplier Address')
-                ->placeholder('Enter Supplier Address')
-                ->required()
-                ->columnSpan(3),
-
-                TextInput::make('supplier_contact_no')
-                ->label('Supplier Contact No.')
-                ->placeholder('Enter Supplier Contact No.')
-                ->required()
-                ->type('phone'),
-
-                TextInput::make('unit_price_each_supplier')
-                ->type('number') // Use text type for decimal numbers
-                ->step('0.01') // Specify the precision of the decimal
-                ->label('Unit Price Each Supplier') // Use text type for decimal numbers    
-                ->placeholder('Enter Unit Price Each Supplier')
-                ->extraAttributes([
-                    'min' => 0,
-                    'max' => 9999999999999999.99,
-                    'pattern' => '\d+(\.\d{2})?',
-                ]),
-
-                TextInput::make('amount_each_supplier')
-                ->label('Amount Each Supplier') 
-                ->type('text') // Use text type for decimal numbers
-                ->step('0.01') // Specify the precision of the decimal
-                ->placeholder('Enter Amount Each Supplier')
-                ->extraAttributes([
-                    'min' => 0,
-                    'max' => 9999999999999999.99,
-                    'pattern' => '\d+(\.\d{2})?',
-                ]),
-
-                TextInput::make('sub_total_each_supplier')
-                ->required()
-                ->label('Sub Total Each Supplier')
-                ->type('text') // Use text type for decimal numbers
-                ->step('0.01') // Specify the precision of the decimal
-                ->placeholder('Enter Sub Total Each Supplier')
-                ->extraAttributes([
-                    'min' => 0,
-                    'max' => 9999999999999999.99,
-                    'pattern' => '\d+(\.\d{2})?',
-                ]),
-
-                TextInput::make('unit_price_average')
-                ->required()
-                ->label('Unit Price Average')
-                ->type('text') // Use text type for decimal numbers
-                ->step('0.01') // Specify the precision of the decimal
-                ->placeholder('Enter Unit Price Average')
-                ->extraAttributes([
-                    'min' => 0,
-                    'max' => 9999999999999999.99,
-                    'pattern' => '\d+(\.\d{2})?',
-                ]),
-
-                TextInput::make('amount_average')
-                ->required()
-                ->label('Amount Average')
-                ->type('text') // Use text type for decimal numbers
-                ->step('0.01') // Specify the precision of the decimal
-                ->placeholder('Enter Amount Average')
-                ->extraAttributes([
-                    'min' => 0,
-                    'max' => 9999999999999999.99,
-                    'pattern' => '\d+(\.\d{2})?',
-                ]),
-
-                TextInput::make('sub_total_average')
-                ->required()
-                ->label('Sub Total Average')
-                ->type('text') // Use text type for decimal numbers
-                ->step('0.01') // Specify the precision of the decimal
-                ->placeholder('Enter Sub Total Average')
-                ->extraAttributes([
-                    'min' => 0,
-                    'max' => 9999999999999999.99,
-                    'pattern' => '\d+(\.\d{2})?',
-                ]), 
-
-            ]);
-    }
 
     public static function table(Table $table): Table
     {
@@ -208,22 +197,6 @@ class AbstractOfCanvassResource extends Resource
                     ->label('Approved Budget Contract')
                     ->sortable()
                     ->searchable(),
-                TextColumn::make('particulars')
-                    ->label('Particulars')
-                    ->sortable()
-                    ->searchable(),
-                TextColumn::make('quantity')
-                    ->label('Quantity')
-                    ->sortable()
-                    ->searchable(),
-                TextColumn::make('unit')
-                    ->label('Unit')
-                    ->sortable()
-                    ->searchable(),
-                TextColumn::make('abc_in_table')
-                    ->label('ABC in Table')
-                    ->sortable()
-                    ->searchable(),
                 TextColumn::make('supplier_company_name')
                     ->label('Supplier Company Name')
                     ->sortable()
@@ -236,28 +209,8 @@ class AbstractOfCanvassResource extends Resource
                     ->label('Supplier Contact No.')
                     ->sortable()
                     ->searchable(),
-                TextColumn::make('unit_price_each_supplier')
-                    ->label('Unit Price Each Supplier')
-                    ->sortable()
-                    ->searchable(),
-                TextColumn::make('amount_each_supplier')
-                    ->label('Amount Each Supplier')
-                    ->sortable()
-                    ->searchable(),
-                TextColumn::make('sub_total_each_supplier')
-                    ->label('Sub Total Each Supplier')
-                    ->sortable()
-                    ->searchable(),
-                TextColumn::make('unit_price_average')
-                    ->label('Unit Price Average')
-                    ->sortable()
-                    ->searchable(),
-                TextColumn::make('amount_average')
-                    ->label('Amount Average')
-                    ->sortable()
-                    ->searchable(),
-                TextColumn::make('sub_total_average')
-                    ->label('Sub Total Average')
+                TextColumn::make('last_updated')
+                    ->label('Last Updated')
                     ->sortable()
                     ->searchable(),
             ])
@@ -265,15 +218,17 @@ class AbstractOfCanvassResource extends Resource
                 //
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
                 Tables\Actions\Action::make('Download')
                     ->icon('heroicon-o-rectangle-stack')
                     ->url(fn(Abstract_of_Canvass_Form $record) => route('download.abstract.pdf', $record))
                     ->openUrlInNewTab(),
             ])
             ->bulkActions([
-
+                Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make(),
+                ]),
             ])
             ->emptyStateActions([
                 Tables\Actions\CreateAction::make(),

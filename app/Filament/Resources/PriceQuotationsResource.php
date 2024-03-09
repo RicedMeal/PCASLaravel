@@ -20,7 +20,7 @@ class PriceQuotationsResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-paper-clip';
 
-    protected static ?int $navigationSort = 4;
+    protected static ?int $navigationSort = 5;
 
     protected static ?string $navigationGroup = 'VENDOR MANAGEMENT';
 

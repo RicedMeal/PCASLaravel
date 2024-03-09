@@ -14,28 +14,32 @@ return new class extends Migration
         Schema::create('abstract_of_canvass_form', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('project_id');
-            /*$table->string('project_title', 75);*/
-            $table->float('approved_budget_contract', 11, 2);
-            /*$table->string('end_user', 30);*/
-            $table->string('particulars', 75);
-            $table->bigInteger('quantity');
-            $table->string('unit', 10);
-            $table->float('abc_in_table', 11, 2);
-            $table->string('supplier_company_name', 50);
-            $table->string('supplier_address', 50);
-            $table->bigInteger('supplier_contact_no');
-            $table->float('unit_price_each_supplier', 8, 2);
-            $table->float('amount_each_supplier', 11, 2);
-            $table->float('sub_total_each_supplier', 11, 2);
-            $table->float('unit_price_average', 8, 2);
-            $table->float('amount_average', 11, 2);
-            $table->float('sub_total_average', 11, 2);
+            $table->float('approved_budget_contract')->nullable();
+            $table->string('supplier_company_name');
+            $table->string('supplier_address');
+            $table->string('supplier_contact_no');
+            $table->float('sub_total_each_supplier')->default(0.00);
             $table->timestamps();
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
-            /*$table->foreign('project_title')->references('project_title')->on('projects')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('end_user')->references('department')->on('projects')->onUpdate('cascade')->onDelete('cascade');*/
+        });
+
+        Schema::create('abstract_of_canvass_items', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('abstract_of_canvass_form_id');
+            $table->integer('item');
+            $table->string('particulars');
+            $table->integer('quantity');
+            $table->string('unit');
+            $table->float('abc_in_table')->nullable();
+            $table->float('unit_price_each_supplier');
+            $table->float('amount_each_supplier');
+            $table->float('unit_price_average')->default(0.00);
+            $table->float('amount_average')->default(0.00);
+            $table->timestamps();
+            $table->foreign('abstract_of_canvass_form_id')->references('id')->on('abstract_of_canvass_form')->onDelete('cascade');
         });
     }
+    
 
     /**
      * Reverse the migrations.
@@ -43,5 +47,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('abstract_of_canvass_form');
+        Schema::dropIfExists('abstract_of_canvass_items');
     }
 };
