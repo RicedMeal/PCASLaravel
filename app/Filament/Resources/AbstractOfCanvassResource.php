@@ -22,6 +22,8 @@ use Filament\Tables\Columns\TextColumn;
 use App\Models\Abstract_of_Canvass_Items;
 use Filament\Forms\Components\FieldSet;
 use Filament\Forms\Components\Repeater;
+use Ysfkaya\FilamentPhoneInput\Forms\PhoneInput;
+use Ysfkaya\FilamentPhoneInput\Infolists\PhoneInputNumberType;
 
 
 class AbstractOfCanvassResource extends Resource
@@ -58,6 +60,7 @@ class AbstractOfCanvassResource extends Resource
                                 ->placeholder('Enter Approved Budget Contract')
                                 ->prefix('₱')
                                 ->type('number')
+                                ->rules(['gt:0.00'])
                                 ->step('0.01')
                                 ->extraAttributes([
                                     'min' => 0,
@@ -77,16 +80,17 @@ class AbstractOfCanvassResource extends Resource
                                 ->required()
                                 ->columnSpan(1),
     
-                            TextInput::make('supplier_contact_no')
+                            PhoneInput::make('supplier_contact_no')
                                 ->label('Supplier Contact No.')
                                 ->placeholder('Enter Supplier Contact No.')
                                 ->required()
-                                ->type('phone'),
+                                ->initialCountry('ph'),
                             
                             TextInput::make('sub_total_each_supplier')
                                 ->label('Sub Total Each Supplier')
                                 ->placeholder('Enter Sub Total For Each Supplier')
                                 ->required()
+                                ->rules(['gt:0.00'])
                                 ->columnSpan(1)
                                 ->type('number')
                                 ->step('0.01')
@@ -115,6 +119,7 @@ class AbstractOfCanvassResource extends Resource
                                         ->label('Item No.')
                                         ->columnSpan(1)
                                         ->required()
+                                        ->rules(['gt:0'])
                                         ->type('number')
                                         ->hint('Current Items: ' . Abstract_of_Canvass_Items::max('item') + 1)
                                         ->placeholder('Select Item'),
@@ -128,6 +133,7 @@ class AbstractOfCanvassResource extends Resource
                                     TextInput::make('quantity')
                                         ->required()
                                         ->columnSpan(1)
+                                        ->rules(['gt:0'])
                                         ->placeholder('Enter Quantity')
                                         ->label('Quantity')
                                         ->type('number'),
@@ -156,6 +162,7 @@ class AbstractOfCanvassResource extends Resource
                                         ->type('number') // Use text type for decimal numbers
                                         ->step('0.01') // Specify the precision of the decimal
                                         ->required()
+                                        ->rules(['gt:0.00'])
                                         ->label('Unit Price Each Supplier') // Use text type for decimal numbers    
                                         ->placeholder('Enter Unit Price Each Supplier')
                                         ->extraAttributes([
@@ -168,6 +175,7 @@ class AbstractOfCanvassResource extends Resource
                                         ->label('Amount Each Supplier') 
                                         ->type('number') // Use text type for decimal numbers
                                         ->required()
+                                        ->rules(['gt:0.00'])
                                         ->step('0.01') // Specify the precision of the decimal
                                         ->placeholder('Enter Amount Each Supplier')
                                         ->extraAttributes([
@@ -188,30 +196,40 @@ class AbstractOfCanvassResource extends Resource
                 TextColumn::make('project_id')
                     ->label('Project ID')
                     ->sortable()
+                    ->toggleable()
+                    ->columnSpan(1)
                     ->searchable(),
                 TextColumn::make('project.project_title')
                     ->label('Project Title')
                     ->sortable()
+                    ->columnSpan(1)
+                    ->toggleable()
                     ->searchable(),
                 TextColumn::make('approved_budget_contract')
                     ->label('Approved Budget Contract')
                     ->sortable()
+                    ->columnSpan(1)
+                    ->toggleable()
                     ->searchable(),
                 TextColumn::make('supplier_company_name')
                     ->label('Supplier Company Name')
                     ->sortable()
+                    ->toggleable()
                     ->searchable(),
                 TextColumn::make('supplier_address')
                     ->label('Supplier Address')
                     ->sortable()
+                    ->toggleable()
                     ->searchable(),
                 TextColumn::make('supplier_contact_no')
                     ->label('Supplier Contact No.')
                     ->sortable()
+                    ->toggleable()
                     ->searchable(),
-                TextColumn::make('last_updated')
+                TextColumn::make('updated_at')
                     ->label('Last Updated')
                     ->sortable()
+                    ->toggleable()
                     ->searchable(),
             ])
             ->filters([
@@ -221,7 +239,7 @@ class AbstractOfCanvassResource extends Resource
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\Action::make('Download')
-                    ->icon('heroicon-o-rectangle-stack')
+                    ->icon('heroicon-o-arrow-down-tray')
                     ->url(fn(Abstract_of_Canvass_Form $record) => route('download.abstract.pdf', $record))
                     ->openUrlInNewTab(),
             ])

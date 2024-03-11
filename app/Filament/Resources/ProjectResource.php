@@ -89,18 +89,22 @@ class ProjectResource extends Resource
                 TextColumn::make('project_title')
                     ->searchable()
                     ->sortable()
-,
+                    ->label('Project Title'),
                 TextColumn::make('department')
                     ->searchable()
+                    ->label('Department/Office')
                     ->sortable(),
                 TextColumn::make('person_in_charge')
                     ->searchable()
+                    ->label('Person in Charge')
                     ->sortable(),
                 TextColumn::make('updated_at')
                     ->searchable()
+                    ->label('Last Updated')
                     ->sortable(),
             TextColumn::make('project_status')
                     ->searchable()
+                    ->label('Project Status') 
                     ->sortable(),
             ])
             ->filters([
@@ -111,7 +115,7 @@ class ProjectResource extends Resource
                 Tables\Actions\EditAction::make(),
                 //Tables\Actions\DeleteAction::make(),
                 Tables\Actions\Action::make('Download')
-                    ->icon('heroicon-o-rectangle-stack')
+                    ->icon('heroicon-o-arrow-down-tray')
                     ->url(fn(Project $record) => route('projects.pdf', $record))
                     ->openUrlInNewTab(),
                     

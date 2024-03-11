@@ -54,6 +54,7 @@ class PurchaseRequestFormResource extends Resource
                     ),
                 TextInput::make('pr_no')
                     ->label('PR No.')
+                    ->rules(['gt:000-0000-00-00-00'])
                     ->required()  
                     ->columnSpan(1)
                     ->placeholder('000-0000-00-00-00'),
@@ -86,6 +87,7 @@ class PurchaseRequestFormResource extends Resource
                 TextInput::make('total')
                     ->label('Total')
                     ->columnSpan(1)
+                    ->rules(['gt:0.00'])
                     ->type('number') // Use text type for decimal numbers
                     ->step('0.01') // Specify the precision of the decimal
                     ->required()
@@ -146,6 +148,8 @@ class PurchaseRequestFormResource extends Resource
                                     ->type('number')
                                     ->columnSpan(1)
                                     ->required()
+                                    ->live()
+                                    ->rules(['gt:0'])
                                     ->hint('Current Item No: ' . Purchase_Request_Items::max('item_no') + 1)
                                     ->placeholder('Enter Item No'),
 
@@ -179,6 +183,7 @@ class PurchaseRequestFormResource extends Resource
                                     ->live()
                                     ->maxValue(9999999999999999)
                                     ->minValue(1)
+                                    ->rules(['gt:0'])
                                     ->required()
                                     ->columnSpan(1)
                                     ->placeholder('Enter Quantity'),
@@ -189,6 +194,7 @@ class PurchaseRequestFormResource extends Resource
                                     ->step('0.01') // Specify the precision of the decimal
                                     ->required()
                                     ->live()
+                                    ->rules(['gt:0.00'])
                                     ->columnSpan(1)
                                     ->placeholder('Enter Estimate Unit Cost'),
                                 
@@ -196,6 +202,7 @@ class PurchaseRequestFormResource extends Resource
                                     ->label('Estimate Cost')
                                     ->required()
                                     ->live()
+                                    ->rules(['gt:0.00'])
                                     ->columnSpan(2)
                                     ->type('number') // Use text type for decimal numbers
                                     ->step('0.01') // Specify the precision of the decimal

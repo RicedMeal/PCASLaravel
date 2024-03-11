@@ -49,6 +49,7 @@ class ProjectDocumentResource extends Resource
                     FileUpload::make('purchase_request')
                         ->multiple(false)
                         ->placeholder('Upload a file')
+                        ->preserveFilenames()
                         ->label('Purchase Request')
                         ->downloadable(function ($record) {
                             return fn ($record) => route('project-documents.downloadPdf', ['id' => $record->getKey(), 'columnName' => 'purchase_request']);
@@ -131,7 +132,7 @@ class ProjectDocumentResource extends Resource
                         ->label('Accomplishment Report')
                         ->placeholder('Upload a file')
                         ->acceptedFileTypes(['application/pdf']),
-                    FileUpload::make('supplementary_docuement')
+                    FileUpload::make('supplementary_document')
                         ->multiple(false)
                         ->preserveFilenames()
                         ->downloadable()
@@ -163,72 +164,6 @@ class ProjectDocumentResource extends Resource
                     ->searchable()
                     ->sortable()
                     ->toggleable(),
-                TextColumn::make('purchase_request')
-                    ->label('Purchase Request')
-                    ->searchable()
-                    ->sortable()
-                    ->toggleable(),
-                TextColumn::make('price_quotation')
-                    ->label('Price Quotation')
-                    ->searchable()
-                    ->sortable()
-                    ->toggleable(),
-                TextColumn::make('abstract_of_canvass')
-                    ->label('Abstract of Canvass')
-                    ->searchable()
-                    ->sortable()
-                    ->toggleable(),
-                TextColumn::make('material_and_cost_estimates')
-                    ->label('Material and Cost Estimates')
-                    ->searchable()
-                    ->sortable()
-                    ->toggleable(),
-                TextColumn::make('budget_utilization_request')
-                    ->label('Budget Utilization Request')
-                    ->searchable()
-                    ->sortable()
-                    ->toggleable(),
-                TextColumn::make('project_initiation_proposal')
-                    ->label('Project Initiation Proposal')
-                    ->searchable()
-                    ->sortable()
-                    ->toggleable(),
-                TextColumn::make('annual_procurement_plan')
-                    ->label('Annual Procurement Plan')
-                    ->searchable()
-                    ->sortable()
-                    ->toggleable(),
-                TextColumn::make('purchase_order')
-                    ->label('Purchase Order')
-                    ->searchable()
-                    ->sortable()
-                    ->toggleable(),
-                TextColumn::make('market_study')
-                    ->label('Market Study')
-                    ->searchable()
-                    ->sortable()
-                    ->toggleable(),
-                TextColumn::make('certificate_of_fund_allotment')
-                    ->label('Certificate of Fund Allotment')
-                    ->searchable()
-                    ->sortable()
-                    ->toggleable(),
-                TextColumn::make('complete_staff_work')
-                    ->label('Complete Staff Work')
-                    ->searchable()
-                    ->sortable()
-                    ->toggleable(),
-                TextColumn::make('accomplishment_report')
-                    ->label('Accomplishment Report')
-                    ->searchable()
-                    ->sortable()
-                    ->toggleable(),
-                TextColumn::make('supplementary_document')
-                    ->label('Supplementary Document')
-                    ->searchable()
-                    ->sortable()
-                    ->toggleable(),
-
             ])
             ->filters([
                 //
