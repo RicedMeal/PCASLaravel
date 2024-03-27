@@ -30,9 +30,15 @@ class PurchaseRequestFormResource extends Resource
     protected static ?int $navigationSort = 3;
 
     protected static ?string $navigationIcon = 'heroicon-o-document-plus';
+
     protected static ?string $navigationGroup = 'PROJECT MANAGEMENT';
+
     protected static ?string $modelLabel = 'Purchase Request Forms';
 
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
 
     public static function form(Form $form): Form
     {
@@ -54,7 +60,7 @@ class PurchaseRequestFormResource extends Resource
                     ),
                 TextInput::make('pr_no')
                     ->label('PR No.')
-                    ->rules(['gt:000-0000-00-00-00'])
+                   // ->rules(['gt:000-0000-00-00-00'])
                     ->required()  
                     ->columnSpan(1)
                     ->placeholder('000-0000-00-00-00'),
@@ -62,8 +68,8 @@ class PurchaseRequestFormResource extends Resource
                 DatePicker::make('date')
                     ->label('Date')
                     ->required()
-                    ->default(now()->format('Y-m-d'))
-                    ->readOnly()
+                    //->default(now()->format('Y-m-d'))
+                    //->readOnly()
                     ->columnSpan(1) 
                     ->placeholder('Enter Date'),
 
@@ -91,6 +97,9 @@ class PurchaseRequestFormResource extends Resource
                     ->type('number') // Use text type for decimal numbers
                     ->step('0.01') // Specify the precision of the decimal
                     ->required()
+                    // ->evaluate(function ($record) {
+                    //     return Purchase_Request_Items::where('purchase_request_form_id', $record->id)->sum('estimate_cost');
+                    // })
                     ->placeholder('Enter Total')
                     ->extraAttributes([
                         'min' => 0,
@@ -253,7 +262,7 @@ class PurchaseRequestFormResource extends Resource
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\Action::make('Download')
                         ->icon('heroicon-o-arrow-down-tray')
-                        ->url(fn(Purchase_Request_Form   $record) => route('download.purchase.request.pdf', $record))
+                        ->url(fn(Purchase_Request_Form $record) => route('purchase-request.pdf', $record->pr_no))
                         ->openUrlInNewTab(),
             ])
             ->bulkActions([

@@ -15,18 +15,31 @@ class ProjectDocument extends Model
     protected $fillable = [
         'project_id',
         'purchase_request',
+        'purchase_request_file_name',
         'price_quotation',
+        'price_quotation_file_name',
         'abstract_of_canvass',
+        'abstract_of_canvass_file_name',
         'material_and_cost_estimates',
+        'material_and_cost_estimates_file_name',
         'budget_utilization_request',
+        'budget_utilization_request_file_name',
         'project_initiation_proposal',
+        'project_initiation_proposal_file_name',
         'annual_procurement_plan',
+        'annual_procurement_plan_file_name',
         'purchase_order',
+        'purchase_order_file_name',
         'market_study',
+        'market_study_file_name',
         'certificate_of_fund_allotment',
+        'certificate_of_fund_allotment_file_name',
         'complete_staff_work',
+        'complete_staff_work_file_name',
         'accomplishment_report',
+        'accomplishment_report_file_name',
         'supplementary_document',
+        'supplementary_document_file_name',
     ];
 
 
@@ -45,25 +58,6 @@ class ProjectDocument extends Model
             }
         }
         return $pdfs;
-    }
-
-    public function getFileContent($columnName)
-    {
-        // Check if the specified column name exists in the fillable attributes
-        if (!in_array($columnName, $this->fillable)) {
-            return null; // Column not allowed
-        }
-    
-        // Get the file path from the specified column name
-        $filePath = $this->$columnName;
-    
-        // Check if the file path exists
-        if (!$filePath || !Storage::exists($filePath)) {
-            return null; // File not found
-        }
-    
-        // Retrieve and return the file content
-        return Storage::get($filePath);
     }
     
 }

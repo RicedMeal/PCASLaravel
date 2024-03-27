@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('project_description')->index();
             $table->string('person_in_charge')->index();
             $table->date('project_date')->index();
-            $table->string('project_status')->default('Draft');
+            $table->string('project_status')->default('Ongoing', 'Completed', 'Urgent');
             $table->timestamps();
         });
     }

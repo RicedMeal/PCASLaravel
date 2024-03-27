@@ -34,8 +34,15 @@ class AbstractOfCanvassResource extends Resource
     protected static ?int $navigationSort = 4;
 
     protected static ?string $navigationIcon = 'heroicon-o-document-plus';
+
     protected static ?string $navigationGroup = 'PROJECT MANAGEMENT';
+    
     protected static ?string $modelLabel = 'Abstract of Canvass Form';
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
 
     public static function form(Form $form): Form
     {

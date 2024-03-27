@@ -9,7 +9,7 @@ use Filament\Widgets\TableWidget as BaseWidget;
 
 class ProjectStatus extends BaseWidget
 {
-    protected int | string | array $columnSpan = 'full';
+    protected int | string | array $columnSpan = '1/2';
     public function table(Table $table): Table
     {
         return $table
@@ -25,9 +25,6 @@ class ProjectStatus extends BaseWidget
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('department')
-                    ->searchable()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('person_in_charge')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('project_date')

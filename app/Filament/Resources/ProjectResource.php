@@ -29,6 +29,11 @@ class ProjectResource extends Resource
 
     protected static ?string $navigationGroup = 'PROJECT MANAGEMENT';
 
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
+
 
     public static function form(Form $form): Form
     {
@@ -63,15 +68,15 @@ class ProjectResource extends Resource
                     ->label('Project Date')
                     ->default(now()->format('Y-m-d'))
                     ->placeholder('Enter Project Date'),
-                Select::make('status')
+                Select::make('project_status')
                     ->options([
-                        'Pending' => 'Pending',
                         'Approved' => 'Approved',
-                        'Disapproved' => 'Disapproved',
                         'Cancelled' => 'Cancelled',
                         'Completed' => 'Completed',
                         'Draft' => 'Draft',
-                        'For Clarification' => 'For Clarification',
+                        'Pending' => 'Pending',
+                        'Ongoing' => 'Ongoing',
+                        'Urgent' => 'Urgent',
                     ])
                     ->placeholder('Select Status')
                     ->label('Project Status'),    

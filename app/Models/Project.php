@@ -48,7 +48,10 @@ class Project extends Model
         return $this->hasMany(PriceQuotation::class);
     }
 
-
+    public function inventory()
+    {
+        return $this->hasMany(Inventory::class);
+    }
 
 
 }

@@ -31,6 +31,11 @@ class ProjectDocumentResource extends Resource
 
     protected static ?string $navigationGroup = 'PROJECT MANAGEMENT';
 
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
+    
     public static function form(Form $form): Form
 
     {
@@ -50,15 +55,16 @@ class ProjectDocumentResource extends Resource
                         ->multiple(false)
                         ->placeholder('Upload a file')
                         ->preserveFilenames()
+                        ->storeFileNamesIn('purchase_request_file_name')
                         ->label('Purchase Request')
-                        ->downloadable(function ($record) {
-                            return fn ($record) => route('project-documents.downloadPdf', ['id' => $record->getKey(), 'columnName' => 'purchase_request']);
-                        })
+                        ->downloadable()
+                        ->openable()
                         ->acceptedFileTypes(['application/pdf']),
                     FileUpload::make('price_quotation')
                         ->multiple(false)
                         ->preserveFilenames()
                         ->downloadable()
+                        ->storeFileNamesIn('price_quotation_file_name')
                         ->label('Price Quotation')
                         ->placeholder('Upload a file')
                         ->acceptedFileTypes(['application/pdf']),
@@ -66,6 +72,7 @@ class ProjectDocumentResource extends Resource
                         ->multiple(false)
                         ->preserveFilenames()
                         ->downloadable()
+                        ->storeFileNamesIn('abstract_of_canvass_file_name')
                         ->label('Abstract of Canvass')
                         ->placeholder('Upload a file')
                         ->acceptedFileTypes(['application/pdf']),
@@ -73,6 +80,7 @@ class ProjectDocumentResource extends Resource
                         ->multiple(false)
                         ->preserveFilenames()
                         ->downloadable()
+                        ->storeFileNamesIn('material_and_cost_estimates_file_name')
                         ->label('Material and Cost Estimates')
                         ->placeholder('Upload a file')
                         ->acceptedFileTypes(['application/pdf']),
@@ -80,6 +88,7 @@ class ProjectDocumentResource extends Resource
                         ->multiple(false)
                         ->preserveFilenames()
                         ->downloadable()
+                        ->storeFileNamesIn('budget_utilization_request_file_name')
                         ->label('Budget Utilization Request')
                         ->placeholder('Upload a file')
                         ->acceptedFileTypes(['application/pdf']),
@@ -87,6 +96,7 @@ class ProjectDocumentResource extends Resource
                         ->multiple(false)
                         ->preserveFilenames()
                         ->downloadable()
+                        ->storeFileNamesIn('project_initiation_proposal_file_name')
                         ->placeholder('Upload a file')
                         ->label('Project Initiation Proposal')
                         ->acceptedFileTypes(['application/pdf']),
@@ -94,6 +104,7 @@ class ProjectDocumentResource extends Resource
                         ->multiple(false)
                         ->preserveFilenames()
                         ->downloadable()
+                        ->storeFileNamesIn('annual_procurement_plan_file_name')
                         ->placeholder('Upload a file')
                         ->label('Annual Procurement Plan')
                         ->acceptedFileTypes(['application/pdf']),
@@ -101,6 +112,7 @@ class ProjectDocumentResource extends Resource
                         ->multiple(false)
                         ->preserveFilenames()
                         ->downloadable()
+                        ->storeFileNamesIn('purchase_order_file_name')
                         ->placeholder('Upload a file')
                         ->label('Purchase Order')
                         ->acceptedFileTypes(['application/pdf']),
@@ -108,6 +120,7 @@ class ProjectDocumentResource extends Resource
                         ->multiple(false)
                         ->preserveFilenames()
                         ->downloadable()
+                        ->storeFileNamesIn('market_study_file_name')
                         ->label('Market Study')
                         ->placeholder('Upload a file')
                         ->acceptedFileTypes(['application/pdf']),
@@ -115,6 +128,7 @@ class ProjectDocumentResource extends Resource
                         ->multiple(false)
                         ->preserveFilenames()
                         ->downloadable()
+                        ->storeFileNamesIn('certificate_of_fund_allotment_file_name')
                         ->label('Certificate of Fund Allotment')
                         ->placeholder('Upload a file')
                         ->acceptedFileTypes(['application/pdf']),
@@ -122,6 +136,7 @@ class ProjectDocumentResource extends Resource
                         ->multiple(false)
                         ->preserveFilenames()
                         ->downloadable()
+                        ->storeFileNamesIn('complete_staff_work_file_name')
                         ->label('Complete Staff Work')
                         ->placeholder('Upload a file')
                         ->acceptedFileTypes(['application/pdf']),
@@ -129,12 +144,14 @@ class ProjectDocumentResource extends Resource
                         ->multiple(false)
                         ->preserveFilenames()
                         ->downloadable()
+                        ->storeFileNamesIn('accomplishment_report_file_name')
                         ->label('Accomplishment Report')
                         ->placeholder('Upload a file')
                         ->acceptedFileTypes(['application/pdf']),
                     FileUpload::make('supplementary_document')
                         ->multiple(false)
                         ->preserveFilenames()
+                        ->storeFileNamesIn('supplementary_document_file_name')
                         ->downloadable()
                         ->label('Supplementary Document')
                         ->placeholder('Upload a file')
@@ -159,6 +176,16 @@ class ProjectDocumentResource extends Resource
                     ->sortable()
                     ->toggleable()
                     ->sortable(),
+                TextColumn::make('purchase_request')
+                    ->label('Purchase Request')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(),
+                TextColumn::make('price_quotation')
+                    ->label('Price Quotation')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(),
                 TextColumn::make('updated_at')
                     ->label('Last Updated')
                     ->searchable()
@@ -171,43 +198,7 @@ class ProjectDocumentResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make()
-                ->slideOver(),
-                // Tables\Actions\Action::make('Download Single')
-                // ->icon('heroicon-o-arrow-down-tray')
-                // ->label('Download Single')
-                // ->url(fn($record) => route('project-documents.downloadSinglePdf', ['id' => $record->getKey(), 'columnName' => 'purchase_request']))
-                // ->modalContent(function ($record) {
-                //     $columnNames = [
-                //         'purchase_request' => 'Purchase Request',
-                //         'price_quotation' => 'Price Quotation',
-                //         'abstract_of_canvass' => 'Abstract of Canvass',
-                //         'material_and_cost_estimates' => 'Material and Cost Estimates',
-                //         'budget_utilization_request' => 'Budget Utilization Request',
-                //         'project_initiation_proposal' => 'Project Initiation Proposal',
-                //         'annual_procurement_plan' => 'Annual Procurement Plan',
-                //         'purchase_order' => 'Purchase Order',
-                //         'market_study' => 'Market Study',
-                //         'certificate_of_fund_allotment' => 'Certificate of Fund Allotment',
-                //         'complete_staff_work' => 'Complete Staff Work',
-                //         'accomplishment_report' => 'Accomplishment Report',
-                //         'supplementary_document' => 'Supplementary Document',
-                //     ];
-                    
-                //     $modalContent = '<div class="modal-content bg-white rounded-lg shadow-xl p-6">';
-                //     $modalContent .= '<h2 class="text-lg font-semibold mb-4">Select File(s) to Download:</h2>';
-                
-                //     foreach ($columnNames as $columnName => $label) {
-                //         if ($record->$columnName) {
-                //             $url = route('project-documents.downloadSinglePdf', ['id' => $record->getKey(), 'columnName' => $columnName]);
-                //             $modalContent .= '<a href="'.$url.'" target="_blank" class="button">Download '.$label.'</a>';
-                //         }
-                //     }
-                
-                //     $modalContent .= '</div>'; // Close modal-content div
-                
-                //     return new \Illuminate\Support\HtmlString($modalContent);
-                // }),
-                
+                ->slideOver(),                
             
                 Tables\Actions\Action::make('Download All')
                     ->icon('heroicon-o-arrow-down-tray')

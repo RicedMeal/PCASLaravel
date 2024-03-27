@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('project_id');
             $table->string('pr_no')->unique();
-            $table->date('date')->index();
+            $table->date('date');
             $table->string('section')->nullable();
             $table->string('sai_no')->nullable();
             $table->string('bus_no')->nullable();
