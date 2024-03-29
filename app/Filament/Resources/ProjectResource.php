@@ -69,6 +69,7 @@ class ProjectResource extends Resource
                     ->default(now()->format('Y-m-d'))
                     ->placeholder('Enter Project Date'),
                 Select::make('project_status')
+                    ->required()   
                     ->options([
                         'Approved' => 'Approved',
                         'Cancelled' => 'Cancelled',
@@ -79,7 +80,7 @@ class ProjectResource extends Resource
                         'Urgent' => 'Urgent',
                     ])
                     ->placeholder('Select Status')
-                    ->label('Project Status'),    
+                    ->label('Project Status')    
             ]);
     }
 
