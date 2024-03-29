@@ -35,6 +35,18 @@ class ProjectDocumentResource extends Resource
     {
         return static::getModel()::count();
     }
+
+    public static function downloadable()
+    {
+        return true;
+    }
+
+    public static function openable()
+    {
+        return true;
+    }
+
+
     
     public static function form(Form $form): Form
 
