@@ -37,13 +37,6 @@ class AdminPanelProvider extends PanelProvider
                 'primary' => '#2D349A',
             ])
             ->globalSearchKeyBindings(['command+k','ctrl+k'])
-            ->navigationItems([
-                NavigationItem::make('Market Study')
-                    ->icon('heroicon-o-shopping-cart')
-                    ->url('https://heroicons.com/micro', shouldOpenInNewTab: true)
-                    ->group('EXTERNAL LINKS')
-                    ->sort(5),
-            ])
 
             ->favicon('https://upload.wikimedia.org/wikipedia/en/d/dc/PLM_Seal_2013.png')
             ->sidebarCollapsibleOnDesktop()

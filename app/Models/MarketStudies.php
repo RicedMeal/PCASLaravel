@@ -9,12 +9,18 @@ class MarketStudies extends Model
 {
     use HasFactory;
 
+    protected $table = 'market_studies';
+
     protected $fillable = [
         'project_id',
-        'market_study_title',
-        'market_study_url',
+        'market_study_title'
     ];
 
+
+    public function market_study_links()
+    {
+        return $this->hasMany(Market_Study_Links::class, 'market_study_id');
+    }
 
     public function project()
     {
