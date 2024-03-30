@@ -96,6 +96,7 @@ class PurchaseRequestFormResource extends Resource
                     ->rules(['gt:0.00'])
                     ->type('number') 
                     ->step('0.01') 
+                    ->prefix('₱')
                     ->required()
                     ->placeholder('Enter Total')
                     ->extraAttributes([
@@ -157,7 +158,6 @@ class PurchaseRequestFormResource extends Resource
                                     ->type('number')
                                     ->columnSpan(1)
                                     ->required()
-                                    ->live()
                                     ->rules(['gt:0'])
                                     ->hint('Current Item No: ' . Purchase_Request_Items::max('item_no') + 1)
                                     ->placeholder('Enter Item No'),
@@ -166,7 +166,6 @@ class PurchaseRequestFormResource extends Resource
                                     ->label('Unit')
                                     ->required()
                                     ->placeholder('Select Unit')
-                                    ->live()
                                     ->columnSpan(1)
                                     ->options([
                                         'unit' => 'unit',
@@ -182,14 +181,12 @@ class PurchaseRequestFormResource extends Resource
                                 TextInput::make('item_description')
                                     ->label('Item Description')
                                     ->required()
-                                    ->live()
                                     ->placeholder('Enter Item Description')
                                     ->columnSpan(2),
                                 TextInput::make('quantity')
                                     ->label('Quantity')
                                     ->numeric()
                                     ->type('number')
-                                    ->live()
                                     ->maxValue(9999999999999999)
                                     ->minValue(1)
                                     ->rules(['gt:0'])
@@ -202,15 +199,15 @@ class PurchaseRequestFormResource extends Resource
                                     ->type('number') // Use text type for decimal numbers
                                     ->step('0.01') // Specify the precision of the decimal
                                     ->required()
-                                    ->live()
                                     ->rules(['gt:0.00'])
+                                    ->prefix('₱')
                                     ->columnSpan(1)
                                     ->placeholder('Enter Estimate Unit Cost'),
                                 
                                 TextInput::make('estimate_cost')
                                     ->label('Estimate Cost')
                                     ->required()
-                                    ->live()
+                                    ->prefix('₱')
                                     ->rules(['gt:0.00'])
                                     ->columnSpan(2)
                                     ->type('number') // Use text type for decimal numbers
