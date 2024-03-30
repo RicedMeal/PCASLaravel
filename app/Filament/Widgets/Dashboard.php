@@ -33,7 +33,7 @@ class Dashboard extends BaseWidget
                 ->description('Urgent project document submission deadline')
                 ->descriptionIcon('heroicon-o-shield-exclamation', IconPosition::Before)
                 ->chart([7, 7, 7, 7, 7, 7, 7, 7])
-                ->color('danger'),           
+                ->color('danger'),        
         ];
     }
 }
