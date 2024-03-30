@@ -16,6 +16,8 @@ class ProjectDocument extends Model
         'project_id',
         'purchase_request',
         'purchase_request_file_name',
+        'purchase_request_number',
+        'purchase_request_number_file_name',
         'price_quotation',
         'price_quotation_file_name',
         'abstract_of_canvass',

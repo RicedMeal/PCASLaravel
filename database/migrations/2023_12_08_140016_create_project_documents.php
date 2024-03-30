@@ -16,6 +16,8 @@ return new class extends Migration
             $table->unsignedBigInteger('project_id');
             $table->binary('purchase_request')->nullable();
             $table->string('purchase_request_file_name')->nullable();
+            $table->binary('purchase_request_number')->nullable();
+            $table->binary('purchase_request_number_file_name')->nullable();
             $table->binary('price_quotation')->nullable();
             $table->string('price_quotation_file_name')->nullable();
             $table->binary('abstract_of_canvass')->nullable();

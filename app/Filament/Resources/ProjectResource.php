@@ -71,16 +71,28 @@ class ProjectResource extends Resource
                 Select::make('project_status')
                     ->required()   
                     ->options([
-                        'Approved' => 'Approved',
-                        'Cancelled' => 'Cancelled',
-                        'Completed' => 'Completed',
-                        'Draft' => 'Draft',
-                        'Pending' => 'Pending',
                         'Ongoing' => 'Ongoing',
                         'Urgent' => 'Urgent',
+                        'Completed' => 'Completed',
+                        'Cancelled' => 'Cancelled',
                     ])
                     ->placeholder('Select Status')
-                    ->label('Project Status')    
+                    ->label('Project Status'),
+                Select::make('project_type')
+                    ->options([
+                        'Pending' => 'Pending',
+                        'Small Value Project' => 'Small Value Project',
+                        'Big Value Project' => 'Big Value Project',
+                    ])
+                    ->placeholder('Select Project Type')
+                    ->label('Project Type'),
+                TextInput::make('project_cost')
+                    ->label('Project Cost')
+                    ->placeholder('Enter Project Cost')
+                    ->rules(['gt:0.00'])
+                    ->prefix('₱'),
+
+
             ]);
     }
 
@@ -108,9 +120,13 @@ class ProjectResource extends Resource
                     ->searchable()
                     ->label('Last Updated')
                     ->sortable(),
-            TextColumn::make('project_status')
+                TextColumn::make('project_status')
                     ->searchable()
                     ->label('Project Status') 
+                    ->sortable(),
+                TextColumn::make('project_type')
+                    ->searchable()
+                    ->label('Project Type')
                     ->sortable(),
             ])
             ->filters([

@@ -19,6 +19,8 @@ class Project extends Model
         'project_description',
         'person_in_charge',
         'project_date',
+        'project_type',
+        'project_cost',
         'project_status',
     ];
 

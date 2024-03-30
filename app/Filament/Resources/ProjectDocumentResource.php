@@ -72,6 +72,14 @@ class ProjectDocumentResource extends Resource
                         ->downloadable()
                         ->openable()
                         ->acceptedFileTypes(['application/pdf']),
+                    FileUpload::make('purchase_request_number')
+                        ->multiple(false)
+                        ->preserveFilenames()
+                        ->storeFileNamesIn('purchase_request_number_file_name')
+                        ->label('Purchase Request Number')
+                        ->placeholder('Upload a file')
+                        ->downloadable()
+                        ->acceptedFileTypes(['application/pdf']),
                     FileUpload::make('price_quotation')
                         ->multiple(false)
                         ->preserveFilenames()
@@ -161,7 +169,7 @@ class ProjectDocumentResource extends Resource
                         ->placeholder('Upload a file')
                         ->acceptedFileTypes(['application/pdf']),
                     FileUpload::make('supplementary_document')
-                        ->multiple(false)
+                        ->multiple(true)
                         ->preserveFilenames()
                         ->storeFileNamesIn('supplementary_document_file_name')
                         ->downloadable()
