@@ -48,10 +48,10 @@ class PurchaseRequestFormResource extends Resource
             ->schema([
             Fieldset::make('Purchase Request Form')
                 ->columns(5)
+                ->columnSpan(20)
                 ->schema([
-                Select::make('project_id')
+                 Select::make('project_id')
                     ->label('Project ID')
-                    ->columnSpan(1)
                     ->required()
                     ->options(
                         Project::all()->mapWithKeys(function ($project) {
@@ -60,7 +60,7 @@ class PurchaseRequestFormResource extends Resource
                     ),
                 TextInput::make('pr_no')
                     ->label('PR No.')
-                   // ->rules(['gt:000-0000-00-00-00'])
+                    ->rules(['regex:/^\d{3}-\d{4}-\d{2}-\d{2}-\d{2}$/'])
                     ->required()  
                     ->columnSpan(1)
                     ->placeholder('000-0000-00-00-00'),
@@ -94,12 +94,9 @@ class PurchaseRequestFormResource extends Resource
                     ->label('Total')
                     ->columnSpan(1)
                     ->rules(['gt:0.00'])
-                    ->type('number') // Use text type for decimal numbers
-                    ->step('0.01') // Specify the precision of the decimal
+                    ->type('number') 
+                    ->step('0.01') 
                     ->required()
-                    // ->evaluate(function ($record) {
-                    //     return Purchase_Request_Items::where('purchase_request_form_id', $record->id)->sum('estimate_cost');
-                    // })
                     ->placeholder('Enter Total')
                     ->extraAttributes([
                         'min' => 0,
@@ -119,6 +116,8 @@ class PurchaseRequestFormResource extends Resource
                     ->placeholder('Enter Purpose'),
                 ]),
             Fieldset::make('Signatories')
+                ->columns(4)
+                ->columnSpan(20)
                 ->schema([
                 TextInput::make('recommended_by_name')
                     ->label('Recommended By Name')
@@ -130,7 +129,7 @@ class PurchaseRequestFormResource extends Resource
                     ->required()
                     ->placeholder('Enter Recommended By Designation'),
     
-                TextInput::make('approved_by_name') //pwede gawing dropdown
+                TextInput::make('approved_by_name') 
                     ->label('Approved By Name')
                     ->required()
                     ->placeholder('Enter Approved By Name'),
@@ -140,11 +139,12 @@ class PurchaseRequestFormResource extends Resource
                     ->required()
                     ->placeholder('Enter Approved By Designation'),
                 ]),
-            Fieldset::make('Add Items in Purchase Request Form')
+            Fieldset::make('Items List')
                     ->columns(1)
+                    ->columnSpan(20)
                     ->schema([
                         Repeater::make('purchase_request_items')
-                            ->label('Items List')
+                            ->label('Add Items in Purchase Request Form')
                             ->columns(4)
                             ->relationship('purchase_request_items')
                             ->addActionLabel('Add Item')

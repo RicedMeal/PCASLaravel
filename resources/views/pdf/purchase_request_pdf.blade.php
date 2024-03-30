@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: 'Times New Roman', Times, serif;
-            font-size: 12px;
+            font-size: 14px;
             margin: 0;
             padding: 0;
         }
@@ -19,7 +19,7 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 20px;
+            margin-top: 0;
         }
         th, td {
             border: 1px solid #000;
@@ -54,11 +54,6 @@
         .subtitle {
             margin: 5px 0;
         }
-        /* Remove margin and padding between tables */
-        .header table, table + .footer table {
-            margin-top: 0;.
-            image-orientation: inherit;
-        }
         tr, td {
             padding: 3px;
             margin: 3px;
@@ -66,42 +61,38 @@
             textbold: bold;
         }
 
+
     </style>
 </head>
 <body>
-    <div class="header">
+    <div>
         <table>
             <tr>
                 <td class="center" style="vertical-align: middle;">
-                    <img src="plm-logo--with-header.png" class="plm-logo">
-                </td>
-                <td>
+                    <img src="data:image/png;base64,{{ base64_encode(file_get_contents($imagePath)) }}" style="width: 500px; height:110px;">
                     <h2 class="title">PURCHASE REQUEST</h2>
-                    <p class="subtitle">PAMANTASAN NG LUNGSOD NG MAYNILA (Agency)</p>
                 </td>
-            </tr>
-            
+            </tr>          
         </table>
     </div>
     <table>
         <tr>
         <td>
-            <p class="bold">Department: ____________________</p>
-            <p>                  _______________________</p>
-            <p class="bold">Section:        _______________________</p>
+            <p class="bold">Department:   <u>{{ $purchaseRequestForm->project->department  }}</u></p>
+            <p class="bold">Section:      <u>{{ $purchaseRequestForm->section }}</u></p>
 
         </td>
         <td>
-            <p class="bold">PR No.:         _______________________</p>
-            <p class="bold">SAI No.:     _______________________</p>
-            <p class="bold">BUS No:     _______________________</p>
+            <p class="bold">PR No.:        <u>{{ $purchaseRequestForm->pr_no }}</u></p>
+            <p class="bold">SAI No.:     <u>{{ $purchaseRequestForm->sai_no }}<u></p>
+            <p class="bold">BUS No:     <u>{{ $purchaseRequestForm->bus_no }}<u></p>
         <td>
-            <p class="bold">Date: ______________</p>
-            <p class="bold">Date: ______________</p>
-            <p class="bold">Date: ______________</p>
+            <p class="bold">Date: <u>{{ $purchaseRequestForm->date }}</u></p>
+            <p class="bold">Date: </p>
+            <p class="bold">Date: </p>
         </td>
         </tr>
-    </table>    
+    </table>
     <table>
         <tr>
             <th>Item No.</th>
@@ -111,43 +102,61 @@
             <th>Estimated Unit Cost</th>
             <th>Estimated Cost</th>
         </tr>
-        <!-- Empty rows -->
-        @for ($i = 0; $i < 20; $i++)
-        <tr class="empty-row">
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
+        @foreach ($purchaseRequestItems as $item)
+        <tr>
+            <td class="center">{{ $item->item_no }}</td>
+            <td class="center">{{ $item->unit }}</td>
+            <td class="center">{{ $item->item_description }}</td>
+            <td class="center">{{ $item->quantity }}</td>
+            <td class="center">{{ $item->estimate_unit_cost }}</td>
+            <td class="center">{{ $item->estimate_cost }}</td>
         </tr>
-        @endfor
+        @endforeach
         <!-- Total row -->
         <tr>
-            <td colspan="4"></td>
-            <td class="bold">Total</td>
             <td></td>
-            <!-- <td>Delivery Duration</td> -->
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="bold center">TOTAL</td>
+            <td class="bold center">{{ $purchaseRequestForm->total }}</td>
+            <tr>
+                <td></td>
+                <td></td>
+                <td>Delivery Duration: {{ $purchaseRequestForm->delivery_duration }}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tr>
+        <tr>
+            <td colspan="6" style="padding-bottom: 40px">PURPOSE:  {{ $purchaseRequestForm->purpose }}</td>
+            
         </tr>
     </table>
-    <div class="footer">
+    <div>
         <table>
             <tr>
                 <td>&nbsp;</td>
-                <td class="bold center">Requested by:</td>
+                <td class="bold center">Recommended by:</td>
                 <td class="bold center">Approved by:</td>
             </tr>
             <tr>
                 <td>
-                    <p class="bold">Signature: </p>
-                    <p class="bold">Printed Name: </p>
-                    <p class="bold">Designation: </p>
+                    <p class="bold"><i>Signature: </i></p>
+                    <p class="bold"><i>Printed Name: </i></p>
+                    <p class="bold"><i>Designation: </i></p>
                 </td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-            </tr>
-            <tr>
-                <td colspan="3" class="bold">Purpose: ______________________________________</td>
+                <td>
+                    <p class="bold center">____________________________ </p>
+                    <p class="bold center">{{ $purchaseRequestForm->recommended_by_name }} </p>
+                    <p class="center"><i>{{ $purchaseRequestForm->recommended_by_designation }}</i></p>
+                </td>
+                <td>
+                    <p class="bold center">___________________________ </p>
+                    <p class="bold center">{{ $purchaseRequestForm->approved_by_name }}</p>
+                    <p class="center"><i>{{ $purchaseRequestForm->approved_by_designation }}</i></p>
+                </td>
             </tr>
         </table>
     </div>

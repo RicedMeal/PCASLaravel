@@ -1,39 +1,33 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use Dompdf\Dompdf;
 use Illuminate\Http\Request;
-use App\Models\Purchase_Request_Items;
 use App\Models\Purchase_Request_Form;
+use App\Models\Purchase_Request_Items;
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
 
 class PurchaseRequestFormPDFController extends Controller
 {
-    public function pdf(Request $request, $prNo)
+    public function pdf($prNo)
     {
-        $purchaseRequest = Purchase_Request_Form::where('pr_no', $prNo)->firstOrFail();
-        $purchaseRequestItems = Purchase_Request_Items::all();
+        //retrieve purchase request form data
+        $purchaseRequestForm = Purchase_Request_Form::where('pr_no', $prNo)->first();
 
-        // Load HTML view and pass data
-        $html = view('pdf.purchase_request_pdf', [
-            'purchaseRequest' => $purchaseRequest,
-            'purchaseRequestItems' => $purchaseRequestItems,
-            
-        ])->render();
+        //retrieve purchase request items data
+        $purchaseRequestItems = Purchase_Request_Items::where('purchase_request_form_id', $purchaseRequestForm->id)->get();
 
-        // Instantiate Dompdf
-        $dompdf = new Dompdf();
+        //define the image path
+        $imagePath = public_path('images/plm-logo.png');
 
-        // Load HTML content
-        $dompdf->loadHtml($html);
+        $purchaseRequestForm->load('project');
 
-        // (Optional) Set paper size and orientation
-        $dompdf->setPaper('A4', 'portrait');
+        //pass data to the view
+        $data = compact('purchaseRequestForm', 'purchaseRequestItems', 'imagePath');
 
-        // Render PDF (generates the PDF)
-        $dompdf->render();
+        //generate PDF
+        $pdf = PDF::loadView('pdf.purchase_request_pdf', $data);
 
-        // Output the generated PDF
-        return $dompdf->stream('purchase_request.pdf');
+        // Set headers for download
+        return $pdf->download('purchase_request.pdf'); //download for automatic download and stream for viewing in browser
     }
 }
