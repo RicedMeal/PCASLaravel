@@ -47,9 +47,13 @@ class ProjectResource extends Resource
                 Select::make('department')
                     ->required()
                     ->options([
+                        'Accounting' => 'Accounting',
+                        'Admin' => 'Admin',
+                        'ICTO' => 'ICTO',
+                        'Procurement' => 'Procurement',
+                        'Purchasing' => 'Purchasing',
                         'PFMO' => 'PFMO',
                         'PSO' => 'PSO',
-                        // Add more options as needed
                     ])
                     ->placeholder('Select Department/Office')
                     ->label('Department/Office'),

@@ -29,7 +29,7 @@ Route::view('profile', 'profile')
     ->name('profile');
 
 Route::get('/{record}/pdf', [DownloadPDFController::class, 'download'])->name('projects.pdf');
-Route::get('/download-abstract-pdf/{id}', [AbstractofCanvassFormPDFController::class, 'download'])->name('download.abstract.pdf');
+Route::get('abstract-of-canvass/{id}/pdf', [AbstractofCanvassFormPDFController::class, 'download'])->name('abstract-of-canvass.pdf');
 Route::get('/download-pdf/{id}/{columnName}', [ProjectDocumentsController::class, 'downloadPdf'])->name('download.pdf');
 Route::get('/purchase-request/{record}/pdf', [PurchaseRequestFormPDFController::class, 'pdf'])->name('purchase-request.pdf');
 
