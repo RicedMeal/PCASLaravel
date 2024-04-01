@@ -64,7 +64,6 @@ class ProjectResource extends Resource
                         return auth()->user()->name;
                     }),
                 TextInput::make('project_date')
-                    ->readonly()
                     ->label('Project Date')
                     ->default(now()->format('Y-m-d'))
                     ->placeholder('Enter Project Date'),
