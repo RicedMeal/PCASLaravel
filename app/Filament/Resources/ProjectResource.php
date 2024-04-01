@@ -79,18 +79,30 @@ class ProjectResource extends Resource
                     ->placeholder('Select Status')
                     ->label('Project Status'),
                 Select::make('project_type')
+                    ->required()
                     ->options([
                         'Pending' => 'Pending',
-                        'Small Value Project' => 'Small Value Project',
-                        'Big Value Project' => 'Big Value Project',
+                        'Major Project' => 'Major Project',
+                        'Minor Project' => 'Minor Project',
                     ])
                     ->placeholder('Select Project Type')
                     ->label('Project Type'),
                 TextInput::make('project_cost')
                     ->label('Project Cost')
                     ->placeholder('Enter Project Cost')
+                    ->prefix('₱')
                     ->rules(['gt:0.00'])
-                    ->prefix('₱'),
+                    ->rules([
+                        'numeric',
+                        'gt:0.00',
+                        fn ($get) => function (string $attribute, $value, $fail) use ($get) {
+                            if ($get('project_type') === 'Major Project' && (!isset($value) || $value <= 1000000.00)) {
+                                $fail("The Project Cost must be greater than 1,000,000.00 for Major Project.");
+                            } elseif ($get('project_type') === 'Minor Project' && (!isset($value) || $value >= 1000000.00)) {
+                                $fail("The Project Cost must be less than 1,000,000.00 for Minor Project.");
+                            }
+                        },
+                    ]),
 
 
             ]);
