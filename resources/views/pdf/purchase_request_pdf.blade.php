@@ -25,7 +25,7 @@
             border: 1px solid #000;
             padding: 6px;
             text-align: center;
-            vertical-align: top; /* Align content to the top */
+            vertical-align: top; 
         }
         td {
             text-align: left;
@@ -34,7 +34,7 @@
             text-align: center;
         }
         .empty-row td {
-            height: 20px; /* Adjust height as needed */
+            height: 20px; 
         }
         .footer {
             margin-top: 20px;
@@ -43,10 +43,10 @@
             font-weight: bold;
         }
         .plm-logo {
-            height: 60px; /* Adjust height as needed */
+            height: 60px; 
             width: auto;
             vertical-align: middle;
-            margin-right: 10px; /* Adjust margin as needed */
+            margin-right: 10px; 
         }
         .title {
             margin: 0;
@@ -102,31 +102,38 @@
             <th>Estimated Unit Cost</th>
             <th>Estimated Cost</th>
         </tr>
+        <tr>
+            <td style="padding: 15px"></td>
+            <td style="padding: 15px"></td>
+            <td class="center bold" style="padding: 15px"> {{ $purchaseRequestForm->project->project_title }}</td>
+            <td style="padding: 15px"></td>
+            <td style="padding: 15px"></td>
+            <td style="padding: 15px"></td>
+        </tr>
         @foreach ($purchaseRequestItems as $item)
         <tr>
-            <td class="center">{{ $item->item_no }}</td>
-            <td class="center">{{ $item->unit }}</td>
-            <td class="center">{{ $item->item_description }}</td>
-            <td class="center">{{ $item->quantity }}</td>
-            <td class="center">{{ $item->estimate_unit_cost }}</td>
-            <td class="center">{{ $item->estimate_cost }}</td>
+            <td class="center" style="padding: 5px">{{ $item->item_no }}</td>
+            <td class="center" style="padding: 5px">{{ $item->unit }}</td>
+            <td class="center" style="padding: 5px">{{ $item->item_description }}</td>
+            <td class="center" style="padding: 5px">{{ $item->quantity }}</td>
+            <td class="center" style="padding: 5px">{{ $item->estimate_unit_cost }}</td>
+            <td class="center" style="padding: 5px">{{ $item->estimate_cost }}</td>
         </tr>
         @endforeach
-        <!-- Total row -->
         <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td class="bold center">TOTAL</td>
-            <td class="bold center">{{ $purchaseRequestForm->total }}</td>
+            <td style="padding: 5px"></td>
+            <td style="padding: 5px"></td>
+            <td style="padding: 5px"></td>
+            <td style="padding: 5px"></td>
+            <td class="bold center" style="padding: 5px">TOTAL</td>
+            <td class="bold center" style="padding: 5px">{{ $purchaseRequestForm->total }}</td>
             <tr>
-                <td></td>
-                <td></td>
-                <td>Delivery Duration: {{ $purchaseRequestForm->delivery_duration }}</td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td style="padding: 5px"></td>
+                <td style="padding: 5px"></td>
+                <td style="padding: 5px">Delivery Duration: {{ $purchaseRequestForm->delivery_duration }}</td>
+                <td style="padding: 5px"></td>
+                <td style="padding: 5px"></td>
+                <td style="padding: 5px"></td>
             </tr>
         </tr>
         <tr>

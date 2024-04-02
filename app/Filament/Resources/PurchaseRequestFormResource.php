@@ -25,9 +25,10 @@ use App\Models\Purchase_Request_Items;
 class PurchaseRequestFormResource extends Resource
 {
     protected static ?string $model = Purchase_Request_Form::class;
+
     protected static ?string $modelItems = Purchase_Request_Items::class;
 
-    protected static ?int $navigationSort = 3;
+    protected static ?int $navigationSort = 4;
 
     protected static ?string $navigationIcon = 'heroicon-o-document-plus';
 
@@ -42,12 +43,11 @@ class PurchaseRequestFormResource extends Resource
 
     public static function form(Form $form): Form
     {
-        //$repeatableFields = array_merge(...$repeatableFields);
 
         return $form
             ->schema([
             Fieldset::make('Purchase Request Form')
-                ->columns(5)
+                ->columns(3)
                 ->columnSpan(20)
                 ->schema([
                  Select::make('project_id')
@@ -62,6 +62,7 @@ class PurchaseRequestFormResource extends Resource
                     ->label('PR No.')
                     ->rules(['regex:/^\d{3}-\d{4}-\d{2}-\d{2}-\d{2}$/'])
                     ->required()  
+                    ->unique()
                     ->columnSpan(1)
                     ->placeholder('000-0000-00-00-00'),
 
@@ -89,32 +90,6 @@ class PurchaseRequestFormResource extends Resource
                     ->columnSpan(1)
                     ->rules(['regex:/^Bus-\d{5}$/'])
                     ->placeholder('Bus-00000'),
-
-                TextInput::make('total')
-                    ->label('Total')
-                    ->columnSpan(1)
-                    ->rules(['gt:0.00'])
-                    ->type('number') 
-                    ->step('0.01') 
-                    ->prefix('₱')
-                    ->required()
-                    ->placeholder('Enter Total')
-                    ->extraAttributes([
-                        'min' => 0,
-                        'max' => 9999999999999999.99,
-                        'pattern' => '\d+(\.\d{2})?'
-                    ]),
-
-                TextInput::make('delivery_duration')
-                    ->label('Delivery Duration')
-                    ->required()
-                    ->placeholder('Enter Delivery Duration'),
-    
-                TextInput::make('purpose')
-                    ->label('Purpose')
-                    ->required()
-                    ->columnSpan(2)
-                    ->placeholder('Enter Purpose'),
                 ]),
             Fieldset::make('Signatories')
                 ->columns(4)
@@ -158,7 +133,7 @@ class PurchaseRequestFormResource extends Resource
                                     ->type('number')
                                     ->columnSpan(1)
                                     ->required()
-                                    ->rules(['gt:0'])
+                                    ->rules(['gt:0', 'unique:purchase_request_items,item_no'])
                                     ->hint('Current Item No: ' . Purchase_Request_Items::max('item_no') + 1)
                                     ->placeholder('Enter Item No'),
 
@@ -196,8 +171,8 @@ class PurchaseRequestFormResource extends Resource
 
                                 TextInput::make('estimate_unit_cost')
                                     ->label('Estimate Unit Cost')
-                                    ->type('number') // Use text type for decimal numbers
-                                    ->step('0.01') // Specify the precision of the decimal
+                                    ->type('number') //use text type for decimal numbers
+                                    ->step('0.01') //specify the precision of the decimal
                                     ->required()
                                     ->rules(['gt:0.00'])
                                     ->prefix('₱')
@@ -210,8 +185,8 @@ class PurchaseRequestFormResource extends Resource
                                     ->prefix('₱')
                                     ->rules(['gt:0.00'])
                                     ->columnSpan(2)
-                                    ->type('number') // Use text type for decimal numbers
-                                    ->step('0.01') // Specify the precision of the decimal
+                                    ->type('number') 
+                                    ->step('0.01') 
                                     ->placeholder('Enter Estimate Cost')
                                     ->extraAttributes([
                                         'min' => 0,
@@ -219,6 +194,35 @@ class PurchaseRequestFormResource extends Resource
                                         'pattern' => '\d+(\.\d{2})?',
                                     ]),
                                 ]),
+                    ]),
+                    Fieldset::make('Total and Other Information')
+                    ->columns(4)
+                    ->columnSpan(20)
+                    ->schema([
+                        TextInput::make('total')
+                            ->label('Total')
+                            ->columnSpan(1)
+                            ->rules(['gt:0.00'])
+                            ->type('number') 
+                            ->step('0.01') 
+                            ->prefix('₱')
+                            ->required()
+                            ->placeholder('Enter Total')
+                            ->extraAttributes([
+                                'min' => 0,
+                                'max' => 9999999999999999.99,
+                                'pattern' => '\d+(\.\d{2})?'
+                            ]),
+                        TextInput::make('delivery_duration')
+                            ->label('Delivery Duration')
+                            ->required()
+                            ->columnSpan(1)
+                            ->placeholder('Enter Delivery Duration'),
+                        TextInput::make('purpose')
+                            ->label('Purpose')
+                            ->required()
+                            ->columnSpan(2)
+                            ->placeholder('Enter Purpose'),
                     ]),
             ]);
 
@@ -259,7 +263,7 @@ class PurchaseRequestFormResource extends Resource
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\Action::make('Download')
                         ->icon('heroicon-o-arrow-down-tray')
-                        ->url(fn(Purchase_Request_Form $record) => route('purchase-request.pdf', $record->pr_no))
+                        ->url(fn(Purchase_Request_Form $record) => route('purchase-request.pdf', $record))
                         ->openUrlInNewTab(),
             ])
             ->bulkActions([

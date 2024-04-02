@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('purchase_request_form', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('project_id');
-            $table->string('pr_no')->unique();
+            $table->string('pr_no');
             $table->date('date');
             $table->string('section')->nullable();
             $table->string('sai_no')->nullable();
