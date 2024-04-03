@@ -14,11 +14,15 @@ use Filament\Tables\Columns\TextColumn;
 use App\Models\Project;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Section;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 use Illuminate\Support\Carbon;
 
-
-class ProjectDocumentResource extends Resource
+class ProjectDocumentResource extends Resource implements HasMedia
 {
+
+    use InteractsWithMedia;
+
     protected static ?string $model = ProjectDocument::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-document-plus';
@@ -64,6 +68,8 @@ class ProjectDocumentResource extends Resource
                         ->storeFileNamesIn('purchase_request_file_name')
                         ->label('Purchase Request')
                         ->downloadable()
+                        //directory where the file will be stored
+                        ->disk('public')
                         ->previewable()
                         ->acceptedFileTypes(['application/pdf']),      
                     FileUpload::make('purchase_request_number')
@@ -73,11 +79,13 @@ class ProjectDocumentResource extends Resource
                         ->label('Purchase Request Number')
                         ->placeholder('Upload a file')
                         ->downloadable()
+                        ->disk('public')
                         ->acceptedFileTypes(['application/pdf']),
                     FileUpload::make('price_quotation')
                         ->multiple(false)
                         ->preserveFilenames()
                         ->downloadable()
+                        ->disk('public')
                         ->storeFileNamesIn('price_quotation_file_name')
                         ->label('Price Quotation')
                         ->placeholder('Upload a file')
@@ -86,6 +94,7 @@ class ProjectDocumentResource extends Resource
                         ->multiple(false)
                         ->preserveFilenames()
                         ->downloadable()
+                        ->disk('public')
                         ->storeFileNamesIn('abstract_of_canvass_file_name')
                         ->label('Abstract of Canvass')
                         ->placeholder('Upload a file')
@@ -94,6 +103,7 @@ class ProjectDocumentResource extends Resource
                         ->multiple(false)
                         ->preserveFilenames()
                         ->downloadable()
+                        ->disk('public')
                         ->storeFileNamesIn('material_and_cost_estimates_file_name')
                         ->label('Material and Cost Estimates')
                         ->placeholder('Upload a file')
@@ -102,6 +112,7 @@ class ProjectDocumentResource extends Resource
                         ->multiple(false)
                         ->preserveFilenames()
                         ->downloadable()
+                        ->disk('public')
                         ->storeFileNamesIn('budget_utilization_request_file_name')
                         ->label('Budget Utilization Request')
                         ->placeholder('Upload a file')
@@ -110,6 +121,7 @@ class ProjectDocumentResource extends Resource
                         ->multiple(false)
                         ->preserveFilenames()
                         ->downloadable()
+                        ->disk('public')
                         ->storeFileNamesIn('project_initiation_proposal_file_name')
                         ->placeholder('Upload a file')
                         ->label('Project Initiation Proposal')
@@ -118,6 +130,7 @@ class ProjectDocumentResource extends Resource
                         ->multiple(false)
                         ->preserveFilenames()
                         ->downloadable()
+                        ->disk('public')
                         ->storeFileNamesIn('annual_procurement_plan_file_name')
                         ->placeholder('Upload a file')
                         ->label('Annual Procurement Plan')
@@ -126,6 +139,7 @@ class ProjectDocumentResource extends Resource
                         ->multiple(false)
                         ->preserveFilenames()
                         ->downloadable()
+                        ->disk('public')
                         ->storeFileNamesIn('purchase_order_file_name')
                         ->placeholder('Upload a file')
                         ->label('Purchase Order')
@@ -134,6 +148,7 @@ class ProjectDocumentResource extends Resource
                         ->multiple(false)
                         ->preserveFilenames()
                         ->downloadable()
+                        ->disk('public')
                         ->storeFileNamesIn('market_study_file_name')
                         ->label('Market Study')
                         ->placeholder('Upload a file')
@@ -142,6 +157,7 @@ class ProjectDocumentResource extends Resource
                         ->multiple(false)
                         ->preserveFilenames()
                         ->downloadable()
+                        ->disk('public')
                         ->storeFileNamesIn('certificate_of_fund_allotment_file_name')
                         ->label('Certificate of Fund Allotment')
                         ->placeholder('Upload a file')
@@ -150,6 +166,7 @@ class ProjectDocumentResource extends Resource
                         ->multiple(false)
                         ->preserveFilenames()
                         ->downloadable()
+                        ->disk('public')
                         ->storeFileNamesIn('complete_staff_work_file_name')
                         ->label('Complete Staff Work')
                         ->placeholder('Upload a file')
@@ -158,6 +175,7 @@ class ProjectDocumentResource extends Resource
                         ->multiple(false)
                         ->preserveFilenames()
                         ->downloadable()
+                        ->disk('public')
                         ->storeFileNamesIn('accomplishment_report_file_name')
                         ->label('Accomplishment Report')
                         ->placeholder('Upload a file')
@@ -166,6 +184,7 @@ class ProjectDocumentResource extends Resource
                         ->multiple(true)
                         ->preserveFilenames()
                         ->reorderable()
+                        ->disk('public')
                         ->storeFileNamesIn('supplementary_document_file_name')
                         ->downloadable()
                         ->label('Supplementary Document')
