@@ -46,8 +46,6 @@ class ProjectDocumentResource extends Resource
         return true;
     }
 
-
-    
     public static function form(Form $form): Form
 
     {
@@ -171,6 +169,7 @@ class ProjectDocumentResource extends Resource
                     FileUpload::make('supplementary_document')
                         ->multiple(true)
                         ->preserveFilenames()
+                        ->reorderable()
                         ->storeFileNamesIn('supplementary_document_file_name')
                         ->downloadable()
                         ->label('Supplementary Document')
@@ -196,16 +195,6 @@ class ProjectDocumentResource extends Resource
                     ->sortable()
                     ->toggleable()
                     ->sortable(),
-                TextColumn::make('purchase_request')
-                    ->label('Purchase Request')
-                    ->searchable()
-                    ->sortable()
-                    ->toggleable(),
-                TextColumn::make('price_quotation')
-                    ->label('Price Quotation')
-                    ->searchable()
-                    ->sortable()
-                    ->toggleable(),
                 TextColumn::make('updated_at')
                     ->label('Last Updated')
                     ->searchable()

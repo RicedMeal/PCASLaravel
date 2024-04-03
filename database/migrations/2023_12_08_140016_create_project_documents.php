@@ -40,8 +40,8 @@ return new class extends Migration
             $table->string('complete_staff_work_file_name')->nullable();
             $table->binary('accomplishment_report')->nullable();
             $table->string('accomplishment_report_file_name')->nullable();
-            $table->binary('supplementary_document')->nullable();
-            $table->string('supplementary_document_file_name')->nullable();
+            $table->json('supplementary_document')->nullable();
+            $table->json('supplementary_document_file_name')->nullable();
             $table->timestamps();
             $table->foreign('project_id')->references('id')->on('projects')->onUpdate('cascade')->onDelete('cascade');
         });
