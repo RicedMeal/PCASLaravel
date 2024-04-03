@@ -3,14 +3,19 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ProjectResource\Pages;
+use App\Filament\Resources\ProjectResource\RelationManagers;
 use App\Models\Project;
+use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\TablesServiceProvider;
 
 class ProjectResource extends Resource
 {
@@ -42,10 +47,9 @@ class ProjectResource extends Resource
                 Select::make('department')
                     ->required()
                     ->options([
-                        'ICTO' => 'ICTO',
-                        'Procurement' => 'Procurement',
                         'PFMO' => 'PFMO',
                         'PSO' => 'PSO',
+                        // Add more options as needed
                     ])
                     ->placeholder('Select Department/Office')
                     ->label('Department/Office'),
@@ -60,9 +64,11 @@ class ProjectResource extends Resource
                         return auth()->user()->name;
                     }),
                 TextInput::make('project_date')
+                    ->required()
                     ->label('Project Date')
                     ->default(now()->format('Y-m-d'))
-                    ->placeholder('Enter Project Date'),
+                    ->placeholder('Enter Project Date (YYYY-MM-DD)')
+                    ->rules('date_format:Y-m-d'),
                 Select::make('project_status')
                     ->required()   
                     ->options([
@@ -86,7 +92,7 @@ class ProjectResource extends Resource
                     ->label('Project Cost')
                     ->placeholder('Enter Project Cost')
                     ->prefix('₱')
-                    ->rules(['gt:0.00'])
+                    ->requiredUnless('project_type', 'Pending')
                     ->rules([
                         'numeric',
                         'gt:0.00',
@@ -123,6 +129,10 @@ class ProjectResource extends Resource
                     ->searchable()
                     ->label('Person in Charge')
                     ->sortable(),
+                TextColumn::make('updated_at')
+                    ->searchable()
+                    ->label('Last Updated')
+                    ->sortable(),
                 TextColumn::make('project_status')
                     ->searchable()
                     ->label('Project Status') 
@@ -131,26 +141,18 @@ class ProjectResource extends Resource
                     ->searchable()
                     ->label('Project Type')
                     ->sortable(),
-                TextColumn::make('updated_at')
-                    ->searchable()
-                    ->label('Last Updated')
-                    ->sortable(),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\ActionGroup::make([
-                    Tables\Actions\ViewAction::make()
-                        ->color('primary'),
-                    Tables\Actions\EditAction::make()
-                        ->color('primary'),
-                    Tables\Actions\Action::make('Download')
-                        ->icon('heroicon-o-arrow-down-tray')
-                        ->color('primary')
-                        ->url(fn(Project $record) => route('projects.pdf', $record))
-                        ->openUrlInNewTab(),
-                    ])
+                Tables\Actions\ViewAction::make(),
+                Tables\Actions\EditAction::make(),
+                //Tables\Actions\DeleteAction::make(),
+                Tables\Actions\Action::make('Download')
+                    ->icon('heroicon-o-arrow-down-tray')
+                    ->url(fn(Project $record) => route('projects.pdf', $record))
+                    ->openUrlInNewTab(),
                     
             ])
             ->bulkActions([
