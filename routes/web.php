@@ -2,10 +2,9 @@
 
 use App\Http\Controllers\DownloadPDFController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AbstractofCanvassFormPDFController;
 use App\Http\Controllers\ProjectDocumentController;
-use App\Http\Controllers\ProjectDocumentsController;
 use App\Http\Controllers\PurchaseRequestFormPDFController;
+use App\Http\Controllers\MaterialCostEstimatesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,16 +27,19 @@ Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
 
+//project creation route
 Route::get('/{record}/pdf', [DownloadPDFController::class, 'download'])->name('projects.pdf');
-Route::get('/download-abstract-pdf/{id}', [AbstractofCanvassFormPDFController::class, 'download'])->name('download.abstract.pdf');
-Route::get('/download-pdf/{id}/{columnName}', [ProjectDocumentsController::class, 'downloadPdf'])->name('download.pdf');
+
+//project documents single download route
+Route::get('/project-documents/download-pdf/{id}/{columnName}', [ProjectDocumentController::class, 'downloadPdf'])->name('project-documents.downloadPdf');
+
+//route for downloading all pdf files as a zip
+Route::get('/project-documents/{id}/download-all', [ProjectDocumentController::class, 'downloadAllPdfs'])->name('project-documents.downloadAllPdfs');
+
+//purchase request form download route
 Route::get('/purchase-request/{record}/pdf', [PurchaseRequestFormPDFController::class, 'pdf'])->name('purchase-request.pdf');
 
-// Route for downloading all PDF files as a zip
-Route::get('/project-documents/{id}/download-all', [ProjectDocumentController::class, 'downloadAllPdfs'])
-    ->name('project-documents.downloadAllPdfs');
-
-Route::get('/project-documents/download-pdf/{id}/{columnName}', [ProjectDocumentController::class, 'downloadPdf'])
-    ->name('project-documents.downloadPdf');
+//route for downloading material cost estimates pdf
+Route::get('/material-cost-estimates/{materialCostEstimate}/pdf', [MaterialCostEstimatesController::class, 'pdf'])->name('material-cost-estimates.pdf');
 
 require __DIR__.'/auth.php';

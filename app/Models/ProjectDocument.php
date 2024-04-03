@@ -40,8 +40,11 @@ class ProjectDocument extends Model
         'complete_staff_work_file_name',
         'accomplishment_report',
         'accomplishment_report_file_name',
-        'supplementary_document',
-        'supplementary_document_file_name',
+    ];
+
+    protected $casts = [
+        'supplementary_document' => 'array',
+        'supplementary_document_file_name' => 'array',
     ];
 
 
@@ -50,7 +53,7 @@ class ProjectDocument extends Model
         return $this->belongsTo(Project::class);
     }
 
-    // Retrieve all PDF files associated with the project document
+    //retrieve all pdf files connected with the project document
     public function getAllPdfs()
     {
         $pdfs = [];

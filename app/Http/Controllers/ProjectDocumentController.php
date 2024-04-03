@@ -2,42 +2,79 @@
 
 namespace App\Http\Controllers;
 
-use App\Filament\Resources\ProjectDocumentResource as ResourcesProjectDocumentResource;
 use App\Models\ProjectDocument;
-use Illuminate\Http\Request; // Import Request class
+use ZipArchive;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use Symfony\Component\HttpFoundation\Response;
-use App\Http\Resources\ProjectDocumentResource;
+
 
 class ProjectDocumentController extends Controller
 {
 
     public function downloadAllPdfs($id)
     {
-        // Find the project document by ID
-        $projectDocument = ProjectDocument::findOrFail($id);
+    //find the project document by ID
+    $projectDocument = ProjectDocument::findOrFail($id);
 
-        // Retrieve all PDF files associated with the project document
-        $pdfs = $projectDocument->getAllPdfs();
+    //retrieve all pdf files associated with the project document
+    $pdfs = $projectDocument->getAllPdfs();
 
-        // Prepare the zip file name
-        $zipFileName = 'project_' . $projectDocument->id . '_pdfs.zip';
+    //prepare the zip file name
+    $zipFileName = 'project_' . $projectDocument->id . '_pdfs.zip';
+    $zipFilePath = public_path('storage/' . $zipFileName);
 
-        // Create a new zip archive
-        $zip = new \ZipArchive;
-        $zip->open(storage_path('app/' . $zipFileName), \ZipArchive::CREATE | \ZipArchive::OVERWRITE);
+    //create a new zip archive
+    $zip = new \ZipArchive;
 
-        // Add each PDF file to the zip archive
+    if ($zip->open($zipFilePath, \ZipArchive::CREATE | \ZipArchive::OVERWRITE) === true) {
         foreach ($pdfs as $columnName => $pdfContent) {
             if ($pdfContent !== null) {
-                $zip->addFromString($projectDocument->$columnName . '', $pdfContent);
+                $pdfFilePath = public_path('storage/' . $projectDocument->$columnName);
+                if (file_exists($pdfFilePath)) {
+                    $zip->addFile($pdfFilePath, $projectDocument->$columnName);
+                } else {
+                    Log::error("File does not exist: $pdfFilePath");
+                }
             }
         }
-
-        // Close the zip archive
+        //close the zip archive
         $zip->close();
 
-        // Return the zip file for downloading
-        return response()->download(storage_path('app/' . $zipFileName))->deleteFileAfterSend(true);
+        //return the zip file for downloading
+        return response()->download($zipFilePath)->deleteFileAfterSend(true);
+    } else {
+        //handle zip archive creation failure
+        return response()->json(['error' => 'Failed to create zip archive'], 500);
     }
+    }
+
+    public function downloadPdf($id, $columnName)
+    {
+        $document = ProjectDocument::findOrFail($id);
+        
+        // Retrieve the file name from the specified column
+        $fileName = $document->$columnName;
+        
+        // Check if the file name is null or empty
+        if (!$fileName) {
+            return response()->json(['error' => 'File not found'], 404);
+        }
+        
+        // Construct the full file path
+        $filePath = storage_path("app/public/$fileName");
+        
+        // Check if the file exists
+        if (!Storage::exists("public/$fileName")) {
+            return response()->json(['error' => 'File not found'], 404);
+        }
+
+        // Return the file as a downloadable response
+        return response()->download($filePath, $fileName, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="'.$fileName.'"'
+        ])->deleteFileAfterSend(true);
+    }
+    
+
 }
+
