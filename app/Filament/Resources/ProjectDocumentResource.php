@@ -68,12 +68,9 @@ class ProjectDocumentResource extends Resource implements HasMedia
                         ->storeFileNamesIn('purchase_request_file_name')
                         ->label('Purchase Request')
                         ->downloadable()
-supp_docs_fixed
                         ->rules(['max:5120']) //max file size in KB = 5MB
-
                         //directory where the file will be stored
                         ->disk('public')
- main
                         ->previewable()
                         ->acceptedFileTypes(['application/pdf']),      
                     FileUpload::make('purchase_request_number')
@@ -110,11 +107,8 @@ supp_docs_fixed
                         ->multiple(false)
                         ->preserveFilenames()
                         ->downloadable()
- supp_docs_fixed
                         ->rules(['max:5120'])
-
                         ->disk('public')
- main
                         ->storeFileNamesIn('material_and_cost_estimates_file_name')
                         ->label('Material and Cost Estimates')
                         ->placeholder('Upload a file')
@@ -153,11 +147,8 @@ supp_docs_fixed
                         ->multiple(false)
                         ->preserveFilenames()
                         ->downloadable()
- supp_docs_fixed
                         ->rules(['max:5120'])
-
                         ->disk('public')
-main
                         ->storeFileNamesIn('purchase_order_file_name')
                         ->placeholder('Upload a file')
                         ->label('Purchase Order')
@@ -166,11 +157,8 @@ main
                         ->multiple(false)
                         ->preserveFilenames()
                         ->downloadable()
-supp_docs_fixed
                         ->rules(['max:5120'])
-
                         ->disk('public')
-main
                         ->storeFileNamesIn('market_study_file_name')
                         ->label('Market Study')
                         ->placeholder('Upload a file')
@@ -179,11 +167,8 @@ main
                         ->multiple(false)
                         ->preserveFilenames()
                         ->downloadable()
-supp_docs_fixed
                         ->rules(['max:5120'])
-
                         ->disk('public')
-main
                         ->storeFileNamesIn('certificate_of_fund_allotment_file_name')
                         ->label('Certificate of Fund Allotment')
                         ->placeholder('Upload a file')
@@ -192,11 +177,8 @@ main
                         ->multiple(false)
                         ->preserveFilenames()
                         ->downloadable()
-supp_docs_fixed
                         ->rules(['max:5120'])
-
                         ->disk('public')
-main
                         ->storeFileNamesIn('complete_staff_work_file_name')
                         ->label('Complete Staff Work')
                         ->placeholder('Upload a file')
@@ -205,11 +187,8 @@ main
                         ->multiple(false)
                         ->preserveFilenames()
                         ->downloadable()
-supp_docs_fixed
                         ->rules(['max:5120'])
-
                         ->disk('public')
-main
                         ->storeFileNamesIn('accomplishment_report_file_name')
                         ->label('Accomplishment Report')
                         ->placeholder('Upload a file')
@@ -218,11 +197,8 @@ main
                         ->multiple(true)
                         ->preserveFilenames()
                         ->reorderable()
-supp_docs_fixed
                         ->rules(['max:20480'])
-
                         ->disk('public')
-main
                         ->storeFileNamesIn('supplementary_document_file_name')
                         ->downloadable()
                         ->label('Supplementary Document')
