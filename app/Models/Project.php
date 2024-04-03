@@ -35,11 +35,6 @@ class Project extends Model
         return $this->hasMany(Purchase_Request_Form::class);
     }
 
-    public function abstract_of_canvass_form()
-    {
-        return $this->hasMany(Abstract_of_Canvass_Form::class);
-    }
-
     public function supplier()
     {
         return $this->hasMany(Supplier::class);

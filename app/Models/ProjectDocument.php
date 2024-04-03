@@ -40,6 +40,8 @@ class ProjectDocument extends Model
         'complete_staff_work_file_name',
         'accomplishment_report',
         'accomplishment_report_file_name',
+        'supplementary_document',
+        'supplementary_document_file_name',
     ];
 
     protected $casts = [
@@ -48,21 +50,37 @@ class ProjectDocument extends Model
     ];
 
 
-    public function project()
-    {
-        return $this->belongsTo(Project::class);
-    }
-
-    //retrieve all pdf files connected with the project document
     public function getAllPdfs()
     {
         $pdfs = [];
+    
+        // Add main document attributes
         foreach ($this->fillable as $column) {
             if ($this->$column !== null) {
                 $pdfs[$column] = $this->$column;
             }
         }
+    
+        // Add supplementary document file names
+        if (!empty($this->supplementary_document_file_name)) {
+            foreach ($this->supplementary_document_file_name as $fileName) {
+                if (is_string($fileName) && $this->isPdf($fileName)) {
+                    $pdfs[] = $fileName;
+                }
+            }
+        }
+    
         return $pdfs;
+    }
+    
+    private function isPdf($fileName)
+    {
+        return pathinfo($fileName, PATHINFO_EXTENSION) === 'pdf';
+    }
+
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
     }
     
 }
