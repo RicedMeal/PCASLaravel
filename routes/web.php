@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProjectDocumentController;
 use App\Http\Controllers\PurchaseRequestFormPDFController;
 use App\Http\Controllers\MaterialCostEstimatesController;
+use App\Http\Controllers\DownloadSinglePDFController;
 
 /*
 |--------------------------------------------------------------------------
