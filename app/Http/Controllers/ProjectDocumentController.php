@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ProjectDocument;
 use ZipArchive;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 
 class ProjectDocumentController extends Controller
@@ -12,17 +13,17 @@ class ProjectDocumentController extends Controller
 
     public function downloadAllPdfs($id)
     {
-    // Find the project document by ID
+    //find the project document by ID
     $projectDocument = ProjectDocument::findOrFail($id);
 
-    // Retrieve all PDF files associated with the project document
+    //retrieve all pdf files associated with the project document
     $pdfs = $projectDocument->getAllPdfs();
 
-    // Prepare the zip file name
+    //prepare the zip file name
     $zipFileName = 'project_' . $projectDocument->id . '_pdfs.zip';
     $zipFilePath = public_path('storage/' . $zipFileName);
 
-    // Create a new zip archive
+    //create a new zip archive
     $zip = new \ZipArchive;
 
     if ($zip->open($zipFilePath, \ZipArchive::CREATE | \ZipArchive::OVERWRITE) === true) {
@@ -36,13 +37,13 @@ class ProjectDocumentController extends Controller
                 }
             }
         }
-        // Close the zip archive
+        //close the zip archive
         $zip->close();
 
-        // Return the zip file for downloading
+        //return the zip file for downloading
         return response()->download($zipFilePath)->deleteFileAfterSend(true);
     } else {
-        // Handle zip archive creation failure
+        //handle zip archive creation failure
         return response()->json(['error' => 'Failed to create zip archive'], 500);
     }
     }
@@ -54,17 +55,26 @@ class ProjectDocumentController extends Controller
         // Retrieve the file name from the specified column
         $fileName = $document->$columnName;
         
-        // Retrieve the file path from storage
-        $filePath = storage_path('app/' . $fileName);
-        
-        // Check if the file exists
-        if (file_exists($filePath)) {
-            // Return the file as a downloadable response
-            return response()->download($filePath, $fileName);
-        } else {
-            // File not found, return error response
+        // Check if the file name is null or empty
+        if (!$fileName) {
             return response()->json(['error' => 'File not found'], 404);
         }
+        
+        // Construct the full file path
+        $filePath = storage_path("app/public/$fileName");
+        
+        // Check if the file exists
+        if (!Storage::exists("public/$fileName")) {
+            return response()->json(['error' => 'File not found'], 404);
+        }
+
+        // Return the file as a downloadable response
+        return response()->download($filePath, $fileName, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="'.$fileName.'"'
+        ])->deleteFileAfterSend(true);
     }
+    
+
 }
 

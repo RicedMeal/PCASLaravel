@@ -3,22 +3,18 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ProjectDocumentResource\Pages;
-use App\Filament\Resources\ProjectDocumentResource\RelationManagers;
+
 use App\Models\ProjectDocument;
-use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\TextColumn;
 use App\Models\Project;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Section;
-use Illuminate\Support\HtmlString;
+use Illuminate\Support\Carbon;
 
 
 class ProjectDocumentResource extends Resource
@@ -68,8 +64,8 @@ class ProjectDocumentResource extends Resource
                         ->storeFileNamesIn('purchase_request_file_name')
                         ->label('Purchase Request')
                         ->downloadable()
-                        ->openable()
-                        ->acceptedFileTypes(['application/pdf']),
+                        ->previewable()
+                        ->acceptedFileTypes(['application/pdf']),      
                     FileUpload::make('purchase_request_number')
                         ->multiple(false)
                         ->preserveFilenames()
@@ -195,28 +191,38 @@ class ProjectDocumentResource extends Resource
                     ->sortable()
                     ->toggleable()
                     ->sortable(),
+                TextColumn::make('created_at')
+                    ->label('Created')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(),
                 TextColumn::make('updated_at')
                     ->label('Last Updated')
                     ->searchable()
                     ->sortable()
-                    ->toggleable(),
+                    ->toggleable()
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make()
-                ->slideOver(),                
-            
-                Tables\Actions\Action::make('Download All')
-                    ->icon('heroicon-o-arrow-down-tray')
-                    ->label('Download All')
-                    ->url(fn($record) => route('project-documents.downloadAllPdfs', ['id' => $record->getKey()])),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\ViewAction::make()
+                    ->color('primary'),
+                    Tables\Actions\EditAction::make()
+                    ->label('Edit')
+                    ->color('primary'),                
+                    Tables\Actions\Action::make('Download All')
+                        ->icon('heroicon-o-arrow-down-tray')
+                        ->color('primary')
+                        ->label('Download All')
+                        ->url(fn($record) => route('project-documents.downloadAllPdfs', ['id' => $record->getKey()])),
+                ]),
+
 
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
+                Tables\Actions\ActionGroup::make([
                 Tables\Actions\DeleteBulkAction::make('delete')
 
                 ]),

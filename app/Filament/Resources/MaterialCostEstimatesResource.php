@@ -14,6 +14,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\Wizard;
 
 class MaterialCostEstimatesResource extends Resource
 {
@@ -38,10 +39,10 @@ class MaterialCostEstimatesResource extends Resource
     {
         return $form
             ->schema([
-                Fieldset::make('Material and Cost Estimates Form')
-                    ->columnSpan(10)
-                    ->schema([
-                        Select::make('project_id')
+                Wizard::make([
+                    Wizard\Step::make('Material and Cost Estimates Form')
+                        ->schema([
+                            Select::make('project_id')
                             ->label('Project ID')
                             ->required()
                             ->options(
@@ -49,16 +50,14 @@ class MaterialCostEstimatesResource extends Resource
                                     return [$project->id => $project->id . ' - ' . $project->project_title];
                                 })->toArray()
                             ),
-                        TextInput::make('location')
+                            TextInput::make('location')
                             ->label('Location')
                             ->required()
                             ->placeholder('Enter Location'),
-                    ]),
-                Fieldset::make('Add Material and Cost Estimates Items')
-                    ->columns(1)
-                    ->columnSpan(10)
-                    ->schema([
-                        Repeater::make('material_cost_estimates_items')
+                        ]),
+                    Wizard\Step::make('Add Material and Cost Estimates Items')
+                        ->schema([
+                            Repeater::make('material_cost_estimates_items')
                             ->label('Items List')
                             ->columns(4)
                             ->relationship('material_cost_estimates_items')
@@ -123,15 +122,11 @@ class MaterialCostEstimatesResource extends Resource
                                     ->placeholder('Enter Amount'),
                             ]),
                     ]),
-                Fieldset::make('Total Cost and Signatories')
-                    ->label('Total Cost and Signatories')
-                    ->columnSpan(10)
-                    ->columns(4)
-                    ->schema([
-                        TextInput::make('total')
+                    Wizard\Step::make('Total Cost and Signatories')
+                        ->schema([
+                            TextInput::make('total')
                             ->label('Total')
                             ->required()
-                            ->columnSpan(4)
                             ->type('number')
                             ->step('0.01') 
                             ->prefix('₱')
@@ -140,26 +135,21 @@ class MaterialCostEstimatesResource extends Resource
                         TextInput::make('prepared_by')
                             ->label('Prepared By:')
                             ->required()
-                            ->columnSpan(2)
                             ->placeholder('Enter Name'),
                         TextInput::make('prepared_by_designation')
                             ->label('Prepared By Designation:')
                             ->required()
-                            ->columnSpan(2)
                             ->placeholder('Enter Designation'),
                         TextInput::make('checked_by')
                             ->label('Checked By:')
                             ->required()
-                            ->columnSpan(2)
                             ->placeholder('Enter Name'),
                         TextInput::make('checked_by_designation')
                             ->label('Checked By Designation:')
                             ->required()
-                            ->columnSpan(2)
-                            ->placeholder('Enter Designation'),
-
+                            ->placeholder('Enter Designation')
                     ]),
-                
+                ])->columnSpanFull(),
             ]);
     }
 
@@ -179,6 +169,10 @@ class MaterialCostEstimatesResource extends Resource
                     ->label('Department/Office')
                     ->searchable()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label('Created')
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->label('Last Updated')
                     ->searchable()
@@ -188,12 +182,17 @@ class MaterialCostEstimatesResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\ActionGroup::make([
+                Tables\Actions\ViewAction::make()
+                    ->color('primary'),
+                Tables\Actions\EditAction::make()
+                    ->color('primary'),
                 Tables\Actions\Action::make('Download')
                     ->icon('heroicon-o-arrow-down-tray')
+                    ->color('primary')
                     ->url(fn(MaterialCostEstimates $record) => route('material-cost-estimates.pdf', $record))
                     ->openUrlInNewTab(),
+                ])
             
             ])
             ->bulkActions([
