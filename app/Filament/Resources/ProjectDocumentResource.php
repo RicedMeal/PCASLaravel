@@ -68,13 +68,18 @@ class ProjectDocumentResource extends Resource implements HasMedia
                         ->storeFileNamesIn('purchase_request_file_name')
                         ->label('Purchase Request')
                         ->downloadable()
+supp_docs_fixed
+                        ->rules(['max:5120']) //max file size in KB = 5MB
+
                         //directory where the file will be stored
                         ->disk('public')
+ main
                         ->previewable()
                         ->acceptedFileTypes(['application/pdf']),      
                     FileUpload::make('purchase_request_number')
                         ->multiple(false)
                         ->preserveFilenames()
+                        ->rules(['max:5120'])
                         ->storeFileNamesIn('purchase_request_number_file_name')
                         ->label('Purchase Request Number')
                         ->placeholder('Upload a file')
@@ -84,6 +89,7 @@ class ProjectDocumentResource extends Resource implements HasMedia
                     FileUpload::make('price_quotation')
                         ->multiple(false)
                         ->preserveFilenames()
+                        ->rules(['max:5120'])
                         ->downloadable()
                         ->disk('public')
                         ->storeFileNamesIn('price_quotation_file_name')
@@ -93,6 +99,7 @@ class ProjectDocumentResource extends Resource implements HasMedia
                     FileUpload::make('abstract_of_canvass')
                         ->multiple(false)
                         ->preserveFilenames()
+                        ->rules(['max:5120'])
                         ->downloadable()
                         ->disk('public')
                         ->storeFileNamesIn('abstract_of_canvass_file_name')
@@ -103,7 +110,11 @@ class ProjectDocumentResource extends Resource implements HasMedia
                         ->multiple(false)
                         ->preserveFilenames()
                         ->downloadable()
+ supp_docs_fixed
+                        ->rules(['max:5120'])
+
                         ->disk('public')
+ main
                         ->storeFileNamesIn('material_and_cost_estimates_file_name')
                         ->label('Material and Cost Estimates')
                         ->placeholder('Upload a file')
@@ -111,6 +122,7 @@ class ProjectDocumentResource extends Resource implements HasMedia
                     FileUpload::make('budget_utilization_request')
                         ->multiple(false)
                         ->preserveFilenames()
+                        ->rules(['max:5120'])
                         ->downloadable()
                         ->disk('public')
                         ->storeFileNamesIn('budget_utilization_request_file_name')
@@ -120,6 +132,7 @@ class ProjectDocumentResource extends Resource implements HasMedia
                     FileUpload::make('project_initiation_proposal')
                         ->multiple(false)
                         ->preserveFilenames()
+                        ->rules(['max:5120'])
                         ->downloadable()
                         ->disk('public')
                         ->storeFileNamesIn('project_initiation_proposal_file_name')
@@ -129,6 +142,7 @@ class ProjectDocumentResource extends Resource implements HasMedia
                     FileUpload::make('annual_procurement_plan')
                         ->multiple(false)
                         ->preserveFilenames()
+                        ->rules(['max:5120'])
                         ->downloadable()
                         ->disk('public')
                         ->storeFileNamesIn('annual_procurement_plan_file_name')
@@ -139,7 +153,11 @@ class ProjectDocumentResource extends Resource implements HasMedia
                         ->multiple(false)
                         ->preserveFilenames()
                         ->downloadable()
+ supp_docs_fixed
+                        ->rules(['max:5120'])
+
                         ->disk('public')
+main
                         ->storeFileNamesIn('purchase_order_file_name')
                         ->placeholder('Upload a file')
                         ->label('Purchase Order')
@@ -148,7 +166,11 @@ class ProjectDocumentResource extends Resource implements HasMedia
                         ->multiple(false)
                         ->preserveFilenames()
                         ->downloadable()
+supp_docs_fixed
+                        ->rules(['max:5120'])
+
                         ->disk('public')
+main
                         ->storeFileNamesIn('market_study_file_name')
                         ->label('Market Study')
                         ->placeholder('Upload a file')
@@ -157,7 +179,11 @@ class ProjectDocumentResource extends Resource implements HasMedia
                         ->multiple(false)
                         ->preserveFilenames()
                         ->downloadable()
+supp_docs_fixed
+                        ->rules(['max:5120'])
+
                         ->disk('public')
+main
                         ->storeFileNamesIn('certificate_of_fund_allotment_file_name')
                         ->label('Certificate of Fund Allotment')
                         ->placeholder('Upload a file')
@@ -166,7 +192,11 @@ class ProjectDocumentResource extends Resource implements HasMedia
                         ->multiple(false)
                         ->preserveFilenames()
                         ->downloadable()
+supp_docs_fixed
+                        ->rules(['max:5120'])
+
                         ->disk('public')
+main
                         ->storeFileNamesIn('complete_staff_work_file_name')
                         ->label('Complete Staff Work')
                         ->placeholder('Upload a file')
@@ -175,7 +205,11 @@ class ProjectDocumentResource extends Resource implements HasMedia
                         ->multiple(false)
                         ->preserveFilenames()
                         ->downloadable()
+supp_docs_fixed
+                        ->rules(['max:5120'])
+
                         ->disk('public')
+main
                         ->storeFileNamesIn('accomplishment_report_file_name')
                         ->label('Accomplishment Report')
                         ->placeholder('Upload a file')
@@ -184,7 +218,11 @@ class ProjectDocumentResource extends Resource implements HasMedia
                         ->multiple(true)
                         ->preserveFilenames()
                         ->reorderable()
+supp_docs_fixed
+                        ->rules(['max:20480'])
+
                         ->disk('public')
+main
                         ->storeFileNamesIn('supplementary_document_file_name')
                         ->downloadable()
                         ->label('Supplementary Document')

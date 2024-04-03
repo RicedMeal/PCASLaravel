@@ -31,9 +31,6 @@ Route::view('profile', 'profile')
 //project creation route
 Route::get('/{record}/pdf', [DownloadPDFController::class, 'download'])->name('projects.pdf');
 
-//project documents single download route
-Route::get('/project-documents/download-pdf/{id}/{columnName}', [ProjectDocumentController::class, 'downloadPdf'])->name('project-documents.downloadPdf');
-
 //route for downloading all pdf files as a zip
 Route::get('/project-documents/{id}/download-all', [ProjectDocumentController::class, 'downloadAllPdfs'])->name('project-documents.downloadAllPdfs');
 
