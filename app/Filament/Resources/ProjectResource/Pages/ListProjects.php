@@ -40,8 +40,11 @@ class ListProjects extends ListRecords
             ->badge(Project::query()->where('project_status', 'Completed')->count())
             ->badgeColor('success'),
             'Archived' => Tab::make()
+            ->badge(Project::query()->onlyTrashed()->count())
+            ->modifyQueryUsing(function($query){
+                $query->onlyTrashed();
+            })
             ->badgeColor('warning'),
-
         ];
 
     }

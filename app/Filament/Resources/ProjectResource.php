@@ -15,7 +15,9 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\TablesServiceProvider;
+
 
 class ProjectResource extends Resource
 {
@@ -30,6 +32,7 @@ class ProjectResource extends Resource
     protected static ?string $navigationGroup = 'PROJECT MANAGEMENT';
 
     public static ?string $recordTitleAttribute = 'project_title';
+
 
     public static function getNavigationBadge(): ?string
     {
@@ -66,6 +69,7 @@ class ProjectResource extends Resource
                         return auth()->user()->name;
                     }),
                 TextInput::make('project_date')
+                    ->readOnly()
                     ->required()
                     ->label('Project Date')
                     ->default(now()->format('Y-m-d'))
@@ -98,9 +102,9 @@ class ProjectResource extends Resource
                         'numeric',
                         'gt:0.00',
                         fn ($get) => function (string $attribute, $value, $fail) use ($get) {
-                            if ($get('project_type') === 'Major Project' && (!isset($value) || $value <= 1000000.00)) {
-                                $fail("The Project Cost must be greater than 1,000,000.00 for Major Project.");
-                            } elseif ($get('project_type') === 'Minor Project' && (!isset($value) || $value >= 1000000.00)) {
+                            if ($get('project_type') === 'Major Project' && (!isset($value) || $value <= 999999.00)) {
+                                $fail("The Project Cost must be 1,000,000.00 and above for Major Project.");
+                            } elseif ($get('project_type') === 'Minor Project' && (!isset($value) || $value > 1000000.00)) {
                                 $fail("The Project Cost must be less than 1,000,000.00 for Minor Project.");
                             }
                         },
@@ -151,9 +155,10 @@ class ProjectResource extends Resource
                     ->label('Last Updated')
                     ->dateTime()
                     ->sortable(),
+
             ])
             ->filters([
-                //
+                TrashedFilter::make(),
             ])
             ->actions([
                 Tables\Actions\ActionGroup::make([
@@ -175,7 +180,7 @@ class ProjectResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make(), //For Archiving
                 ]),
             ])
             ->emptyStateActions([
@@ -198,4 +203,11 @@ class ProjectResource extends Resource
             'edit' => Pages\EditProject::route('/{record}/edit'),
         ];
     }
+    public static function getEloquentQuery(): Builder
+{
+    return parent::getEloquentQuery()
+        ->withoutGlobalScopes([
+            SoftDeletingScope::class,
+        ]);
+}
 }
