@@ -14,14 +14,10 @@ use Filament\Tables\Columns\TextColumn;
 use App\Models\Project;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Section;
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
 use Illuminate\Support\Carbon;
 
-class ProjectDocumentResource extends Resource implements HasMedia
+class ProjectDocumentResource extends Resource
 {
-
-    use InteractsWithMedia;
 
     protected static ?string $model = ProjectDocument::class;
 
