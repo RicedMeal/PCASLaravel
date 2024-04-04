@@ -2,7 +2,10 @@
 
 namespace App\Filament\Widgets;
 
+use App\Models\Project;
 use Filament\Widgets\ChartWidget;
+use Flowframe\Trend\Trend;
+use Flowframe\Trend\TrendValue;
 
 class ProjectsChartWidget extends ChartWidget
 {
@@ -14,17 +17,22 @@ class ProjectsChartWidget extends ChartWidget
 
     protected function getData(): array
     {
+        $data = Trend::model(Project::class)
+            ->between(
+                start: now()->startOfYear(),
+                end: now()->endOfYear(),
+            )
+            ->perMonth()
+            ->count();
+     
         return [
             'datasets' => [
                 [
-                    'label' => 'Projects',
-                    'data' => [0, 10, 5, 2, 21, 30],
-                    'backgroundColor' => '#2D349A',
-                    'borderColor' => '#9BD0F5',
+                    'label' => 'Projects per Month',
+                    'data' => $data->map(fn (TrendValue $value) => $value->aggregate),
                 ],
-                
             ],
-            'labels' => ['1st Quarter', '2nd Quarter', '3rd Quarter', '4th Quarter'],
+            'labels' => $data->map(fn (TrendValue $value) => $value->date),
         ];
     }
 
