@@ -69,11 +69,12 @@ class MaterialCostEstimatesResource extends Resource
                                 TextInput::make('item_no')
                                     ->label('Item No.')
                                     ->required()
+                                    ->unique()
                                     ->type('number')
                                     ->columnSpan(1)
                                     ->rules(['gt:0'])
                                     ->hint('Current Item No: ' . MaterialCostEstimatesItems::max('item_no') + 1)
-                                    ->placeholder('Enter Item No'),
+                                    ->placeholder('Item No. should be unique'),
                                 TextInput::make('description')
                                     ->label('Description')
                                     ->required()
@@ -161,16 +162,16 @@ class MaterialCostEstimatesResource extends Resource
                     ->label('Project ID')
                     ->searchable()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label('Date Created')
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('project.project_title')
                     ->label('Project Title')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('project.department')
                     ->label('Department/Office')
-                    ->searchable()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->label('Created')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('updated_at')

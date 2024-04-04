@@ -3,26 +3,18 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\MarketStudiesResource\Pages;
-use App\Filament\Resources\MarketStudiesResource\RelationManagers;
 use App\Models\MarketStudies;
 use App\Models\Market_Study_Links;
-use Filament\Forms;
 use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Models\Project;
-use Dompdf\FrameDecorator\Text;
-use Filament\Forms\Components\Field;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Repeater;
-use Filament\Tables\Columns\TextColumn as ColumnsTextColumn;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Columns\ViewColumn;
 
 class MarketStudiesResource extends Resource
 {
@@ -35,6 +27,7 @@ class MarketStudiesResource extends Resource
 
     protected static ?int $navigationSort = 5;
 
+    public static ?string $recordTitleAttribute = 'market_study_title';
 
     public static function form(Form $form): Form
     {
@@ -92,6 +85,10 @@ class MarketStudiesResource extends Resource
                     ->label('ID')
                     ->sortable()
                     ->searchable(),
+                TextColumn::make('created_at')
+                    ->label('Date Created')
+                    ->sortable()
+                    ->searchable(),     
                 TextColumn::make('market_study_title')
                     ->label('Market Study Title')
                     ->searchable()
@@ -103,14 +100,22 @@ class MarketStudiesResource extends Resource
                 TextColumn::make('market_study_links.market_study_url')
                     ->label('Market Study Links')
                     ->searchable()
+                    ->sortable(),
+                TextColumn::make('updated_at')
+                    ->label('Last Updated')
                     ->sortable()
+                    ->searchable(),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
+                Tables\Actions\ActionGroup::make([
+                Tables\Actions\ViewAction::make()
+                    ->color('primary'),
                 Tables\Actions\EditAction::make()
+                    ->color('primary'),
+                ]),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

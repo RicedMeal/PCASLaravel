@@ -102,9 +102,10 @@ class PurchaseRequestFormResource extends Resource
                                     ->type('number')
                                     ->columnSpan(1)
                                     ->required()
+                                    ->unique()
                                     ->rules(['gt:0', 'unique:purchase_request_items,item_no'])
                                     ->hint('Current Item No: ' . Purchase_Request_Items::max('item_no') + 1)
-                                    ->placeholder('Enter Item No'),
+                                    ->placeholder('Item No. should be unique'),
 
                                 Select::make('unit')
                                     ->label('Unit')
@@ -221,6 +222,10 @@ class PurchaseRequestFormResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('project_id')
                     ->label('Project ID')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label('Date Created')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('project.project_title')

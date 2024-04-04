@@ -45,7 +45,7 @@ class ProjectDocumentResource extends Resource implements HasMedia
     {
         return true;
     }
-
+    
     public static function form(Form $form): Form
 
     {
@@ -219,16 +219,16 @@ class ProjectDocumentResource extends Resource implements HasMedia
                     ->sortable()
                     ->toggleable()
                     ->label('Project ID'),
+                TextColumn::make('created_at')
+                    ->label('Date Created')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(),
                 TextColumn::make('project.project_title')
                     ->searchable()
                     ->sortable()
                     ->toggleable()
                     ->sortable(),
-                TextColumn::make('created_at')
-                    ->label('Created')
-                    ->searchable()
-                    ->sortable()
-                    ->toggleable(),
                 TextColumn::make('updated_at')
                     ->label('Last Updated')
                     ->searchable()
@@ -248,7 +248,7 @@ class ProjectDocumentResource extends Resource implements HasMedia
                     Tables\Actions\Action::make('Download All')
                         ->icon('heroicon-o-arrow-down-tray')
                         ->color('primary')
-                        ->label('Download All')
+                        ->label('Download all as ZIP')
                         ->url(fn($record) => route('project-documents.downloadAllPdfs', ['id' => $record->getKey()])),
                 ]),
 
