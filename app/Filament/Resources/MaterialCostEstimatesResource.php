@@ -15,6 +15,8 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Wizard;
+use Filament\Forms\Components\DatePicker;
+
 
 class MaterialCostEstimatesResource extends Resource
 {
@@ -53,6 +55,7 @@ class MaterialCostEstimatesResource extends Resource
                             TextInput::make('location')
                             ->label('Location')
                             ->required()
+                            ->rules(['string', 'max:100'])
                             ->placeholder('Enter Location'),
                         ]),
                     Wizard\Step::make('Add Material and Cost Estimates Items')
@@ -79,6 +82,7 @@ class MaterialCostEstimatesResource extends Resource
                                     ->label('Description')
                                     ->required()
                                     ->columnSpan(3)
+                                    ->rules(['string', 'max:255'])
                                     ->placeholder('Enter Description'),
                                 TextInput::make('quantity')
                                     ->label('Quantity')
@@ -86,7 +90,14 @@ class MaterialCostEstimatesResource extends Resource
                                     ->type('number')
                                     ->rules(['gt:0'])
                                     ->columnSpan(1)
-                                    ->placeholder('Enter Quantity'),
+                                    ->placeholder('Enter Quantity')
+                                    ->live()
+                                    ->afterStateUpdated(function ($get, $set, $old, $state) {
+                                        $quantity = (float) $state;
+                                        $unitCost = (float) $get('unit_cost');
+                                        $amount = number_format($quantity * $unitCost , 2, '.', '');
+                                        $set('amount', $amount);
+                                    }),
                                 Select::make('unit')
                                     ->label('Unit')
                                     ->required()
@@ -107,48 +118,69 @@ class MaterialCostEstimatesResource extends Resource
                                     ->label('Unit Cost')
                                     ->required()
                                     ->type('number')
-                                    ->step('0.01') 
                                     ->prefix('₱')
-                                    ->rules(['gt:0.00'])
                                     ->columnSpan(1)
-                                    ->placeholder('Enter Unit Cost'),
+                                    ->placeholder('Enter Unit Cost')
+                                    ->live()
+                                    ->afterStateUpdated(function ($get, $set, $old, $state) {
+                                        $quantity = (float) $get('quantity');
+                                        $unitCost = (float) $get('unit_cost');
+                                        $amount = number_format($quantity * $unitCost, 2, '.', '');
+                                        $set('amount', $amount);
+                                    }),
                                 TextInput::make('amount')
                                     ->label('Amount')
+                                    ->live()
                                     ->required()
                                     ->prefix('₱')
+                                    ->readOnly()
                                     ->type('number')
                                     ->step('0.01') 
                                     ->rules(['gt:0.00'])
-                                    ->columnSpan(1)
-                                    ->placeholder('Enter Amount'),
+                                    ->columnSpan(1),
                             ]),
                     ]),
                     Wizard\Step::make('Total Cost and Signatories')
                         ->schema([
                             TextInput::make('total')
-                            ->label('Total')
-                            ->required()
-                            ->type('number')
-                            ->step('0.01') 
-                            ->prefix('₱')
-                            ->rules(['gt:0.00'])
-                            ->placeholder('Enter Total'),
-                        TextInput::make('prepared_by')
-                            ->label('Prepared By:')
-                            ->required()
-                            ->placeholder('Enter Name'),
-                        TextInput::make('prepared_by_designation')
-                            ->label('Prepared By Designation:')
-                            ->required()
-                            ->placeholder('Enter Designation'),
-                        TextInput::make('checked_by')
-                            ->label('Checked By:')
-                            ->required()
-                            ->placeholder('Enter Name'),
-                        TextInput::make('checked_by_designation')
-                            ->label('Checked By Designation:')
-                            ->required()
-                            ->placeholder('Enter Designation')
+                                    ->label('Total')
+                                    ->required()
+                                    ->type('number')
+                                    ->step('0.01') 
+                                    ->prefix('₱')
+                                    ->rules(['gt:0.00'])
+                                    ->placeholder('Total Amount')
+                                    ->live()
+                                    ->afterStateUpdated(function ($get, $set, $old, $state) {
+                                        $total = 0;
+                                        $items = $get('material_cost_estimates_items');
+
+                                        foreach ($items as $item) {
+                                            $total += (float) str_replace('₱', '', $item['amount']);
+                                        }
+
+                                        $set('total', number_format($total, 2, '.', ''));
+                                    }),
+                            TextInput::make('prepared_by')
+                                ->label('Prepared By:')
+                                ->required()
+                                ->rules(['string', 'max:100'])
+                                ->placeholder('Enter Name'),
+                            TextInput::make('prepared_by_designation')
+                                ->label('Prepared By Designation:')
+                                ->required()
+                                ->rules(['string', 'max:100'])
+                                ->placeholder('Enter Designation'),
+                            TextInput::make('checked_by')
+                                ->label('Checked By:')
+                                ->required()
+                                ->rules(['string', 'max:100'])
+                                ->placeholder('Enter Name'),
+                            TextInput::make('checked_by_designation')
+                                ->label('Checked By Designation:')
+                                ->required()
+                                ->rules(['string', 'max:100'])
+                                ->placeholder('Enter Designation')
                     ]),
                 ])->columnSpanFull(),
             ]);

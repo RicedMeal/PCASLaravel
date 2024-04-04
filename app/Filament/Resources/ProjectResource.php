@@ -3,10 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ProjectResource\Pages;
-use App\Filament\Resources\ProjectResource\RelationManagers;
 use App\Models\Project;
-use Dompdf\FrameDecorator\Text;
-use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -16,10 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Filters\TrashedFilter;
 use Filament\Forms\Components\DatePicker;
-use Filament\Tables\TablesServiceProvider;
-use Illuminate\Support\Facades\Date;
 
 class ProjectResource extends Resource
 {
@@ -50,19 +44,20 @@ class ProjectResource extends Resource
                     ->required()
                     ->autofocus()
                     ->label('Project Title')
+                    ->rules(['string', 'max:100'])
                     ->placeholder('Enter Project Title'),
                 Select::make('department')
                     ->required()
                     ->default('PFMO')
                     ->options([
                         'PFMO' => 'PFMO',
-                        // Add more options as needed
                     ])
                     ->placeholder('Select Department/Office')
                     ->label('Department/Office'),
                 TextInput::make('project_description')
                     ->required()
                     ->label('Project Description')
+                    ->rules(['string', 'max:150'])
                     ->placeholder('Enter Project Description'),
                 TextInput::make('person_in_charge')
                     ->readonly()
@@ -140,6 +135,11 @@ class ProjectResource extends Resource
                     ->searchable()
                     ->sortable()
                     ->label('Project ID'),
+                TextColumn::make('created_at')
+                    ->searchable()
+                    ->label('Date Created')
+                    ->date()
+                    ->sortable(),
                 TextColumn::make('project_title')
                     ->searchable()
                     ->limit(30)
@@ -162,11 +162,6 @@ class ProjectResource extends Resource
                 TextColumn::make('department')
                     ->searchable()
                     ->label('Department')
-                    ->sortable(),
-                TextColumn::make('created_at')
-                    ->searchable()
-                    ->label('Date Created')
-                    ->date()
                     ->sortable(),
                 TextColumn::make('updated_at')
                     ->searchable()

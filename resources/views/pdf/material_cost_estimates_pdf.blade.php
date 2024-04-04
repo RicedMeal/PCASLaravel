@@ -64,7 +64,7 @@
     </div>
     <div class="footer">
         <div>
-            <p class="bold" style="margin-left: 550px">TOTAL: <u>Php {{ $materialCostEstimates->total }}</u></p>
+            <p class="bold" style="margin-left: 520px">TOTAL: <u>Php {{ $materialCostEstimates->total }}</u></p>
         </div>
         <p></p>
         <p></p>

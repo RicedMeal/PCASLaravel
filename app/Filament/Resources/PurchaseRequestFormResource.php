@@ -13,7 +13,6 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Repeater;
-use Filament\Forms\Components\Fieldset;
 use App\Models\Purchase_Request_Items;
 use Filament\Forms\Components\Wizard;
 
@@ -126,6 +125,7 @@ class PurchaseRequestFormResource extends Resource
                                 TextInput::make('item_description')
                                     ->label('Item Description')
                                     ->required()
+                                    ->rules(['string', 'max:150'])
                                     ->placeholder('Enter Item Description')
                                     ->columnSpan(2),
                                 TextInput::make('quantity')
@@ -137,27 +137,43 @@ class PurchaseRequestFormResource extends Resource
                                     ->rules(['gt:0'])
                                     ->required()
                                     ->columnSpan(1)
-                                    ->placeholder('Enter Quantity'),
+                                    ->placeholder('Enter Quantity')
+                                    ->live()
+                                    ->afterStateUpdated(function ($get, $set, $old, $state) {
+                                        $quantity = (float) $state;
+                                        $estimateUnitCost = (float) $get('estimate_unit_cost');
+                                        $estimateCost = number_format($quantity * $estimateUnitCost , 2, '.', '');
+                                        $set('estimate_cost', $estimateCost);
+                                    }),
 
                                 TextInput::make('estimate_unit_cost')
-                                    ->label('Estimate Unit Cost')
-                                    ->type('number') //use text type for decimal numbers
-                                    ->step('0.01') //specify the precision of the decimal
+                                    ->label('Estimated Unit Cost')
+                                    ->type('number')
+                                    ->step('0.01') 
                                     ->required()
                                     ->rules(['gt:0.00'])
                                     ->prefix('₱')
                                     ->columnSpan(1)
-                                    ->placeholder('Enter Estimate Unit Cost'),
-                                
+                                    ->placeholder('Enter Estimated Unit Cost')
+                                    ->live()
+                                    ->afterStateUpdated(function ($get, $set, $old, $state) {
+                                        $quantity = (float) $get('quantity');
+                                        $estimateUnitCost = (float) $get('estimate_unit_cost');
+                                        $estimateCost = number_format($quantity * $estimateUnitCost, 2, '.', '');
+                                        $set('estimate_cost', $estimateCost);
+                                    }),
+  
                                 TextInput::make('estimate_cost')
-                                    ->label('Estimate Cost')
+                                    ->label('Estimated Cost')
                                     ->required()
                                     ->prefix('₱')
                                     ->rules(['gt:0.00'])
                                     ->columnSpan(2)
                                     ->type('number') 
                                     ->step('0.01') 
-                                    ->placeholder('Enter Estimate Cost')
+                                    ->live()
+                                    ->readOnly()
+                                    ->placeholder('Enter Estimated Cost')
                                     ->extraAttributes([
                                         'min' => 0,
                                         'max' => 9999999999999999.99,
@@ -175,6 +191,17 @@ class PurchaseRequestFormResource extends Resource
                                 ->step('0.01') 
                                 ->prefix('₱')
                                 ->required()
+                                ->live()
+                                ->afterStateUpdated(function ($get, $set, $old, $state) {
+                                        $total = 0;
+                                        $items = $get('purchase_request_items');
+
+                                        foreach ($items as $item) {
+                                            $total += (float) str_replace('₱', '', $item['estimate_cost']);
+                                        }
+
+                                        $set('total', number_format($total, 2, '.', ''));
+                                    })
                                 ->placeholder('Enter Total')
                                 ->extraAttributes([
                                     'min' => 0,
@@ -185,11 +212,13 @@ class PurchaseRequestFormResource extends Resource
                                 ->label('Delivery Duration')
                                 ->required()
                                 ->columnSpan(2)
+                                ->rules(['string', 'max:50'])
                                 ->placeholder('Enter Delivery Duration'),
                             TextInput::make('purpose')
                                 ->label('Purpose')
                                 ->required()
                                 ->columnSpan(2)
+                                ->rules(['string', 'max:150'])
                                 ->placeholder('Enter Purpose'),
                     ]),
                     Wizard\Step::make('Signatories')
@@ -197,19 +226,22 @@ class PurchaseRequestFormResource extends Resource
                             TextInput::make('recommended_by_name')
                                 ->label('Recommended By Name')
                                 ->required()
+                                ->rules(['string', 'max:100'])
                                 ->placeholder('Enter Recommended By Name'),
                             TextInput::make('recommended_by_designation')
                                 ->label('Recommended By Designation')
                                 ->required()
+                                ->rules(['string', 'max:100'])
                                 ->placeholder('Enter Recommended By Designation'),
                             TextInput::make('approved_by_name') 
                                 ->label('Approved By Name')
                                 ->required()
+                                ->rules(['string', 'max:100'])
                                 ->placeholder('Enter Approved By Name'),
-
                             TextInput::make('approved_by_designation')
                                 ->label('Approved By Designation')
                                 ->required()
+                                ->rules(['string', 'max:100'])
                                 ->placeholder('Enter Approved By Designation'),
                         ]),
                 ])->columnSpanFull(),
@@ -227,6 +259,7 @@ class PurchaseRequestFormResource extends Resource
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Date Created')
                     ->searchable()
+                    ->date()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('project.project_title')
                     ->label('Project Title')
@@ -243,6 +276,7 @@ class PurchaseRequestFormResource extends Resource
                 Tables\Columns\TextColumn::make('updated_at')
                     ->label('Last Updated')
                     ->searchable()
+                    ->dateTime()
                     ->sortable(),
 
             ])

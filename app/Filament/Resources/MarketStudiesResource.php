@@ -15,6 +15,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Repeater;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\DatePicker;
 
 class MarketStudiesResource extends Resource
 {
@@ -49,6 +50,7 @@ class MarketStudiesResource extends Resource
                     ->label('Market Study Title')
                     ->columnSpan(1)
                     ->required()
+                    ->rules(['string', 'max:150'])
                     ->placeholder('Enter Market Study Title')
                 ]),
                 Fieldset::make()
@@ -60,12 +62,14 @@ class MarketStudiesResource extends Resource
                         ->addActionLabel('Add Market Study Link')
                         ->reorderableWithButtons()
                         ->collapsible()
+                        ->rules(['string', 'max:50'])
                         ->itemLabel(fn (array $state): ?string => $state['market_study_url'] ?? null)
                         ->schema([
                             TextInput::make('market_study_url')
                             ->label('Market Study URL')
                             ->required()
                             ->columnSpan(2)
+                            ->rules(['string', 'max:100'])
                             ->placeholder('Enter Market Study URL'),
                             TextInput::make('market_study_url_description')
                             ->label('Market Study URL Description')
@@ -88,6 +92,7 @@ class MarketStudiesResource extends Resource
                 TextColumn::make('created_at')
                     ->label('Date Created')
                     ->sortable()
+                    ->date()
                     ->searchable(),     
                 TextColumn::make('market_study_title')
                     ->label('Market Study Title')
@@ -104,6 +109,7 @@ class MarketStudiesResource extends Resource
                 TextColumn::make('updated_at')
                     ->label('Last Updated')
                     ->sortable()
+                    ->dateTime()
                     ->searchable(),
             ])
             ->filters([

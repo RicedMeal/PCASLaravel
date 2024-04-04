@@ -14,7 +14,8 @@ use Filament\Tables\Columns\TextColumn;
 use App\Models\Project;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Section;
-use Illuminate\Support\Carbon;
+use Filament\Forms\Components\DatePicker;
+
 
 class ProjectDocumentResource extends Resource
 {
@@ -219,6 +220,7 @@ class ProjectDocumentResource extends Resource
                     ->label('Date Created')
                     ->searchable()
                     ->sortable()
+                    ->date()
                     ->toggleable(),
                 TextColumn::make('project.project_title')
                     ->searchable()
@@ -229,6 +231,7 @@ class ProjectDocumentResource extends Resource
                     ->label('Last Updated')
                     ->searchable()
                     ->sortable()
+                    ->dateTime()
                     ->toggleable()
             ])
             ->filters([
