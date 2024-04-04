@@ -12,4 +12,6 @@ class BudgetDocumentsERP extends Page
 
     protected static ?string $title = 'Budget Office Documents';
 
+    protected static ?string $navigationGroup = 'OTHER DOCUMENTS';
+
 }

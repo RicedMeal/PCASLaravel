@@ -12,5 +12,7 @@ class ProcurementDocumentsERP extends Page
 
     protected static ?string $title = 'Procurement Office Documents';
 
+    protected static ?string $navigationGroup = 'OTHER DOCUMENTS';
+
 
 }

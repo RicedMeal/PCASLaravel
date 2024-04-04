@@ -30,7 +30,6 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
-            ->registration()
             ->passwordReset()
             ->emailVerification()
             ->colors([
@@ -47,6 +46,12 @@ class AdminPanelProvider extends PanelProvider
                 Pages\Dashboard::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
+            ->navigationGroups([
+                'PROJECT MANAGEMENT',
+                'OTHER DOCUMENTS',
+                'VENDOR MANAGEMENT',
+                'SUPPLY INVENTORY',
+            ])
             ->widgets([
                 //Widgets\AccountWidget::class,
                             ])
