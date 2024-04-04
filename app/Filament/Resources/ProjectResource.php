@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ProjectResource\Pages;
 use App\Filament\Resources\ProjectResource\RelationManagers;
 use App\Models\Project;
+use Dompdf\FrameDecorator\Text;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -16,8 +17,9 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
+use Filament\Forms\Components\DatePicker;
 use Filament\Tables\TablesServiceProvider;
-
+use Illuminate\Support\Facades\Date;
 
 class ProjectResource extends Resource
 {
@@ -71,12 +73,24 @@ class ProjectResource extends Resource
                 TextInput::make('project_date')
                     ->readOnly()
                     ->required()
-                    ->label('Project Date')
-                    ->default(now()->format('Y-m-d'))
-                    ->placeholder('Enter Project Date (YYYY-MM-DD)')
-                    ->rules('date_format:Y-m-d'),
+                    ->label('Project Start')
+                    ->default(now()->format('d/m/Y'))
+                    ->rules('date_format:d-m-Y'),
+                DatePicker::make('project_end')
+                    ->label('Project End')
+                    ->displayFormat('Y/m/d'),
+                Select::make('quarter')
+                    ->required()
+                    ->label('Quarter')
+                    ->placeholder('Select Quarter for Project Implementation')
+                    ->options([
+                        'Q1' => 'Q1',
+                        'Q2' => 'Q2',
+                        'Q3' => 'Q3',
+                        'Q4' => 'Q4',
+                    ]),
                 Select::make('project_status')
-                    ->required()   
+                    ->required()
                     ->options([
                         'Ongoing' => 'Ongoing',
                         'Urgent' => 'Urgent',
@@ -109,7 +123,6 @@ class ProjectResource extends Resource
                             }
                         },
                     ]),
-
 
             ]);
     }
