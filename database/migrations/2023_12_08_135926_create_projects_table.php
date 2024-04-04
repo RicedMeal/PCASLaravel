@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('project_description')->index();
             $table->string('person_in_charge')->index();
             $table->date('project_date')->index();
-            $table->string('project_type')->nullable()->index(); // BVP or SVP
+            $table->string('project_type')->nullable()->index(); 
             $table->double('project_cost')->nullable()->index();
             $table->string('project_status')->index();
 
