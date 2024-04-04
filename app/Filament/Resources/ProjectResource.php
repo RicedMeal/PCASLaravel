@@ -29,6 +29,8 @@ class ProjectResource extends Resource
 
     protected static ?string $navigationGroup = 'PROJECT MANAGEMENT';
 
+    public static ?string $recordTitleAttribute = 'project_title';
+
     public static function getNavigationBadge(): ?string
     {
         return static::getModel()::count();
@@ -117,6 +119,10 @@ class ProjectResource extends Resource
                     ->searchable()
                     ->sortable()
                     ->label('Project ID'),
+                TextColumn::make('created_at')
+                    ->searchable()
+                    ->label('Date Created')
+                    ->sortable(),
                 TextColumn::make('project_title')
                     ->searchable()
                     ->sortable()
@@ -124,14 +130,6 @@ class ProjectResource extends Resource
                 TextColumn::make('department')
                     ->searchable()
                     ->label('Department/Office')
-                    ->sortable(),
-                TextColumn::make('person_in_charge')
-                    ->searchable()
-                    ->label('Person in Charge')
-                    ->sortable(),
-                TextColumn::make('updated_at')
-                    ->searchable()
-                    ->label('Last Updated')
                     ->sortable(),
                 TextColumn::make('project_status')
                     ->searchable()
@@ -141,19 +139,30 @@ class ProjectResource extends Resource
                     ->searchable()
                     ->label('Project Type')
                     ->sortable(),
+                TextColumn::make('updated_at')
+                    ->searchable()
+                    ->label('Last Updated')
+                    ->sortable(),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\ActionGroup::make([
+                Tables\Actions\ViewAction::make()
+                    ->label('View Project')
+                    ->color('primary'),
+                Tables\Actions\EditAction::make()
+                    ->label('Edit Project')
+                    ->color('primary'),
                 //Tables\Actions\DeleteAction::make(),
                 Tables\Actions\Action::make('Download')
                     ->icon('heroicon-o-arrow-down-tray')
                     ->url(fn(Project $record) => route('projects.pdf', $record))
-                    ->openUrlInNewTab(),
-                    
+                    ->openUrlInNewTab()
+                    ->color('primary')
+                    ->label('Download Project'),
+                ]),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
