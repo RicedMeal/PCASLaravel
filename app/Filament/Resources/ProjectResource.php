@@ -23,7 +23,7 @@ class ProjectResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-plus-circle';
 
-    protected static ?string $label = 'Create Project';
+    protected static ?string $label = 'Projects';
 
     protected static ?int $navigationSort = 1;
 
@@ -77,7 +77,6 @@ class ProjectResource extends Resource
                         'Ongoing' => 'Ongoing',
                         'Urgent' => 'Urgent',
                         'Completed' => 'Completed',
-                        'Cancelled' => 'Cancelled',
                     ])
                     ->placeholder('Select Status')
                     ->label('Project Status'),
@@ -122,26 +121,35 @@ class ProjectResource extends Resource
                 TextColumn::make('created_at')
                     ->searchable()
                     ->label('Date Created')
+                    ->date()
                     ->sortable(),
                 TextColumn::make('project_title')
                     ->searchable()
+                    ->limit(30)
                     ->sortable()
                     ->label('Project Title'),
-                TextColumn::make('department')
-                    ->searchable()
-                    ->label('Department/Office')
-                    ->sortable(),
-                TextColumn::make('project_status')
-                    ->searchable()
-                    ->label('Project Status') 
-                    ->sortable(),
                 TextColumn::make('project_type')
                     ->searchable()
                     ->label('Project Type')
                     ->sortable(),
+                TextColumn::make('project_cost')
+                    ->searchable()
+                    ->prefix('₱')
+                    ->label('Project Cost')
+                    ->color('success')
+                    ->sortable(),
+                TextColumn::make('project_status')
+                    ->searchable()
+                    ->label('Project Status')
+                    ->sortable(),
+                TextColumn::make('department')
+                    ->searchable()
+                    ->label('Department')
+                    ->sortable(),
                 TextColumn::make('updated_at')
                     ->searchable()
                     ->label('Last Updated')
+                    ->dateTime()
                     ->sortable(),
             ])
             ->filters([
@@ -155,13 +163,14 @@ class ProjectResource extends Resource
                 Tables\Actions\EditAction::make()
                     ->label('Edit Project')
                     ->color('primary'),
-                //Tables\Actions\DeleteAction::make(),
                 Tables\Actions\Action::make('Download')
                     ->icon('heroicon-o-arrow-down-tray')
                     ->url(fn(Project $record) => route('projects.pdf', $record))
                     ->openUrlInNewTab()
                     ->color('primary')
                     ->label('Download Project'),
+                Tables\Actions\DeleteAction::make(), //For Archiving
+                Tables\Actions\RestoreAction::make(),
                 ]),
             ])
             ->bulkActions([
