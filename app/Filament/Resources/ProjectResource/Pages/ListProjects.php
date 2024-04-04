@@ -24,20 +24,20 @@ class ListProjects extends ListRecords
             'All' => Tab::make(),
             'Ongoing' => Tab::make()
             ->modifyQueryUsing(function($query){
-                $query->where('project_status', 'Ongoing');
+                $query->where('project_status', 'Ongoing')->whereNull('deleted_at');
             })
-            ->badge(Project::query()->where('project_status', 'Ongoing')->count())
+            ->badge(Project::query()->where('project_status', 'Ongoing')->whereNull('deleted_at')->count())
             ->badgeColor('primary'),
             'Urgent' => Tab::make()
             ->modifyQueryUsing(function($query){
-                $query->where('project_status', 'Urgent');
+                $query->where('project_status', 'Urgent')->whereNull('deleted_at');
             })
-            ->badge(Project::query()->where('project_status', 'Urgent')->count())
+            ->badge(Project::query()->where('project_status', 'Urgent')->whereNull('deleted_at')->count())
             ->badgeColor('danger'),
             'Completed' => Tab::make()->modifyQueryUsing(function($query){
-                $query->where('project_status', 'Completed');
+                $query->where('project_status', 'Completed')->whereNull('deleted_at');
             })
-            ->badge(Project::query()->where('project_status', 'Completed')->count())
+            ->badge(Project::query()->where('project_status', 'Completed')->whereNull('deleted_at')->count())
             ->badgeColor('success'),
             'Archived' => Tab::make()
             ->badge(Project::query()->onlyTrashed()->count())

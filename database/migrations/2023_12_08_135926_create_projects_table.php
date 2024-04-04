@@ -21,7 +21,6 @@ return new class extends Migration
             $table->string('project_type')->nullable()->index(); 
             $table->double('project_cost')->nullable()->index();
             $table->string('project_status')->index();
-
             $table->timestamps();
         });
     }

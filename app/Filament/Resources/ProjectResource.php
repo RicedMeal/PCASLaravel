@@ -53,9 +53,9 @@ class ProjectResource extends Resource
                     ->placeholder('Enter Project Title'),
                 Select::make('department')
                     ->required()
+                    ->default('PFMO')
                     ->options([
                         'PFMO' => 'PFMO',
-                        'PSO' => 'PSO',
                         // Add more options as needed
                     ])
                     ->placeholder('Select Department/Office')
@@ -70,25 +70,30 @@ class ProjectResource extends Resource
                     ->default(function () {
                         return auth()->user()->name;
                     }),
-                TextInput::make('project_date')
-                    ->readOnly()
-                    ->required()
-                    ->label('Project Start')
-                    ->default(now()->format('d/m/Y'))
-                    ->rules('date_format:d-m-Y'),
-                DatePicker::make('project_end')
-                    ->label('Project End')
-                    ->displayFormat('Y/m/d'),
                 Select::make('quarter')
+                    ->placeholder('Select Quarter to Implement Project')
                     ->required()
                     ->label('Quarter')
-                    ->placeholder('Select Quarter for Project Implementation')
                     ->options([
                         'Q1' => 'Q1',
                         'Q2' => 'Q2',
                         'Q3' => 'Q3',
                         'Q4' => 'Q4',
+                        'Q1-Q2' => 'Q1-Q2',
+                        'Q1-Q3' => 'Q1-Q3',
+                        'Q1-Q4' => 'Q1-Q4',
+                        'Q2-Q3' => 'Q2-Q3',
+                        'Q2-Q4' => 'Q2-Q4',
+                        'Q3-Q4' => 'Q3-Q4',
                     ]),
+                DatePicker::make('project_end')
+                    ->label('Project End')
+                    ->required()
+                    ->displayFormat('Y/m/d'),
+                DatePicker::make('project_end')
+                    ->label('Project End')
+                    ->required()
+                    ->displayFormat('Y/m/d'),
                 Select::make('project_status')
                     ->required()
                     ->options([
@@ -118,7 +123,7 @@ class ProjectResource extends Resource
                         fn ($get) => function (string $attribute, $value, $fail) use ($get) {
                             if ($get('project_type') === 'Major Project' && (!isset($value) || $value <= 999999.00)) {
                                 $fail("The Project Cost must be 1,000,000.00 and above for Major Project.");
-                            } elseif ($get('project_type') === 'Minor Project' && (!isset($value) || $value > 1000000.00)) {
+                            } elseif ($get('project_type') === 'Minor Project' && (!isset($value) || $value >= 1000000.00)) {
                                 $fail("The Project Cost must be less than 1,000,000.00 for Minor Project.");
                             }
                         },
@@ -135,11 +140,6 @@ class ProjectResource extends Resource
                     ->searchable()
                     ->sortable()
                     ->label('Project ID'),
-                TextColumn::make('created_at')
-                    ->searchable()
-                    ->label('Date Created')
-                    ->date()
-                    ->sortable(),
                 TextColumn::make('project_title')
                     ->searchable()
                     ->limit(30)
@@ -163,6 +163,11 @@ class ProjectResource extends Resource
                     ->searchable()
                     ->label('Department')
                     ->sortable(),
+                TextColumn::make('created_at')
+                    ->searchable()
+                    ->label('Date Created')
+                    ->date()
+                    ->sortable(),
                 TextColumn::make('updated_at')
                     ->searchable()
                     ->label('Last Updated')
@@ -171,7 +176,6 @@ class ProjectResource extends Resource
 
             ])
             ->filters([
-                TrashedFilter::make(),
             ])
             ->actions([
                 Tables\Actions\ActionGroup::make([
@@ -193,7 +197,10 @@ class ProjectResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(), //For Archiving
+                    Tables\Actions\DeleteBulkAction::make()
+                        ->visible(fn(Project $record) => $record->trashed() === true),
+                    Tables\Actions\RestoreBulkAction::make()
+                        ->visible(fn(Project $record) => $record->trashed() === false),
                 ]),
             ])
             ->emptyStateActions([
