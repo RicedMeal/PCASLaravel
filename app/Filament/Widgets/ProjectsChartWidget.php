@@ -9,7 +9,7 @@ use Flowframe\Trend\TrendValue;
 
 class ProjectsChartWidget extends ChartWidget
 {
-    protected static ?string $heading = 'Projects Chart (Quarterly)';
+    protected static ?string $heading = 'Projects Chart (Monthly)';
 
     protected static ?string $maxHeight = '500px';
 
@@ -43,6 +43,6 @@ class ProjectsChartWidget extends ChartWidget
 
     public function getDescription(): ?string
     {
-    return 'This chart shows the number of projects per quarter.';
+    return 'This chart shows the number of projects per month.';
     }
 }
