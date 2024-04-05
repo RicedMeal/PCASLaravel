@@ -14,5 +14,5 @@ class InventoryERP extends Page
 
     protected static ?string $navigationGroup = 'SUPPLY INVENTORY';
 
-    protected static ?int $navigationSort = 4;
+    protected static ?int $navigationSort = 5;
 }

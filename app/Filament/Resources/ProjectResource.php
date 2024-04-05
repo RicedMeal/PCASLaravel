@@ -180,12 +180,12 @@ class ProjectResource extends Resource
                 Tables\Actions\EditAction::make()
                     ->label('Edit Project')
                     ->color('primary'),
-                Tables\Actions\Action::make('Download')
-                    ->icon('heroicon-o-arrow-down-tray')
-                    ->url(fn(Project $record) => route('projects.pdf', $record))
-                    ->openUrlInNewTab()
-                    ->color('primary')
-                    ->label('Download Project'),
+                //Tables\Actions\Action::make('Download')
+                //    ->icon('heroicon-o-arrow-down-tray')
+                //    ->url(fn(Project $record) => route('projects.pdf', $record))
+                //    ->openUrlInNewTab()
+                //    ->color('primary')
+                //    ->label('Download Project'),
                 Tables\Actions\DeleteAction::make(), //For Archiving
                 Tables\Actions\RestoreAction::make(),
                 ]),
@@ -193,7 +193,7 @@ class ProjectResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make()
-                        ->visible(fn(Project $record) => $record->trashed() === true),
+                        ->visible(fn(Project $record) => $record->trashed() === false),
                     Tables\Actions\RestoreBulkAction::make()
                         ->visible(fn(Project $record) => $record->trashed() === false),
                 ]),
