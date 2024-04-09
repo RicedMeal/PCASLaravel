@@ -56,6 +56,7 @@ class ProjectResource extends Resource
                     ->label('Department/Office'),
                 TextInput::make('project_description')
                     ->required()
+                    ->columnSpan(2)
                     ->label('Project Description')
                     ->rules(['string', 'max:150'])
                     ->placeholder('Enter Project Description'),
@@ -81,8 +82,8 @@ class ProjectResource extends Resource
                         'Q2-Q4' => 'Q2-Q4',
                         'Q3-Q4' => 'Q3-Q4',
                     ]),
-                DatePicker::make('project_end')
-                    ->label('Project End')
+                DatePicker::make('project_start')
+                    ->label('Project Start')
                     ->required()
                     ->displayFormat('Y/m/d'),
                 DatePicker::make('project_end')
@@ -95,23 +96,39 @@ class ProjectResource extends Resource
                         'Ongoing' => 'Ongoing',
                         'Urgent' => 'Urgent',
                         'Completed' => 'Completed',
+                        'Pending' => 'Pending',
                     ])
                     ->placeholder('Select Status')
                     ->label('Project Status'),
                 Select::make('project_type')
                     ->required()
                     ->options([
-                        'Pending' => 'Pending',
                         'Major Project' => 'Major Project',
                         'Minor Project' => 'Minor Project',
                     ])
                     ->placeholder('Select Project Type')
                     ->label('Project Type'),
                 TextInput::make('project_cost')
-                    ->label('Project Cost')
-                    ->placeholder('Enter Project Cost')
+                    ->label('Estimated Project Cost')
+                    ->placeholder('Enter Estimated Project Cost')
                     ->prefix('₱')
-                    ->requiredUnless('project_type', 'Pending')
+                    //->requiredUnless('project_type', 'Pending')
+                    ->rules([
+                        'numeric',
+                        'gt:0.00',
+                        fn ($get) => function (string $attribute, $value, $fail) use ($get) {
+                            if ($get('project_type') === 'Major Project' && (!isset($value) || $value <= 999999.00)) {
+                                $fail("The Project Cost must be 1,000,000.00 and above for Major Project.");
+                            } elseif ($get('project_type') === 'Minor Project' && (!isset($value) || $value >= 1000000.00)) {
+                                $fail("The Project Cost must be less than 1,000,000.00 for Minor Project.");
+                            }
+                        },
+                    ]),
+                TextInput::make('actual_project_cost')
+                    ->label('Actual Project Cost')
+                    ->placeholder('Enter Actual Project Cost')
+                    ->prefix('₱')
+                    //->requiredUnless('project_type', 'Pending')
                     ->rules([
                         'numeric',
                         'gt:0.00',
