@@ -124,10 +124,28 @@ class ProjectResource extends Resource
                         },
                     ]),
 
+                TextInput::make('placeholderField') #placeholders for project costings
+                    ->label('Alloted Budget Cost') #FORM BUILDER NALANG MATITIRA
+                    ->placeholder('This will come from Annual Procurement Plan and will be manually inputted by the user') #Need may user input
+                    ->disabled(true),
+                TextInput::make('placeholderField') #placeholders for project costings
+                    ->label('Estimated Budget Cost') #Pwedeng tanggalin from form builder to table builder
+                    ->placeholder('This will come from End-User (PFMO) and will be is reflected via Materials and Cost Estimates') #Mag rereflect sa Materials and Cost Estimates
+                    ->disabled(true), 
+                TextInput::make('placeholderField') #placeholders for project costings
+                    ->label('Actual Cost') #Pwedeng tanggalin from form builder to table builder
+                    ->placeholder('This will come from Abstract of Canvass (From Procurement Office)')
+                    ->disabled(true),
+                TextInput::make('placeholderField') #placeholders for project costings
+                    ->label('Cost Variance')
+                    ->placeholder('Alloted Cost - Actual Cost') #Pwedeng tanggalin from form builder to table builder
+                    ->disabled(true),
+
             ]);
     }
 
     public static function table(Table $table): Table
+    //This will come from Abstract of Canvass (From Procurement Office) Actual Cost
     {
         return $table
             ->columns([
@@ -135,10 +153,29 @@ class ProjectResource extends Resource
                     ->searchable()
                     ->sortable()
                     ->label('Project ID'),
-                TextColumn::make('created_at')
+                TextColumn::make('project_cost')
                     ->searchable()
-                    ->label('Date Created')
-                    ->date()
+                    ->prefix('₱')
+                    ->label('Project Cost')
+                    ->color('success')
+                    ->sortable(),
+                TextColumn::make('material_cost_estimates.total') //This will come from End-User (PFMO) and will be is reflected via Materials and Cost Estimates | Mag rereflect sa Materials and Cost Estimates - Estima
+                    ->searchable()
+                    ->prefix('₱')
+                    ->color('gray')
+                    ->label('Estimated Budget Cost') 
+                    ->sortable(),
+                TextColumn::make('placeholderField1')
+                    ->searchable()
+                    ->prefix('₱')
+                    ->color('primary')
+                    ->label('Actual Cost')  //This will come from Abstract of Canvass (From Procurement Office) Actual Cost
+                    ->sortable(),
+                TextColumn::make('placeholderField3')
+                    ->searchable()
+                    ->prefix('₱')
+                    ->color('red')
+                    ->label('Cost Variance') //Alloted Cost - Actual Cost
                     ->sortable(),
                 TextColumn::make('project_title')
                     ->searchable()
@@ -148,12 +185,6 @@ class ProjectResource extends Resource
                 TextColumn::make('project_type')
                     ->searchable()
                     ->label('Project Type')
-                    ->sortable(),
-                TextColumn::make('project_cost')
-                    ->searchable()
-                    ->prefix('₱')
-                    ->label('Project Cost')
-                    ->color('success')
                     ->sortable(),
                 TextColumn::make('project_status')
                     ->searchable()
@@ -168,6 +199,12 @@ class ProjectResource extends Resource
                     ->label('Last Updated')
                     ->dateTime()
                     ->sortable(),
+                TextColumn::make('created_at')
+                    ->searchable()
+                    ->label('Date Created')
+                    ->date()
+                    ->sortable(),
+                
 
             ])
             ->filters([
