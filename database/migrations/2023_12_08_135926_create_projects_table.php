@@ -17,9 +17,12 @@ return new class extends Migration
             $table->string('department')->index();
             $table->string('project_description')->index();
             $table->string('person_in_charge')->index();
-            $table->date('project_date')->index();
+            $table->string('quarter')->index();
+            $table->date('project_start')->index();
+            $table->date('project_end')->index();
             $table->string('project_type')->nullable()->index(); 
-            $table->double('project_cost')->nullable()->index();
+            $table->double('estimated_project_cost')->nullable()->index();
+            $table->double('actual_project_cost')->nullable()->index();
             $table->string('project_status')->index();
             $table->timestamps();
         });
