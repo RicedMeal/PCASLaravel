@@ -20,13 +20,12 @@ class Project extends Model
         'department',
         'project_description',
         'person_in_charge',
+        'quarter',
         'project_start',
         'project_end',
         'project_type',
+        'alloted_project_cost',
         'project_status',
-        'quarter',
-        'estimated_project_cost',
-        'actual_project_cost',
     ];
 
 

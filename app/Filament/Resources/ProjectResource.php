@@ -108,23 +108,13 @@ class ProjectResource extends Resource
                     ])
                     ->placeholder('Select Project Type')
                     ->label('Project Type'),
-                TextInput::make('project_cost')
-                    ->label('Estimated Project Cost')
-                    ->placeholder('Enter Estimated Project Cost')
+                TextInput::make('alloted_project_cost')
+                    ->label('Alloted Project Cost')
+                    ->placeholder('From Annual Procurement Plan')
                     ->prefix('₱')
-                    //->requiredUnless('project_type', 'Pending')
-                    ->rules([
-                        'numeric',
-                        'gt:0.00',
-                        fn ($get) => function (string $attribute, $value, $fail) use ($get) {
-                            if ($get('project_type') === 'Major Project' && (!isset($value) || $value <= 999999.00)) {
-                                $fail("The Project Cost must be 1,000,000.00 and above for Major Project.");
-                            } elseif ($get('project_type') === 'Minor Project' && (!isset($value) || $value >= 1000000.00)) {
-                                $fail("The Project Cost must be less than 1,000,000.00 for Minor Project.");
-                            }
-                        },
-                    ]),
-                TextInput::make('actual_project_cost')
+                    ->rules('numeric', 'gt:0.00'),
+                /*
+                TextInput::make('alloted_project_cost')
                     ->label('Actual Project Cost')
                     ->placeholder('Enter Actual Project Cost')
                     ->prefix('₱')
@@ -156,7 +146,7 @@ class ProjectResource extends Resource
                 TextInput::make('placeholderField') #placeholders for project costings
                     ->label('Cost Variance')
                     ->placeholder('Alloted Cost - Actual Cost') #Pwedeng tanggalin from form builder to table builder
-                    ->disabled(true),
+                    ->disabled(true),*/
 
             ]);
     }
@@ -170,29 +160,33 @@ class ProjectResource extends Resource
                     ->searchable()
                     ->sortable()
                     ->label('Project ID'),
-                TextColumn::make('project_cost')
+                TextColumn::make('alloted_project_cost')
                     ->searchable()
                     ->prefix('₱')
-                    ->label('Project Cost')
+                    ->placeholder('From Annual Procurement Plan')
+                    ->label('Alloted Project Cost')
                     ->color('success')
                     ->sortable(),
                 TextColumn::make('material_cost_estimates.total') //This will come from End-User (PFMO) and will be is reflected via Materials and Cost Estimates | Mag rereflect sa Materials and Cost Estimates - Estima
                     ->searchable()
                     ->prefix('₱')
+                    ->placeholder('From Materials and Cost Estimates')
                     ->color('gray')
                     ->label('Estimated Budget Cost') 
                     ->sortable(),
-                TextColumn::make('placeholderField1')
+                TextColumn::make('actual_cost')
                     ->searchable()
                     ->prefix('₱')
+                    ->placeholder('From Abstract of Canvass')
                     ->color('primary')
                     ->label('Actual Cost')  //This will come from Abstract of Canvass (From Procurement Office) Actual Cost
                     ->sortable(),
-                TextColumn::make('placeholderField3')
+                TextColumn::make('cost_variance')
                     ->searchable()
+                    ->placeholder('Alloted Cost - Actual Cost')
                     ->prefix('₱')
                     ->color('red')
-                    ->label('Cost Variance') //Alloted Cost - Actual Cost
+                    ->label('Cost Variance') //Alloted Project Cost (From APP) - Actual Cost (From Abstract of Canvass)
                     ->sortable(),
                 TextColumn::make('project_title')
                     ->searchable()
