@@ -55,7 +55,6 @@ class PurchaseRequestFormResource extends Resource
                                 ->label('PR No.')
                                 ->rules(['regex:/^\d{3}-\d{4}-\d{2}-\d{2}-\d{2}$/'])
                                 ->required()  
-                                ->unique()
                                 ->columnSpan(1)
                                 ->placeholder('000-0000-00-00-00'),
 
@@ -101,10 +100,10 @@ class PurchaseRequestFormResource extends Resource
                                     ->type('number')
                                     ->columnSpan(1)
                                     ->required()
-                                    ->unique()
+                                    /*->unique()
                                     ->rules(['gt:0', 'unique:purchase_request_items,item_no'])
                                     ->hint('Current Item No: ' . Purchase_Request_Items::max('item_no') + 1)
-                                    ->placeholder('Item No. should be unique'),
+                                    ->placeholder('Item No. should be unique')*/,
 
                                 Select::make('unit')
                                     ->label('Unit')

@@ -50,7 +50,7 @@ class MarketStudiesResource extends Resource
                     ->label('Market Study Title')
                     ->columnSpan(1)
                     ->required()
-                    ->rules(['string', 'max:150'])
+                    ->rules(['string', 'max:500'])
                     ->placeholder('Enter Market Study Title')
                 ]),
                 Fieldset::make()
@@ -62,14 +62,14 @@ class MarketStudiesResource extends Resource
                         ->addActionLabel('Add Market Study Link')
                         ->reorderableWithButtons()
                         ->collapsible()
-                        ->rules(['string', 'max:50'])
+                        ->rules('max:50')
                         ->itemLabel(fn (array $state): ?string => $state['market_study_url'] ?? null)
                         ->schema([
                             TextInput::make('market_study_url')
                             ->label('Market Study URL')
                             ->required()
                             ->columnSpan(2)
-                            ->rules(['string', 'max:100'])
+                            ->rules('max:250')
                             ->placeholder('Enter Market Study URL'),
                             TextInput::make('market_study_url_description')
                             ->label('Market Study URL Description')

@@ -72,7 +72,7 @@ class MaterialCostEstimatesResource extends Resource
                                 TextInput::make('item_no')
                                     ->label('Item No.')
                                     ->required()
-                                    ->unique()
+                                    //->unique()
                                     ->type('number')
                                     ->columnSpan(1)
                                     ->rules(['gt:0'])
