@@ -97,23 +97,22 @@ class MaterialCostEstimatesResource extends Resource
                                         $amount = number_format($quantity * $unitCost , 2, '.', '');
                                         $set('amount', $amount);
                                     }),
-                                TextInput::make('unit')
+                                Select::make('unit')
                                     ->label('Unit')
                                     ->required()
                                     ->columnSpan(1)
                                     ->placeholder('Enter Unit')
-                                    #->options([
-                                    #    'unit' => 'unit',
-                                    #    'lot' => 'lot',
-                                    #    'set' => 'set',
-                                    #    'pc.' => 'pc.',
-                                    #    'length' => 'length',
-                                    #    'box' => 'box',
-                                    #    'roll' => 'roll',
-                                    #    'pack' => 'pack',
-                                    #    'ream' => 'ream',
-                                    #])
-                                    ,
+                                    ->options([
+                                        'unit' => 'unit',
+                                        'lot' => 'lot',
+                                        'set' => 'set',
+                                        'pc.' => 'pc.',
+                                        'length' => 'length',
+                                        'box' => 'box',
+                                        'roll' => 'roll',
+                                        'pack' => 'pack',
+                                        'ream' => 'ream',
+                                    ]),
                                 TextInput::make('unit_cost')
                                     ->label('Unit Cost')
                                     ->required()
