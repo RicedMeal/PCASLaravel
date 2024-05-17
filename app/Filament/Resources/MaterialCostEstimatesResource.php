@@ -75,9 +75,8 @@ class MaterialCostEstimatesResource extends Resource
                                     //->unique()
                                     ->type('number')
                                     ->columnSpan(1)
-                                    ->rules(['gt:0'])
-                                    ->hint('Current Item No: ' . MaterialCostEstimatesItems::max('item_no') + 1)
-                                    ->placeholder('Item No. should be unique'),
+                                    ->rules(['gt:0']),  
+                                    #->placeholder('Item No. should be unique')
                                 TextInput::make('description')
                                     ->label('Description')
                                     ->required()
@@ -98,22 +97,23 @@ class MaterialCostEstimatesResource extends Resource
                                         $amount = number_format($quantity * $unitCost , 2, '.', '');
                                         $set('amount', $amount);
                                     }),
-                                Select::make('unit')
+                                TextInput::make('unit')
                                     ->label('Unit')
                                     ->required()
                                     ->columnSpan(1)
                                     ->placeholder('Enter Unit')
-                                    ->options([
-                                        'unit' => 'unit',
-                                        'lot' => 'lot',
-                                        'set' => 'set',
-                                        'pc.' => 'pc.',
-                                        'length' => 'length',
-                                        'box' => 'box',
-                                        'roll' => 'roll',
-                                        'pack' => 'pack',
-                                        'ream' => 'ream',
-                                    ]),
+                                    #->options([
+                                    #    'unit' => 'unit',
+                                    #    'lot' => 'lot',
+                                    #    'set' => 'set',
+                                    #    'pc.' => 'pc.',
+                                    #    'length' => 'length',
+                                    #    'box' => 'box',
+                                    #    'roll' => 'roll',
+                                    #    'pack' => 'pack',
+                                    #    'ream' => 'ream',
+                                    #])
+                                    ,
                                 TextInput::make('unit_cost')
                                     ->label('Unit Cost')
                                     ->required()
