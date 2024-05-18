@@ -10,7 +10,7 @@ class InventoryERP extends Page
 
     protected static string $view = 'filament.pages.inventory-e-r-p';
 
-    protected static ?string $title = 'Annual Supplies';
+    protected static ?string $title = 'PSO Annual Supplies';
 
     protected static ?string $navigationGroup = 'SUPPLY INVENTORY';
 
