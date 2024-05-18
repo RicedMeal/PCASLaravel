@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProjectDocumentController;
 use App\Http\Controllers\PurchaseRequestFormPDFController;
 use App\Http\Controllers\MaterialCostEstimatesController;
-use App\Http\Controllers\DownloadSinglePDFController;
+use App\Http\Controllers\RequisitionPDFController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,5 +39,8 @@ Route::get('/purchase-request/{record}/pdf', [PurchaseRequestFormPDFController::
 
 //route for downloading material cost estimates pdf
 Route::get('/material-cost-estimates/{materialCostEstimate}/pdf', [MaterialCostEstimatesController::class, 'pdf'])->name('material-cost-estimates.pdf');
+
+//route for downloading requisition pdf
+Route::get('/requisition/{record}/pdf', [RequisitionPDFController::class, 'pdf'])->name('requisition_and_issue_slip.pdf');
 
 require __DIR__.'/auth.php';

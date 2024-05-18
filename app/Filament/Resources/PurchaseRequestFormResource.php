@@ -111,15 +111,15 @@ class PurchaseRequestFormResource extends Resource
                                     ->placeholder('Select Unit')
                                     ->columnSpan(1)
                                     ->options([
-                                        'unit' => 'unit',
-                                        'lot' => 'lot',
-                                        'set' => 'set',
-                                        'pc.' => 'pc.',
-                                        'length' => 'length',
                                         'box' => 'box',
-                                        'roll' => 'roll',
+                                        'length' => 'length',
+                                        'lot' => 'lot',
                                         'pack' => 'pack',
+                                        'pc.' => 'pc.',
                                         'ream' => 'ream',
+                                        'roll' => 'roll',
+                                        'set' => 'set',
+                                        'unit' => 'unit',
                                     ]),
                                 TextInput::make('item_description')
                                     ->label('Item Description')
