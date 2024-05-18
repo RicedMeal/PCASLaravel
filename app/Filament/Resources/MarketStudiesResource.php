@@ -30,6 +30,11 @@ class MarketStudiesResource extends Resource
 
     public static ?string $recordTitleAttribute = 'market_study_title';
 
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
+
     public static function form(Form $form): Form
     {
         return $form

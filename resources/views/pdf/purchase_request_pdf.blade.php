@@ -86,6 +86,7 @@
             <p class="bold">PR No.:        <u>{{ $purchaseRequestForm->pr_no }}</u></p>
             <p class="bold">SAI No.:     <u>{{ $purchaseRequestForm->sai_no }}<u></p>
             <p class="bold">BUS No:     <u>{{ $purchaseRequestForm->bus_no }}<u></p>
+        </td>
         <td>
             <p class="bold">Date: <u>{{ $purchaseRequestForm->date }}</u></p>
             <p class="bold">Date: </p>
@@ -121,6 +122,14 @@
         </tr>
         @endforeach
         <tr>
+            <td style="padding: 15px"></td>
+            <td style="padding: 15px"></td>
+            <td style="padding: 15px"></td>
+            <td style="padding: 15px"></td>
+            <td style="padding: 15px"></td>
+            <td style="padding: 15px"></td>
+        </tr>
+        <tr>
             <td style="padding: 5px"></td>
             <td style="padding: 5px"></td>
             <td style="padding: 5px"></td>
@@ -128,12 +137,44 @@
             <td class="bold center" style="padding: 5px">TOTAL</td>
             <td class="bold center" style="padding: 5px">{{ $purchaseRequestForm->total }}</td>
             <tr>
+                <td style="padding: 15px"></td>
+                <td style="padding: 15px"></td>
+                <td style="padding: 15px"></td>
+                <td style="padding: 15px"></td>
+                <td style="padding: 15px"></td>
+                <td style="padding: 15px"></td>
+            </tr>
+            <tr>
+                <td style="padding: 15px"></td>
+                <td style="padding: 15px"></td>
+                <td style="padding: 15px"></td>
+                <td style="padding: 15px"></td>
+                <td style="padding: 15px"></td>
+                <td style="padding: 15px"></td>
+            </tr>
+            <tr>
+                <td style="padding: 15px"></td>
+                <td style="padding: 15px"></td>
+                <td style="padding: 15px"></td>
+                <td style="padding: 15px"></td>
+                <td style="padding: 15px"></td>
+                <td style="padding: 15px"></td>
+            </tr>
+            <tr>
                 <td style="padding: 5px"></td>
                 <td style="padding: 5px"></td>
                 <td style="padding: 5px">Delivery Duration: {{ $purchaseRequestForm->delivery_duration }}</td>
                 <td style="padding: 5px"></td>
                 <td style="padding: 5px"></td>
                 <td style="padding: 5px"></td>
+            </tr>
+            <tr>
+                <td style="padding: 15px"></td>
+                <td style="padding: 15px"></td>
+                <td style="padding: 15px"></td>
+                <td style="padding: 15px"></td>
+                <td style="padding: 15px"></td>
+                <td style="padding: 15px"></td>
             </tr>
         </tr>
         <tr>

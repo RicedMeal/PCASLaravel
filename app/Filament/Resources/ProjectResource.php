@@ -46,12 +46,10 @@ class ProjectResource extends Resource
                     ->label('Project Title')
                     ->rules(['string', 'max:100'])
                     ->placeholder('Enter Project Title'),
-                Select::make('department')
+                TextInput::make('department')
                     ->required()
                     ->default('PFMO')
-                    ->options([
-                        'PFMO' => 'PFMO',
-                    ])
+                    ->readOnly()
                     ->placeholder('Select Department/Office')
                     ->label('Department/Office'),
                 TextInput::make('project_description')

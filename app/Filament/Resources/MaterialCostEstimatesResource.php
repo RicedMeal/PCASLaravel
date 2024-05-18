@@ -103,15 +103,15 @@ class MaterialCostEstimatesResource extends Resource
                                     ->columnSpan(1)
                                     ->placeholder('Enter Unit')
                                     ->options([
-                                        'unit' => 'unit',
-                                        'lot' => 'lot',
-                                        'set' => 'set',
-                                        'pc.' => 'pc.',
-                                        'length' => 'length',
                                         'box' => 'box',
-                                        'roll' => 'roll',
+                                        'length' => 'length',
+                                        'lot' => 'lot',
                                         'pack' => 'pack',
+                                        'pc.' => 'pc.',
                                         'ream' => 'ream',
+                                        'roll' => 'roll',
+                                        'set' => 'set',
+                                        'unit' => 'unit',
                                     ]),
                                 TextInput::make('unit_cost')
                                     ->label('Unit Cost')
