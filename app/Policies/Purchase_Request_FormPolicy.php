@@ -6,7 +6,7 @@ use App\Models\Purchase_Request_Form;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
-class Purchase_Request_Form_Policy
+class Purchase_Request_FormPolicy
 {
     # ADD THIS CODE TO ALL RESOURCES
     public function deleteAny(User $user): bool #FOR bulk deletion

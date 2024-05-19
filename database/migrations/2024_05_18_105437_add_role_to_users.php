@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             //roles
-            $table->string('role')->default('USER'); //Values are Admin, User **will try to add super admin later**
+            $table->string('role')->default('ADMIN'); //Values are Admin, User **will try to add super admin later**
         });
     }
 
