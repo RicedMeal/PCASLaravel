@@ -49,7 +49,7 @@ class MaterialCostEstimatesPolicy
     public function create(User $user): bool
     {
         //
-        return $user->isAdmin();
+        return $user->isAdmin() || $user->isUser();
     }
 
     /**
@@ -58,7 +58,7 @@ class MaterialCostEstimatesPolicy
     public function update(User $user, MaterialCostEstimates $materialCostEstimates): bool
     {
         //
-        return $user->isAdmin();
+        return $user->isAdmin() || $user->isUser();
     }
 
     /**

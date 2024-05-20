@@ -49,7 +49,7 @@ class ProjectDocumentPolicy
     public function create(User $user): bool
     {
         //
-        return $user->isAdmin();
+        return $user->isAdmin() || $user->isUser();
     }
 
     /**
@@ -58,7 +58,7 @@ class ProjectDocumentPolicy
     public function update(User $user, ProjectDocument $projectDocument): bool
     {
         //
-        return $user->isAdmin();
+        return $user->isAdmin() || $user->isUser();
     }
 
     /**

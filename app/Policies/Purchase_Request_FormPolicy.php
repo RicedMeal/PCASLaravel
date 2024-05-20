@@ -47,7 +47,7 @@ class Purchase_Request_FormPolicy
     public function create(User $user): bool
     {
         //
-        return $user->isAdmin();
+        return $user->isAdmin() || $user->isUser();
     }
 
     /**
@@ -56,7 +56,7 @@ class Purchase_Request_FormPolicy
     public function update(User $user, Purchase_Request_Form $purchaseRequestForm): bool
     {
         //
-        return $user->isAdmin();
+        return $user->isAdmin() || $user->isUser();
     }
 
     /**

@@ -50,7 +50,7 @@ class RequisitionPolicy
     public function create(User $user): bool
     {
         //
-        return $user->isAdmin();
+        return $user->isAdmin() || $user->isUser();
     }
 
     /**
@@ -59,7 +59,7 @@ class RequisitionPolicy
     public function update(User $user, Requisition $requisition): bool
     {
         //
-        return $user->isAdmin();
+        return $user->isAdmin() || $user->isUser();
     }
 
     /**
