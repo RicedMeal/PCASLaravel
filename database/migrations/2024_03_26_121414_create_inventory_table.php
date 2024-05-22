@@ -21,6 +21,7 @@ return new class extends Migration
             $table->date('date_purchased');
             $table->string('supplier');
             $table->string('remarks');
+            $table->foreign('project_id')->references('id')->on('projects')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
     }
