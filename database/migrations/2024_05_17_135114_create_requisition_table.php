@@ -12,12 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('requisition', function (Blueprint $table) {
-            $table->id();
+            #$table->id();
+            $table->string('ris_no')->primary();
             $table->unsignedBigInteger('project_id');
             $table->string('division')->nullable();
             $table->string('office');
             $table->string('responsibility_center_code')->nullable();
-            $table->string('ris_no')->nullable(); #Requisition and Issue Slip Number
+            #$table->string('ris_no')->nullable(); #Requisition and Issue Slip Number
             $table->string('sai_no')->nullable();
             $table->date('date');
             $table->string('purpose');
@@ -33,16 +34,16 @@ return new class extends Migration
             $table->foreign('project_id')->references('id')->on('projects')->onUpdate('cascade')->onDelete('cascade');
         });
 
-        Schema::create('requisition_items', function (Blueprint $table) {
-            $table->id();
+        /*Schema::create('requisition_items', function (Blueprint $table) {
+           #$table->id();
             $table->integer('stock_no');
             $table->unsignedBigInteger('requisition_id');
             $table->string('unit');
             $table->string('description');
             $table->integer('quantity');
             $table->timestamps();
-            $table->foreign('requisition_id')->references('id')->on('requisition')->onUpdate('cascade');
-        });
+            $table->foreign('requisition_id')->references('ris_no')->on('requisition')->onUpdate('cascade');
+        });*/
     }
 
     /**
