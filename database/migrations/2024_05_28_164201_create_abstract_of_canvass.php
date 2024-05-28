@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pfmo_annual_supplies', function (Blueprint $table) {
-            #$table->id();
-            $table->string('stock_no')->primary();
-            $table->string('unit');
-            $table->string('description');
-            $table->Integer('quantity');
+        Schema::create('abstract_of_canvass', function (Blueprint $table) {
+            $table->id();
+            $table->binary('abstract_of_canvass')->nullable();
+            $table->string('abstract_of_canvass_file_name')->nullable();
             $table->timestamps();
         });
     }
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pfmo_annual_supplies');
+        Schema::dropIfExists('abstract_of_canvass');
     }
 };

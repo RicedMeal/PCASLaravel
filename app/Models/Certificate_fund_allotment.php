@@ -5,17 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PriceQuotation extends Model
+class Certificate_fund_allotment extends Model
 {
     use HasFactory;
-
-    protected $table = 'price_quotations';
+    protected $table = 'certificate_fund_allotment';
 
     protected $fillable =
     [
-        'PriceQuotation',
-        'PriceQuotation_file_name'
+        'certificate_fund_allotment',
+        'certificate_fund_allotment_file_name'
     ];
-
 
 }

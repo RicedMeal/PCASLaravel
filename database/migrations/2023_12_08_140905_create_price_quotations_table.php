@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('price_quotations', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('project_id');
+            $table->binary('PriceQuotation')->nullable();
+            $table->string('PriceQuotation_file_name')->nullable();
             $table->timestamps();
         });
     }

@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pfmo_annual_supplies', function (Blueprint $table) {
-            #$table->id();
-            $table->string('stock_no')->primary();
-            $table->string('unit');
-            $table->string('description');
-            $table->Integer('quantity');
+        Schema::create('certificate_fund_allotment', function (Blueprint $table) {
+            $table->id();
+            $table->binary('certificate_fund_allotment')->nullable();
+            $table->string('certificate_fund_allotment_file_name')->nullable();
             $table->timestamps();
         });
     }
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pfmo_annual_supplies');
+        Schema::dropIfExists('certificate_fund_allotment');
     }
 };
