@@ -12,7 +12,7 @@ class PriceQuotationsERP extends Page
 
     protected static ?string $title = 'Price Quotations';
 
-    protected static ?string $navigationGroup = 'VENDOR MANAGEMENT';
+    protected static ?string $navigationGroup = 'PROCUREMENT OFFICE';
 
     protected static ?int $navigationSort = 4;
 }

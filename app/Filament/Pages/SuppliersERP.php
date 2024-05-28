@@ -12,7 +12,7 @@ class SuppliersERP extends Page
 
     protected static ?string $title = 'Suppliers';
 
-    protected static ?string $navigationGroup = 'VENDOR MANAGEMENT';
+    protected static ?string $navigationGroup = 'PROCUREMENT OFFICE';
 
     protected static ?int $navigationSort = 4;
 }

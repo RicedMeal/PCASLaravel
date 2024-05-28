@@ -4,13 +4,13 @@ namespace App\Filament\Pages;
 
 use Filament\Pages\Page;
 
-class InventoryERP extends Page
+class PSO_Supplies_ERP extends Page
 {
     protected static ?string $navigationIcon = 'heroicon-o-paper-clip';
 
     protected static string $view = 'filament.pages.inventory-e-r-p';
 
-    protected static ?string $title = 'PSO Annual Supplies';
+    protected static ?string $title = 'PSO Supplies';
 
     protected static ?string $navigationGroup = 'SUPPLY INVENTORY';
 

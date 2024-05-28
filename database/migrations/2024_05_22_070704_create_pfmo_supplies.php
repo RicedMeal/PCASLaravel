@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pfmo_annual_supplies', function (Blueprint $table) {
+        Schema::create('pfmo_supplies', function (Blueprint $table) {
             #$table->id();
             $table->string('stock_no')->primary();
             $table->string('unit');

@@ -49,8 +49,8 @@ class AdminPanelProvider extends PanelProvider
             ->navigationGroups([
                 'PROJECT MANAGEMENT',
                 'SUPPLY INVENTORY',
-                'VENDOR MANAGEMENT',
-                'OTHER DOCUMENTS',
+                'PROCUREMENT OFFICE',
+                'BUDGET OFFICE',
             ])
             ->widgets([
                 //Widgets\AccountWidget::class,
