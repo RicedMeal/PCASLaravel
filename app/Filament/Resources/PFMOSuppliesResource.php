@@ -70,9 +70,7 @@ class PfmoSuppliesResource extends Resource
                         ->placeholder('Enter Quantity')
                         ->type('number')
                         ->rules(['gt:0']),
-
                 ])
-                
                 //
             ]);
     }
@@ -81,7 +79,22 @@ class PfmoSuppliesResource extends Resource
     {
         return $table
             ->columns([
-                
+                Tables\Columns\TextColumn::make('stock_no')
+                    ->label('Stock No.')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('unit')
+                    ->label('Unit')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('description')
+                    ->label('Description')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('quantity')
+                    ->label('Quantity')
+                    ->searchable()
+                    ->sortable(),
                 //
             ])
             ->filters([

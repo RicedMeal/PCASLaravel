@@ -10,9 +10,9 @@ class PriceQuotationsERP extends Page
 
     protected static string $view = 'filament.pages.price-quotations-e-r-p';
 
-    protected static ?string $title = 'Price Quotations';
+    #protected static ?string $title = 'Price Quotations';
 
-    protected static ?string $navigationGroup = 'PROCUREMENT OFFICE';
+    #protected static ?string $navigationGroup = 'PROCUREMENT OFFICE';
 
     protected static ?int $navigationSort = 4;
 }

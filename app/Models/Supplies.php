@@ -11,6 +11,8 @@ class Supplies extends Model
 
     protected $table = 'supplies';
 
+    protected $primaryKey = 'pr_no';
+
     protected $fillable = [
         'stock_no',
         'description',
