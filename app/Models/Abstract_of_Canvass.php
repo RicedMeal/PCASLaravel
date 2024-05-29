@@ -16,4 +16,6 @@ class Abstract_of_Canvass extends Model
         'abstract_of_canvass',
         'abstract_of_canvass_file_name'
     ];
+
+    
 }

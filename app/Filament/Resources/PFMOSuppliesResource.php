@@ -2,30 +2,23 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\PfmoSuppliesResource\Pages;
-use App\Filament\Resources\PfmoSuppliesResource\RelationManagers;
-use App\Models\PfmoSupplies;
+use App\Filament\Resources\PFMOSuppliesResource\Pages;
+use App\Filament\Resources\PFMOSuppliesResource\RelationManagers;
+use App\Models\PFMO_Supplies;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Models\PFMO_Supplies;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
 
-use function PHPSTORM_META\type;
-
-class PfmoSuppliesResource extends Resource
+class PFMOSuppliesResource extends Resource
 {
-
     protected static ?string $model = PFMO_Supplies::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
 
     protected static ?string $navigationGroup = 'SUPPLY INVENTORY';
 
@@ -33,45 +26,14 @@ class PfmoSuppliesResource extends Resource
     {
         return $form
             ->schema([
-                Section::make()->schema([
-                    TextInput::make('stock_no')
-                        ->label('Stock No.')
-                        ->required()
-                        ->rules(['gt:0'])
-                        ->columnSpan(1)
-                        ->type('number')
-                        ->placeholder('Enter Stock No.'),
-                    Select::make('unit')
-                        ->label('Unit')
-                        ->columnspan(1)
-                        ->required()
-                        ->placeholder('Select Unit')
-                        ->options([
-                            'box' => 'box',
-                            'length' => 'length',
-                            'lot' => 'lot',
-                            'pack' => 'pack',
-                            'pc.' => 'pc.',
-                            'ream' => 'ream',
-                            'roll' => 'roll',
-                            'set' => 'set',
-                            'unit' => 'unit',
-                        ]),
-                    TextInput::make('description')
-                        ->label('Description')
-                        ->columnspan(3)
-                        ->required()
-                        ->rules(['string', 'max:150'])
-                        ->placeholder('Enter Description'),
-                    TextInput::make('quantity')
-                        ->label('Quantity')
-                        ->columnspan(1)
-                        ->required()
-                        ->placeholder('Enter Quantity')
-                        ->type('number')
-                        ->rules(['gt:0']),
-                ])
-                //
+                Forms\Components\DatePicker::make('entry_date')
+                    ->required()
+                    ->label('Entry Date')
+                    ->helperText('Choose the entry date. The Custom Code will be generated automatically.'),
+                Forms\Components\TextInput::make('custom_code')
+                    ->disabled(true)
+                    ->label('Custom Code')
+                    ->helperText('This field is automatically generated and not editable.'),
             ]);
     }
 
@@ -79,22 +41,12 @@ class PfmoSuppliesResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('stock_no')
-                    ->label('Stock No.')
-                    ->searchable()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('unit')
-                    ->label('Unit')
-                    ->searchable()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('description')
-                    ->label('Description')
-                    ->searchable()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('quantity')
-                    ->label('Quantity')
-                    ->searchable()
-                    ->sortable(),
+                Tables\Columns\TextColumn::make('custom_code')
+                ->label('Custom ID')
+                ->sortable(), // If you need the column to be sortable
+                Tables\Columns\TextColumn::make('entry_date')
+                    ->label('Entry Date')
+                    ->date(), // Format this as a date, or use ->dateTime() as needed
                 //
             ])
             ->filters([
@@ -120,9 +72,9 @@ class PfmoSuppliesResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListPfmoSupplies::route('/'),
-            'create' => Pages\CreatePfmoSupplies::route('/create'),
-            'edit' => Pages\EditPfmoSupplies::route('/{record}/edit'),
+            'index' => Pages\ListPFMOSupplies::route('/'),
+            'create' => Pages\CreatePFMOSupplies::route('/create'),
+            'edit' => Pages\EditPFMOSupplies::route('/{record}/edit'),
         ];
     }
 }

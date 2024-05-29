@@ -10,14 +10,22 @@ class PFMO_Supplies extends Model
     use HasFactory;
 
     protected $table = 'pfmo_supplies';
-    protected $primaryKey = 'stock_no'; // Set the primary key to 'stock_no'
-    public $incrementing = false; // Set incrementing to false because it's not a numeric key
-    protected $keyType = 'string';
 
-    protected $fillable = [
-        'stock_no',
-        'unit',
-        'description',
-        'quantity',
+    protected $fillable = ['entry_date'];
+
+    protected $casts = [
+        'entry_date' => 'date', // Ensuring entry_date is treated as a date
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($supply) {
+            if ($supply->entry_date) {
+                $supply->custom_code = $supply->entry_date->format('Y') . '_' . $supply->id;
+                $supply->save();
+            }
+        });
+    }
 }

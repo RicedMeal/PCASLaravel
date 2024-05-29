@@ -20,6 +20,7 @@ class SuppliesResource extends Resource
     protected static ?string $model = Supplies::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationGroup = 'SUPPLY INVENTORY';
 
     public static function form(Form $form): Form
     {

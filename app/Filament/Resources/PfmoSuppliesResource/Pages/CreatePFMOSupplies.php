@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Filament\Resources\PfmoSuppliesResource\Pages;
+namespace App\Filament\Resources\PFMOSuppliesResource\Pages;
 
-use App\Filament\Resources\PfmoSuppliesResource;
+use App\Filament\Resources\PFMOSuppliesResource;
 use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 
-class CreatePfmoSupplies extends CreateRecord
+class CreatePFMOSupplies extends CreateRecord
 {
-    protected static string $resource = PfmoSuppliesResource::class;
+    protected static string $resource = PFMOSuppliesResource::class;
 }

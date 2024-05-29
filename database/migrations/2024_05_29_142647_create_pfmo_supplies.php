@@ -12,12 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('pfmo_supplies', function (Blueprint $table) {
-            #$table->id();
-            $table->string('stock_no')->primary();
-            $table->string('unit');
-            $table->string('description');
-            $table->Integer('quantity');
-            $table->timestamps();
+            $table->id();
+            $table->date('entry_date');
+            $table->string('custom_code')->nullable();
+            $table->timestamps();                                               
         });
     }
 
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pfmo_annual_supplies');
+        Schema::dropIfExists('pfmo_supplies');
     }
 };

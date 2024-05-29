@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\PfmoSuppliesResource\Pages;
+namespace App\Filament\Resources\PFMOSuppliesResource\Pages;
 
-use App\Filament\Resources\PfmoSuppliesResource;
+use App\Filament\Resources\PFMOSuppliesResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
-class EditPfmoSupplies extends EditRecord
+class EditPFMOSupplies extends EditRecord
 {
-    protected static string $resource = PfmoSuppliesResource::class;
+    protected static string $resource = PFMOSuppliesResource::class;
 
     protected function getHeaderActions(): array
     {

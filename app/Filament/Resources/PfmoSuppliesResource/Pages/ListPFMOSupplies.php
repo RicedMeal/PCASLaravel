@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\PfmoSuppliesResource\Pages;
+namespace App\Filament\Resources\PFMOSuppliesResource\Pages;
 
-use App\Filament\Resources\PfmoSuppliesResource;
+use App\Filament\Resources\PFMOSuppliesResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 
-class ListPfmoSupplies extends ListRecords
+class ListPFMOSupplies extends ListRecords
 {
-    protected static string $resource = PfmoSuppliesResource::class;
+    protected static string $resource = PFMOSuppliesResource::class;
 
     protected function getHeaderActions(): array
     {
