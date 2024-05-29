@@ -13,6 +13,11 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Models\PFMO_Supplies;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+
+use function PHPSTORM_META\type;
 
 class PfmoSuppliesResource extends Resource
 {
@@ -28,6 +33,46 @@ class PfmoSuppliesResource extends Resource
     {
         return $form
             ->schema([
+                Section::make()->schema([
+                    TextInput::make('stock_no')
+                        ->label('Stock No.')
+                        ->required()
+                        ->rules(['gt:0'])
+                        ->columnSpan(1)
+                        ->type('number')
+                        ->placeholder('Enter Stock No.'),
+                    Select::make('unit')
+                        ->label('Unit')
+                        ->columnspan(1)
+                        ->required()
+                        ->placeholder('Select Unit')
+                        ->options([
+                            'box' => 'box',
+                            'length' => 'length',
+                            'lot' => 'lot',
+                            'pack' => 'pack',
+                            'pc.' => 'pc.',
+                            'ream' => 'ream',
+                            'roll' => 'roll',
+                            'set' => 'set',
+                            'unit' => 'unit',
+                        ]),
+                    TextInput::make('description')
+                        ->label('Description')
+                        ->columnspan(3)
+                        ->required()
+                        ->rules(['string', 'max:150'])
+                        ->placeholder('Enter Description'),
+                    TextInput::make('quantity')
+                        ->label('Quantity')
+                        ->columnspan(1)
+                        ->required()
+                        ->placeholder('Enter Quantity')
+                        ->type('number')
+                        ->rules(['gt:0']),
+
+                ])
+                
                 //
             ]);
     }
