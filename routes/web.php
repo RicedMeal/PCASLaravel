@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProjectDocumentController;
 use App\Http\Controllers\PurchaseRequestFormPDFController;
 use App\Http\Controllers\MaterialCostEstimatesController;
+use App\Http\Controllers\PFMOSuppliesController;
 use App\Http\Controllers\RequisitionPDFController;
 
 /*
@@ -44,5 +45,8 @@ Route::get('/material-cost-estimates/{materialCostEstimate}/pdf', [MaterialCostE
 
 //route for downloading requisition pdf
 Route::get('/requisition/{record}/pdf', [RequisitionPDFController::class, 'pdf'])->name('requisition_and_issue_slip.pdf');
+
+//route for downloading requisition pdf
+Route::get('/pfmo_supplies/{record}/pdf', [PFMOSuppliesController::class, 'pdf'])->name('pfmo_supplies.pdf');
 
 require __DIR__.'/auth.php';

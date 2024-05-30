@@ -93,7 +93,12 @@ class SuppliersResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\ViewAction::make()
+                        ->color('primary'),
+                    Tables\Actions\EditAction::make()
+                        ->color('primary'),
+                    ])
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

@@ -11,7 +11,11 @@ class PFMO_Supplies extends Model
 
     protected $table = 'pfmo_supplies';
 
-    protected $fillable = ['entry_date'];
+    protected $fillable = [
+        'entry_date',
+        'user',
+        'custom_code',
+    ];
 
     protected $casts = [
         'entry_date' => 'date', // Ensuring entry_date is treated as a date
@@ -27,5 +31,15 @@ class PFMO_Supplies extends Model
                 $supply->save();
             }
         });
+    }
+
+    public function getYearAttribute()
+    {
+        return $this->date->format('Y');
+    }
+
+    public function pfmo_supplies_list()
+    {
+        return $this->hasMany(PFMO_Supplies_List::class, 'pfmo_supplies_id');
     }
 }

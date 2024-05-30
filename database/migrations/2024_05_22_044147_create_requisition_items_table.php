@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('requisition_items', function (Blueprint $table) {
             #$table->id();
             $table->string('ris_no')->primary();
-            $table->integer('stock_no');
+            $table->string('stock_no');
             $table->unsignedBigInteger('requisition_id');
             $table->string('unit');
             $table->string('description');

@@ -12,12 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('pfmo_supplies_list', function (Blueprint $table) {
-            $table->id();
-            $table->string('stock_no')->primary();
+            //$table->id();
+            $table->unsignedBigInteger('pfmo_supplies_id');
+            $table->string('stock_no');
             $table->string('unit');
             $table->string('description');
-            $table->Integer('quantity');
+            $table->integer('quantity');
             $table->timestamps();
+            $table->foreign('pfmo_supplies_id')->references('id')->on('pfmo_supplies')->onUpdate('cascade');
         });
     }
 
@@ -26,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pfmo_supplies_list');
+        Schema::dropIfExists('pfmo_supplies_lists');
     }
 };

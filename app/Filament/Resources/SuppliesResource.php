@@ -19,7 +19,7 @@ class SuppliesResource extends Resource
 {
     protected static ?string $model = Supplies::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-wallet';
     protected static ?string $navigationGroup = 'SUPPLY INVENTORY';
 
     public static function form(Form $form): Form
@@ -146,7 +146,12 @@ class SuppliesResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\ViewAction::make()
+                        ->color('primary'),
+                    Tables\Actions\EditAction::make()
+                        ->color('primary'),
+                    ]),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

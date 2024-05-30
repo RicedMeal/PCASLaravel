@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::create('pfmo_supplies', function (Blueprint $table) {
             $table->id();
+            //$table->string('stock_no')->primary();
             $table->date('entry_date');
-            $table->string('custom_code')->nullable();
-            $table->timestamps();                                               
+            $table->string('user');
+            $table->string('custom_code')->default();
+            $table->timestamps();
         });
     }
 
