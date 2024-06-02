@@ -49,11 +49,14 @@ class Project extends Model
         return $this->hasMany(PriceQuotation::class);
     }
 
-
-
     public function material_cost_estimates()
     {
         return $this->hasMany(MaterialCostEstimates::class);
+    }
+
+    public function market_studies()
+    {
+        return $this->hasMany(MarketStudies::class);
     }
 
 }

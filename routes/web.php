@@ -21,7 +21,7 @@ use App\Http\Controllers\RequisitionPDFController;
 
 Route::view('/', 'welcome');
 
-Route::redirect('/', '/admin');
+Route::redirect('/', '/admin/login');
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
@@ -43,8 +43,6 @@ Route::get('/purchase-request/{record}/pdf', [PurchaseRequestFormPDFController::
 //route for downloading material cost estimates pdf
 Route::get('/material-cost-estimates/{materialCostEstimate}/pdf', [MaterialCostEstimatesController::class, 'pdf'])->name('material-cost-estimates.pdf');
 
-//route for downloading requisition pdf
-Route::get('/requisition/{record}/pdf', [RequisitionPDFController::class, 'pdf'])->name('requisition_and_issue_slip.pdf');
 
 //route for downloading requisition pdf
 Route::get('/pfmo_supplies/{record}/pdf', [PFMOSuppliesController::class, 'pdf'])->name('pfmo_supplies.pdf');

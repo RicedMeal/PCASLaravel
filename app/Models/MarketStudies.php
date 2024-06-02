@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class MarketStudies extends Model
 {
@@ -13,17 +15,23 @@ class MarketStudies extends Model
 
     protected $fillable = [
         'project_id',
-        'market_study_title'
+        'subtotal_average',
+        'average_unit_price',
+        'total_average',
     ];
-
-
-    public function market_study_links()
-    {
-        return $this->hasMany(Market_Study_Links::class, 'market_study_id');
-    }
 
     public function project()
     {
         return $this->belongsTo(Project::class);
+    }
+
+    public function market_studies_items(): BelongsToMany
+    {
+        return $this->belongsToMany(MarketStudiesItems::class);
+    }
+
+    public function market_studies_supplier(): BelongsToMany
+    {
+        return $this->belongsToMany(MarketStudiesSupplier::class);
     }
 }

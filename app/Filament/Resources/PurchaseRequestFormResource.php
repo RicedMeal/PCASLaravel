@@ -100,10 +100,10 @@ class PurchaseRequestFormResource extends Resource
                                     ->type('number')
                                     ->columnSpan(1)
                                     ->required()
-                                    /*->unique()
-                                    ->rules(['gt:0', 'unique:purchase_request_items,item_no'])
-                                    ->hint('Current Item No: ' . Purchase_Request_Items::max('item_no') + 1)
-                                    ->placeholder('Item No. should be unique')*/,
+                                    ->unique()
+                                    ->rules(['gt:0'])
+                                    //->hint('Current Item No: ' . Purchase_Request_Items::max('item_no') + 1)
+                                    ->placeholder('Item No. should be unique'),
 
                                 Select::make('unit')
                                     ->label('Unit')
