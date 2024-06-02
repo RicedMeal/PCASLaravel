@@ -25,7 +25,7 @@ class ProjectResource extends Resource
 
     protected static ?int $navigationSort = 1;
 
-    protected static ?string $navigationGroup = 'PROJECT MANAGEMENT';
+    protected static ?string $navigationGroup = 'PROJECT MANAGEMENT (in-house)';
 
     public static ?string $recordTitleAttribute = 'project_title';
 

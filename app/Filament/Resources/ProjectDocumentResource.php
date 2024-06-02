@@ -24,9 +24,11 @@ class ProjectDocumentResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-document-plus';
 
+    protected static ?string $modelLabel = 'Project Document';
+
     protected static ?int $navigationSort = 2;
 
-    protected static ?string $navigationGroup = 'PROJECT MANAGEMENT';
+    protected static ?string $navigationGroup = 'PROJECT MANAGEMENT (in-house)';
 
     public static function getNavigationBadge(): ?string
     {

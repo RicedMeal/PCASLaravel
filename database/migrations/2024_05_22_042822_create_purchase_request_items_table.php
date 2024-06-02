@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('purchase_request_items', function (Blueprint $table) {
             #$table->id();
-            $table->string('pr_no')->primary();
+            $table->unsignedBigInteger('pr_no')->primary();
             $table->integer('item_no');
             $table->unsignedBigInteger('purchase_request_form_id');
             $table->string('unit');
@@ -22,7 +22,7 @@ return new class extends Migration
             $table->double('estimate_unit_cost');
             $table->double('estimate_cost');
             $table->timestamps();
-            $table->foreign('pr_no')->references('pr_no')->on('purchase_request_form')->onUpdate('cascade');
+            $table->foreign('pr_no')->references('id')->on('purchase_request_form')->onUpdate('cascade');
         });
     }
 

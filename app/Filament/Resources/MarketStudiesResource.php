@@ -24,9 +24,12 @@ class MarketStudiesResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-shopping-cart';
 
-    protected static ?string $navigationGroup = 'PROJECT MANAGEMENT';
+    protected static ?string $navigationGroup = 'PROJECT MANAGEMENT (in-house)';
 
     protected static ?int $navigationSort = 5;
+
+    protected static ?string $modelLabel = 'Market Study';
+
 
     public static ?string $recordTitleAttribute = 'market_study_title';
 

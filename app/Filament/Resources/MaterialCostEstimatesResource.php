@@ -28,7 +28,7 @@ class MaterialCostEstimatesResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-document-plus';
 
-    protected static ?string $navigationGroup = 'PROJECT MANAGEMENT';
+    protected static ?string $navigationGroup = 'PROJECT MANAGEMENT (in-house)';
 
     protected static ?string $modelLabel = 'Material Cost Estimates Form';
 
