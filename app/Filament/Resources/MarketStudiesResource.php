@@ -25,6 +25,10 @@ class MarketStudiesResource extends Resource
 
     protected static ?string $modelItems = MarketStudiesItems::class;
 
+    protected static ?int $navigationSort = 5;
+
+    protected static ?string $navigationGroup = 'PROJECT MANAGEMENT (in-house)';
+
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
@@ -96,6 +100,7 @@ class MarketStudiesResource extends Resource
         return [
             RelationManagers\MarketStudiesItemsRelationManager::class,
             RelationManagers\MarketStudiesSupplierRelationManager::class,
+            RelationManagers\SuppliersItemsRelationManager::class, 
         ];
     }
 

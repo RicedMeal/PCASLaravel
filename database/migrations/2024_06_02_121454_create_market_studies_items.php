@@ -38,6 +38,12 @@ return new class extends Migration
             $table->foreignIdFor(MarketStudies::class);
             $table->foreignIdFor(MarketStudiesItems::class);
         });
+
+        Schema::create('ms_items', function (Blueprint $table) {
+            $table->id();
+            $table->foreignIdFor(MarketStudiesSupplier::class);
+            $table->foreignIdFor(MarketStudiesItems::class);
+        });
     }
 
     /**

@@ -28,4 +28,9 @@ class MarketStudiesItems extends Model
     {
         return $this->belongsTo(MarketStudies::class);
     }
+
+    public function suppliers_items(): BelongsToMany
+    {
+        return $this->belongsToMany(MarketStudiesSuppliersItems::class);
+    }
 }

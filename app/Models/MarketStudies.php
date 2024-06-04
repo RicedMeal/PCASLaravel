@@ -34,4 +34,9 @@ class MarketStudies extends Model
     {
         return $this->belongsToMany(MarketStudiesSupplier::class);
     }
+
+    public function suppliers_items(): BelongsToMany
+    {
+        return $this->belongsToMany(MarketStudiesSuppliersItems::class);
+    }
 }

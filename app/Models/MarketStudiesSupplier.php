@@ -16,8 +16,6 @@ class MarketStudiesSupplier extends Model
         'supplier_name',
         'supplier_address',
         'supplier_contact',
-        'unit_price',
-        'amount',
         'subtotal',
         'market_studies_items_id',
         'market_studies_id',
@@ -33,4 +31,8 @@ class MarketStudiesSupplier extends Model
         return $this->belongsTo(MarketStudies::class);
     }
 
+    public function suppliers_items(): BelongsToMany
+    {
+        return $this->belongsToMany(MarketStudiesSuppliersItems::class);
+    }
 }
