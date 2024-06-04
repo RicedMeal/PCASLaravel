@@ -139,21 +139,7 @@ class MaterialCostEstimatesResource extends Resource
                                     ->type('number')
                                     ->step('0.01') 
                                     ->rules(['gt:0.00'])
-                                    ->columnSpan(1),
-                            ]),
-                    ]),
-                    Wizard\Step::make('Total Cost and Signatories')
-                        ->schema([
-                            TextInput::make('total')
-                                    ->label('Total')
-                                    ->required()
-                                    ->type('number')
-                                    ->step('0.01') 
-                                    ->prefix('₱')
-                                    ->rules(['gt:0.00'])
-                                    ->placeholder('Total Amount')
-                                    #->live()
-                                    ->reactive()
+                                    ->columnSpan(1)
                                     ->afterStateUpdated(function ($get, $set, $old, $state) {
                                         $total = 0;
                                         $items = $get('material_cost_estimates_items');
@@ -164,6 +150,20 @@ class MaterialCostEstimatesResource extends Resource
 
                                         $set('total', number_format($total, 2, '.', ''));
                                     }),
+                            ]),
+                            TextInput::make('total')
+                                    ->label('Total')
+                                    ->required()
+                                    ->type('number')
+                                    ->step('0.01') 
+                                    ->prefix('₱')
+                                    ->rules(['gt:0.00'])
+                                    ->placeholder('Total Amount')
+                                    #->live()
+                                    ->reactive(),
+                    ]),
+                    Wizard\Step::make('Signatories')
+                        ->schema([
                             TextInput::make('prepared_by')
                                 ->label('Prepared By:')
                                 ->required()
