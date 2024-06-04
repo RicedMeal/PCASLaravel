@@ -90,7 +90,8 @@ class MaterialCostEstimatesResource extends Resource
                                     ->rules(['gt:0'])
                                     ->columnSpan(1)
                                     ->placeholder('Enter Quantity')
-                                    ->live()
+                                    #->live()
+                                    ->reactive()
                                     ->afterStateUpdated(function ($get, $set, $old, $state) {
                                         $quantity = (float) $state;
                                         $unitCost = (float) $get('unit_cost');
@@ -120,7 +121,8 @@ class MaterialCostEstimatesResource extends Resource
                                     ->prefix('₱')
                                     ->columnSpan(1)
                                     ->placeholder('Enter Unit Cost')
-                                    ->live()
+                                    #->live()
+                                    ->reactive()
                                     ->afterStateUpdated(function ($get, $set, $old, $state) {
                                         $quantity = (float) $get('quantity');
                                         $unitCost = (float) $get('unit_cost');
@@ -129,7 +131,8 @@ class MaterialCostEstimatesResource extends Resource
                                     }),
                                 TextInput::make('amount')
                                     ->label('Amount')
-                                    ->live()
+                                    #->live()
+                                    ->reactive()
                                     ->required()
                                     ->prefix('₱')
                                     ->readOnly()
@@ -149,7 +152,8 @@ class MaterialCostEstimatesResource extends Resource
                                     ->prefix('₱')
                                     ->rules(['gt:0.00'])
                                     ->placeholder('Total Amount')
-                                    ->live()
+                                    #->live()
+                                    ->reactive()
                                     ->afterStateUpdated(function ($get, $set, $old, $state) {
                                         $total = 0;
                                         $items = $get('material_cost_estimates_items');
