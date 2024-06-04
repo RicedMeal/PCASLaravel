@@ -54,7 +54,7 @@ class PurchaseRequestFormResource extends Resource
                             TextInput::make('pr_no')
                                 ->label('PR No.')
                                 ->rules(['regex:/^\d{3}-\d{4}-\d{2}-\d{2}-\d{2}$/'])
-                                ->required()  
+                                #->required()  
                                 ->columnSpan(1)
                                 ->placeholder('000-0000-00-00-00'),
 

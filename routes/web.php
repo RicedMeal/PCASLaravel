@@ -21,7 +21,7 @@ use App\Http\Controllers\RequisitionPDFController;
 
 Route::view('/', 'welcome');
 
-Route::redirect('/', '/admin/login');
+Route::redirect('/', '/admin');
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
