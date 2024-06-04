@@ -90,14 +90,14 @@ class MaterialCostEstimatesResource extends Resource
                                     ->rules(['gt:0'])
                                     ->columnSpan(1)
                                     ->placeholder('Enter Quantity')
-                                    #->live()
-                                    ->reactive()
-                                    ->afterStateUpdated(function ($get, $set, $old, $state) {
+                                    ->live(debounce: 500)
+                                    #->reactive()
+                                    /*->afterStateUpdated(function ($get, $set, $old, $state) {
                                         $quantity = (float) $state;
                                         $unitCost = (float) $get('unit_cost');
                                         $amount = number_format($quantity * $unitCost , 2, '.', '');
                                         $set('amount', $amount);
-                                    }),
+                                    })*/,
                                 Select::make('unit')
                                     ->label('Unit')
                                     ->required()
@@ -121,8 +121,8 @@ class MaterialCostEstimatesResource extends Resource
                                     ->prefix('₱')
                                     ->columnSpan(1)
                                     ->placeholder('Enter Unit Cost')
-                                    #->live()
-                                    ->reactive()
+                                    ->live(onBlur: true)
+                                    #->reactive()
                                     ->afterStateUpdated(function ($get, $set, $old, $state) {
                                         $quantity = (float) $get('quantity');
                                         $unitCost = (float) $get('unit_cost');
@@ -131,15 +131,28 @@ class MaterialCostEstimatesResource extends Resource
                                     }),
                                 TextInput::make('amount')
                                     ->label('Amount')
-                                    #->live()
-                                    ->reactive()
+                                    ->live(onBlur: true)
+                                    #->reactive()
                                     ->required()
                                     ->prefix('₱')
-                                    ->readOnly()
                                     ->type('number')
                                     ->step('0.01') 
                                     ->rules(['gt:0.00'])
-                                    ->columnSpan(1)
+                                    ->columnSpan(1),
+                            ]),
+
+
+                            TextInput::make('total')
+                                    #->readOnly()
+                                    ->label('Total')
+                                    ->required()
+                                    ->type('number')
+                                    ->step('0.01') 
+                                    ->prefix('₱')
+                                    ->rules(['gt:0.00'])
+                                    ->placeholder('Input any number to compute the total amount of the items list.')
+                                    ->live(debounce: 500)
+                                    #->reactive()
                                     ->afterStateUpdated(function ($get, $set, $old, $state) {
                                         $total = 0;
                                         $items = $get('material_cost_estimates_items');
@@ -147,20 +160,9 @@ class MaterialCostEstimatesResource extends Resource
                                         foreach ($items as $item) {
                                             $total += (float) str_replace('₱', '', $item['amount']);
                                         }
-
                                         $set('total', number_format($total, 2, '.', ''));
                                     }),
-                            ]),
-                            TextInput::make('total')
-                                    ->label('Total')
-                                    ->required()
-                                    ->type('number')
-                                    ->step('0.01') 
-                                    ->prefix('₱')
-                                    ->rules(['gt:0.00'])
-                                    ->placeholder('Total Amount')
-                                    #->live()
-                                    ->reactive(),
+                                    
                     ]),
                     Wizard\Step::make('Signatories')
                         ->schema([
