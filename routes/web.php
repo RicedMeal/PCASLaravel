@@ -21,7 +21,7 @@ use App\Http\Controllers\RequisitionPDFController;
 
 Route::view('/', 'welcome');
 
-Route::redirect('/', '/admin');
+Route::redirect('/', '/admin/login');
 
 
 
