@@ -20,9 +20,10 @@ return new class extends Migration
             $table->string('quarter')->index();
             $table->date('project_start')->index();
             $table->date('project_end')->index();
-            $table->string('project_type')->nullable()->index(); 
+            $table->string('project_type')->nullable()->index();
             $table->double('alloted_project_cost')->nullable()->index();
             $table->string('project_status')->index();
+            $table->string('completion_rate')->nullable()->index();
             $table->timestamps();
         });
     }

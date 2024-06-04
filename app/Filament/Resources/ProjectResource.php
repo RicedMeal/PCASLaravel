@@ -92,12 +92,31 @@ class ProjectResource extends Resource
                     ->required()
                     ->options([
                         'Ongoing' => 'Ongoing',
-                        'Urgent' => 'Urgent',
+                       #'Urgent' => 'Urgent',
                         'Completed' => 'Completed',
-                        'Pending' => 'Pending',
+                        #'Pending' => 'Pending',
                     ])
                     ->placeholder('Select Status')
+                    ->reactive() // Make this field reactive to changes
+                    ->afterStateUpdated(function ($set, $state) {
+                        if ($state === 'Completed') {
+                            $set('completion_rate', '100%'); // Automatically set completion_rate to 100%
+                        }
+                    })
                     ->label('Project Status'),
+
+                Select::make('completion_rate')
+                    ->required()
+                    ->options([
+                        '20%' => '20%',
+                        '40%' => '40%',
+                        '60%' => '60%',
+                        '80%' => '80%',
+                        '100%' => '100%',
+
+                    ])
+                    ->placeholder('Select Status')
+                    ->label('Completion Rate'),
                 Select::make('project_type')
                     ->required()
                     ->options([
