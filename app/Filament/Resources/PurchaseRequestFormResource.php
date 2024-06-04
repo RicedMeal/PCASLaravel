@@ -137,7 +137,7 @@ class PurchaseRequestFormResource extends Resource
                                     ->required()
                                     ->columnSpan(1)
                                     ->placeholder('Enter Quantity')
-                                    ->live()
+                                    ->live(onBlur: true)
                                     ->afterStateUpdated(function ($get, $set, $old, $state) {
                                         $quantity = (float) $state;
                                         $estimateUnitCost = (float) $get('estimate_unit_cost');
@@ -154,7 +154,7 @@ class PurchaseRequestFormResource extends Resource
                                     ->prefix('₱')
                                     ->columnSpan(1)
                                     ->placeholder('Enter Estimated Unit Cost')
-                                    ->live()
+                                    ->live(onBlur: true)
                                     ->afterStateUpdated(function ($get, $set, $old, $state) {
                                         $quantity = (float) $get('quantity');
                                         $estimateUnitCost = (float) $get('estimate_unit_cost');
@@ -170,7 +170,7 @@ class PurchaseRequestFormResource extends Resource
                                     ->columnSpan(2)
                                     ->type('number') 
                                     ->step('0.01') 
-                                    ->live()
+                                    ->live(onBlur: true)
                                     ->readOnly()
                                     ->placeholder('Enter Estimated Cost')
                                     ->extraAttributes([
@@ -190,7 +190,7 @@ class PurchaseRequestFormResource extends Resource
                                 ->step('0.01') 
                                 ->prefix('₱')
                                 ->required()
-                                ->live()
+                                ->live(onBlur: true)
                                 ->afterStateUpdated(function ($get, $set, $old, $state) {
                                         $total = 0;
                                         $items = $get('purchase_request_items');
