@@ -15,8 +15,7 @@ return new class extends Migration
         Schema::create('purchase_request_form', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('project_id');
-            $table->string('pr_no')->nullable();
-            #$table->string('pr_no');
+            $table->string('pr_no');
             $table->date('date');
             $table->string('section')->nullable();
             $table->string('sai_no')->nullable();
@@ -30,6 +29,19 @@ return new class extends Migration
             $table->string('approved_by_designation');
             $table->timestamps();
             $table->foreign('project_id')->references('id')->on('projects')->onUpdate('cascade')->onDelete('cascade');
+        });
+
+        Schema::create('purchase_request_items', function (Blueprint $table) {
+            $table->id();
+            $table->integer('item_no');
+            $table->unsignedBigInteger('purchase_request_form_id');
+            $table->string('unit');
+            $table->string('item_description');
+            $table->Integer('quantity');
+            $table->double('estimate_unit_cost');
+            $table->double('estimate_cost');
+            $table->timestamps();
+            $table->foreign('purchase_request_form_id')->references('id')->on('purchase_request_form')->onUpdate('cascade');
         });
 
     }

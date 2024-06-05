@@ -6,7 +6,7 @@ use App\Http\Controllers\ProjectDocumentController;
 use App\Http\Controllers\PurchaseRequestFormPDFController;
 use App\Http\Controllers\MaterialCostEstimatesController;
 use App\Http\Controllers\PFMOSuppliesController;
-
+use App\Http\Controllers\StockCardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,8 +23,6 @@ Route::view('/', 'welcome');
 
 Route::redirect('/', '/admin');
 
-
-
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
@@ -32,8 +30,6 @@ Route::view('dashboard', 'dashboard')
 Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
-
-
 
 //project creation route
 Route::get('/{record}/pdf', [DownloadPDFController::class, 'download'])->name('projects.pdf');
@@ -47,9 +43,8 @@ Route::get('/purchase-request/{record}/pdf', [PurchaseRequestFormPDFController::
 //route for downloading material cost estimates pdf
 Route::get('/material-cost-estimates/{materialCostEstimate}/pdf', [MaterialCostEstimatesController::class, 'pdf'])->name('material-cost-estimates.pdf');
 
-
-//route for downloading requisition pdf
-Route::get('/pfmo_supplies/{record}/pdf', [PFMOSuppliesController::class, 'pdf'])->name('pfmo_supplies.pdf');
+//route for downloading stock card pdf
+Route::get('/stock-card/{record}/pdf', [StockCardController::class, 'pdf'])->name('stock-card.pdf');
 
 
 
