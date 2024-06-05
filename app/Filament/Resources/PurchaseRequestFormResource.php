@@ -93,7 +93,7 @@ class PurchaseRequestFormResource extends Resource
                             ->addActionLabel('Add Item')
                             ->reorderableWithButtons()
                             ->collapsible()
-                            ->itemLabel(fn (array $state): ?string => $state['item_no'] ?? null)
+                            ->itemLabel(fn (array $state): ?string => isset($state['item_no'], $state['item_description']) ? $state['item_no'] . ' - ' . $state['item_description'] : null)
                             ->schema([
                                 TextInput::make('item_no')
                                     ->label('Item No.')
@@ -115,7 +115,7 @@ class PurchaseRequestFormResource extends Resource
                                         'length' => 'length',
                                         'lot' => 'lot',
                                         'pack' => 'pack',
-                                        'pc.' => 'pc.',
+                                        'pcs.' => 'pcs.',
                                         'ream' => 'ream',
                                         'roll' => 'roll',
                                         'set' => 'set',

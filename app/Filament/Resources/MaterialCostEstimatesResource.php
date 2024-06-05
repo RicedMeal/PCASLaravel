@@ -61,82 +61,82 @@ class MaterialCostEstimatesResource extends Resource
                     Wizard\Step::make('Add Material and Cost Estimates Items')
                         ->schema([
                             Repeater::make('material_cost_estimates_items')
-                            ->label('Items List')
-                            ->columns(4)
-                            ->relationship('material_cost_estimates_items')
-                            ->addActionLabel('Add Item')
-                            ->reorderableWithButtons()
-                            ->collapsible()
-                            ->itemLabel(fn (array $state): ?string => $state['item_no'] ?? null)
-                            ->schema([
-                                TextInput::make('item_no')
-                                    ->label('Item No.')
-                                    ->required()
-                                    //->unique()
-                                    ->type('number')
-                                    ->columnSpan(1)
-                                    ->rules(['gt:0']),  
-                                    #->placeholder('Item No. should be unique')
-                                TextInput::make('description')
-                                    ->label('Description')
-                                    ->required()
-                                    ->columnSpan(3)
-                                    ->rules(['string', 'max:255'])
-                                    ->placeholder('Enter Description'),
-                                TextInput::make('quantity')
-                                    ->label('Quantity')
-                                    ->required()
-                                    ->type('number')
-                                    ->rules(['gt:0'])
-                                    ->columnSpan(1)
-                                    ->placeholder('Enter Quantity')
-                                    ->live()
-                                    ->afterStateUpdated(function ($get, $set, $old, $state) {
-                                        $quantity = (float) $state;
-                                        $unitCost = (float) $get('unit_cost');
-                                        $amount = number_format($quantity * $unitCost , 2, '.', '');
-                                        $set('amount', $amount);
-                                    }),
-                                Select::make('unit')
-                                    ->label('Unit')
-                                    ->required()
-                                    ->columnSpan(1)
-                                    ->placeholder('Enter Unit')
-                                    ->options([
-                                        'box' => 'box',
-                                        'length' => 'length',
-                                        'lot' => 'lot',
-                                        'pack' => 'pack',
-                                        'pc.' => 'pc.',
-                                        'ream' => 'ream',
-                                        'roll' => 'roll',
-                                        'set' => 'set',
-                                        'unit' => 'unit',
-                                    ]),
-                                TextInput::make('unit_cost')
-                                    ->label('Unit Cost')
-                                    ->required()
-                                    ->type('number')
-                                    ->prefix('₱')
-                                    ->columnSpan(1)
-                                    ->placeholder('Enter Unit Cost')
-                                    ->live()
-                                    ->afterStateUpdated(function ($get, $set, $old, $state) {
-                                        $quantity = (float) $get('quantity');
-                                        $unitCost = (float) $get('unit_cost');
-                                        $amount = number_format($quantity * $unitCost, 2, '.', '');
-                                        $set('amount', $amount);
-                                    }),
-                                TextInput::make('amount')
-                                    ->label('Amount')
-                                    ->live()
-                                    ->required()
-                                    ->prefix('₱')
-                                    ->readOnly()
-                                    ->type('number')
-                                    ->step('0.01') 
-                                    ->rules(['gt:0.00'])
-                                    ->columnSpan(1),
+                                ->label('Items List')
+                                ->columns(4)
+                                ->relationship('material_cost_estimates_items')
+                                ->addActionLabel('Add Item')
+                                ->reorderableWithButtons()
+                                ->collapsible()
+                                ->itemLabel(fn (array $state): ?string => isset($state['item_no'], $state['description']) ? $state['item_no'] . ' - ' . $state['description'] : null)
+                                ->schema([
+                                    TextInput::make('item_no')
+                                        ->label('Item No.')
+                                        ->required()
+                                        //->unique()
+                                        ->type('number')
+                                        ->columnSpan(1)
+                                        ->rules(['gt:0']),  
+                                        #->placeholder('Item No. should be unique')
+                                    TextInput::make('description')
+                                        ->label('Description')
+                                        ->required()
+                                        ->columnSpan(3)
+                                        ->rules(['string', 'max:255'])
+                                        ->placeholder('Enter Description'),
+                                    TextInput::make('quantity')
+                                        ->label('Quantity')
+                                        ->required()
+                                        ->type('number')
+                                        ->rules(['gt:0'])
+                                        ->columnSpan(1)
+                                        ->placeholder('Enter Quantity')
+                                        ->live()
+                                        ->afterStateUpdated(function ($get, $set, $old, $state) {
+                                            $quantity = (float) $state;
+                                            $unitCost = (float) $get('unit_cost');
+                                            $amount = number_format($quantity * $unitCost , 2, '.', '');
+                                            $set('amount', $amount);
+                                        }),
+                                    Select::make('unit')
+                                        ->label('Unit')
+                                        ->required()
+                                        ->columnSpan(1)
+                                        ->placeholder('Select Unit')
+                                        ->options([
+                                            'box' => 'box',
+                                            'length' => 'length',
+                                            'lot' => 'lot',
+                                            'pack' => 'pack',
+                                            'pcs.' => 'pcs.',
+                                            'ream' => 'ream',
+                                            'roll' => 'roll',
+                                            'set' => 'set',
+                                            'unit' => 'unit',
+                                        ]),
+                                    TextInput::make('unit_cost')
+                                        ->label('Unit Cost')
+                                        ->required()
+                                        ->type('number')
+                                        ->prefix('₱')
+                                        ->columnSpan(1)
+                                        ->placeholder('Enter Unit Cost')
+                                        ->live()
+                                        ->afterStateUpdated(function ($get, $set, $old, $state) {
+                                            $quantity = (float) $get('quantity');
+                                            $unitCost = (float) $get('unit_cost');
+                                            $amount = number_format($quantity * $unitCost, 2, '.', '');
+                                            $set('amount', $amount);
+                                        }),
+                                    TextInput::make('amount')
+                                        ->label('Amount')
+                                        ->live()
+                                        ->required()
+                                        ->prefix('₱')
+                                        ->readOnly()
+                                        ->type('number')
+                                        ->step('0.01') 
+                                        ->rules(['gt:0.00'])
+                                        ->columnSpan(1),
                             ]),
                     ]),
                     Wizard\Step::make('Total Cost and Signatories')

@@ -127,7 +127,8 @@ class PFMOSuppliesResource extends Resource
                 Tables\Columns\TextColumn::make('updated_at')
                     ->label('Last Updated')
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->date(),
             ])
             ->filters([
                 //
