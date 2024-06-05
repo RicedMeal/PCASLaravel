@@ -37,6 +37,8 @@ class PFMOSuppliesResource extends Resource
             ->schema([
                 Forms\Components\Section::make('PFMO Supplies Information')
                     ->columns(3)
+                    ->description('Fill up the form to add a new PFMO Supplies.')
+                    ->collapsible()
                     ->schema([
                         Forms\Components\TextInput::make('user')
                             ->default(function () {
@@ -55,53 +57,55 @@ class PFMOSuppliesResource extends Resource
                             ->helperText('This field is automatically generated and not editable.'),
                     ]),
                 Forms\Components\Section::make('PFMO Supplies List')
-                    ->schema([
-                Forms\Components\Repeater::make('pfmo_supplies_list')
-                    ->label('Supplies Information')
-                    ->columns(3)
-                    ->relationship('pfmo_supplies_list')
-                    ->reorderableWithButtons()
                     ->collapsible()
-                    ->itemLabel(fn (array $state): ?string => $state['stock_no'] ?? null)
-                    ->addActionLabel('Add Supply')
+                    ->description('Add the supplies information.')
                     ->schema([
-                        Forms\Components\TextInput::make('stock_no')
-                            ->label('Stock No.')
-                            ->helperText('Example: 2024-000001')
-                            ->rules(['regex:/^\d{4}-\d{6}$/'])
-                            ->placeholder('0000-000000')
-                            ->required(),
-                        Forms\Components\Select::make('unit')
-                            ->label('Unit')
-                            ->helperText('Choose the unit of the supply. e.g. length')
-                            ->required()
-                            ->rules(['string', 'max:150'])
-                            ->options([
-                                'box' => 'box',
-                                'length' => 'length',
-                                'lot' => 'lot',
-                                'pack' => 'pack',
-                                'pc.' => 'pc.',
-                                'ream' => 'ream',
-                                'roll' => 'roll',
-                                'set' => 'set',
-                                'unit' => 'unit',
-                            ]),
-                        Forms\Components\TextInput::make('quantity')
-                            ->label('Quantity')
-                            ->required()
-                            ->type('number')
-                            ->placeholder('Enter Quantity')
-                            ->maxValue(9999999999999999)
-                            ->minValue(1)
-                            ->rules(['gt:0'])
-                            ->type('number'),
-                        Forms\Components\TextInput::make('description')
-                            ->columnSpan(3)
-                            ->label('Description')
-                            ->rules(['string', 'max:150'])
-                            ->placeholder('Enter Supply Description')
-                            ->required(),
+                    Forms\Components\Repeater::make('pfmo_supplies_list')
+                        ->label('Supplies Information')
+                        ->columns(6)
+                        ->relationship('pfmo_supplies_list')
+                        ->reorderableWithButtons()
+                        ->collapsible()
+                        ->itemLabel(fn (array $state): ?string => $state['stock_no'] ?? null)
+                        ->addActionLabel('Add Supply')
+                        ->schema([
+                            Forms\Components\TextInput::make('stock_no')
+                                ->label('Stock No.')
+                                ->helperText('e.g 2024-000001')
+                                ->rules(['regex:/^\d{4}-\d{6}$/'])
+                                ->placeholder('0000-000000')
+                                ->required(),
+                            Forms\Components\Select::make('unit')
+                                ->label('Unit')
+                                ->helperText('Choose the unit of the supply. e.g. length')
+                                ->required()
+                                ->rules(['string', 'max:150'])
+                                ->options([
+                                    'box' => 'box',
+                                    'length' => 'length',
+                                    'lot' => 'lot',
+                                    'pack' => 'pack',
+                                    'pc.' => 'pc.',
+                                    'ream' => 'ream',
+                                    'roll' => 'roll',
+                                    'set' => 'set',
+                                    'unit' => 'unit',
+                                ]),
+                            Forms\Components\TextInput::make('quantity')
+                                ->label('Quantity')
+                                ->required()
+                                ->type('number')
+                                ->placeholder('Enter Quantity')
+                                ->maxValue(9999999999999999)
+                                ->minValue(1)
+                                ->rules(['gt:0'])
+                                ->type('number'),
+                            Forms\Components\TextInput::make('description')
+                                ->columnSpan(3)
+                                ->label('Description')
+                                ->rules(['string', 'max:150'])
+                                ->placeholder('Enter Supply Description')
+                                ->required(),
                     ]),
                 ]),
             ]);

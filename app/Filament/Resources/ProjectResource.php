@@ -14,6 +14,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Section;
 
 class ProjectResource extends Resource
 {
@@ -21,7 +22,7 @@ class ProjectResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-plus-circle';
 
-    protected static ?string $label = 'Projects';
+    protected static ?string $modelLabel = 'Project';
 
     protected static ?int $navigationSort = 1;
 
@@ -40,96 +41,102 @@ class ProjectResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('project_title')
-                    ->required()
-                    ->autofocus()
-                    ->label('Project Title')
-                    ->rules(['string', 'max:100'])
-                    ->placeholder('Enter Project Title'),
-                TextInput::make('department')
-                    ->required()
-                    ->default('PFMO')
-                    ->readOnly()
-                    ->placeholder('Select Department/Office')
-                    ->label('Department/Office'),
-                TextInput::make('project_description')
-                    ->required()
-                    ->columnSpan(2)
-                    ->label('Project Description')
-                    ->rules(['string', 'max:150'])
-                    ->placeholder('Enter Project Description'),
-                TextInput::make('person_in_charge')
-                    ->readonly()
-                    ->label('Person in Charge')
-                    ->default(function () {
-                        return auth()->user()->name;
-                    }),
-                Select::make('quarter')
-                    ->placeholder('Select Quarter to Implement Project')
-                    ->required()
-                    ->label('Quarter')
-                    ->options([
-                        'Q1' => 'Q1',
-                        'Q2' => 'Q2',
-                        'Q3' => 'Q3',
-                        'Q4' => 'Q4',
-                        'Q1-Q2' => 'Q1-Q2',
-                        'Q1-Q3' => 'Q1-Q3',
-                        'Q1-Q4' => 'Q1-Q4',
-                        'Q2-Q3' => 'Q2-Q3',
-                        'Q2-Q4' => 'Q2-Q4',
-                        'Q3-Q4' => 'Q3-Q4',
-                    ]),
-                DatePicker::make('project_start')
-                    ->label('Project Start')
-                    ->required()
-                    ->displayFormat('Y/m/d'),
-                DatePicker::make('project_end')
-                    ->label('Project End')
-                    ->required()
-                    ->displayFormat('Y/m/d'),
-                Select::make('project_status')
-                    ->required()
-                    ->options([
-                        'Ongoing' => 'Ongoing',
-                       #'Urgent' => 'Urgent',
-                        'Completed' => 'Completed',
-                        #'Pending' => 'Pending',
-                    ])
-                    ->placeholder('Select Status')
-                    ->reactive() // Make this field reactive to changes
-                    ->afterStateUpdated(function ($set, $state) {
-                        if ($state === 'Completed') {
-                            $set('completion_rate', '100%'); // Automatically set completion_rate to 100%
-                        }
-                    })
-                    ->label('Project Status'),
+                Section::make('Project Information')
+                    ->icon('heroicon-m-information-circle')
+                    ->columns(2)
+                    ->description('Fill up the form to add a new project.')
+                    ->collapsible()
+                    ->schema([
+                    TextInput::make('project_title')
+                        ->required()
+                        ->autofocus()
+                        ->label('Project Title')
+                        ->rules(['string', 'max:100'])
+                        ->placeholder('Enter Project Title'),
+                    TextInput::make('department')
+                        ->required()
+                        ->default('PFMO')
+                        ->readOnly()
+                        ->placeholder('Select Department/Office')
+                        ->label('Department/Office'),
+                    TextInput::make('project_description')
+                        ->required()
+                        ->columnSpan(2)
+                        ->label('Project Description')
+                        ->rules(['string', 'max:150'])
+                        ->placeholder('Enter Project Description'),
+                    TextInput::make('person_in_charge')
+                        ->readonly()
+                        ->label('Person in Charge')
+                        ->default(function () {
+                            return auth()->user()->name;
+                        }),
+                    Select::make('quarter')
+                        ->placeholder('Select Quarter to Implement Project')
+                        ->required()
+                        ->label('Quarter')
+                        ->options([
+                            'Q1' => 'Q1',
+                            'Q2' => 'Q2',
+                            'Q3' => 'Q3',
+                            'Q4' => 'Q4',
+                            'Q1-Q2' => 'Q1-Q2',
+                            'Q1-Q3' => 'Q1-Q3',
+                            'Q1-Q4' => 'Q1-Q4',
+                            'Q2-Q3' => 'Q2-Q3',
+                            'Q2-Q4' => 'Q2-Q4',
+                            'Q3-Q4' => 'Q3-Q4',
+                        ]),
+                    DatePicker::make('project_start')
+                        ->label('Project Start')
+                        ->required()
+                        ->displayFormat('Y/m/d'),
+                    DatePicker::make('project_end')
+                        ->label('Project End')
+                        ->required()
+                        ->displayFormat('Y/m/d'),
+                    Select::make('project_status')
+                        ->required()
+                        ->options([
+                            'Ongoing' => 'Ongoing',
+                        #'Urgent' => 'Urgent',
+                            'Completed' => 'Completed',
+                            #'Pending' => 'Pending',
+                        ])
+                        ->placeholder('Select Status')
+                        ->reactive() // Make this field reactive to changes
+                        ->afterStateUpdated(function ($set, $state) {
+                            if ($state === 'Completed') {
+                                $set('completion_rate', '100%'); // Automatically set completion_rate to 100%
+                            }
+                        })
+                        ->label('Project Status'),
 
-                Select::make('completion_rate')
-                    #->required()
-                    ->options([
-                        '20%' => '20%',
-                        '40%' => '40%',
-                        '60%' => '60%',
-                        '80%' => '80%',
-                        '100%' => '100%',
+                    Select::make('completion_rate')
+                        #->required()
+                        ->options([
+                            '20%' => '20%',
+                            '40%' => '40%',
+                            '60%' => '60%',
+                            '80%' => '80%',
+                            '100%' => '100%',
 
-                    ])
-                    ->placeholder('Select Status')
-                    ->label('Completion Rate'),
-                Select::make('project_type')
-                    ->required()
-                    ->options([
-                        'Major Project' => 'Major Project',
-                        'Minor Project' => 'Minor Project',
-                    ])
-                    ->placeholder('Select Project Type')
-                    ->label('Project Type'),
-                TextInput::make('alloted_project_cost')
-                    ->label('Alloted Project Cost')
-                    ->placeholder('From Annual Procurement Plan')
-                    ->prefix('₱')
-                    ->rules('numeric', 'gt:0.00'),
+                        ])
+                        ->placeholder('Select Status')
+                        ->label('Completion Rate'),
+                    Select::make('project_type')
+                        ->required()
+                        ->options([
+                            'Major Project' => 'Major Project',
+                            'Minor Project' => 'Minor Project',
+                        ])
+                        ->placeholder('Select Project Type')
+                        ->label('Project Type'),
+                    TextInput::make('alloted_project_cost')
+                        ->label('Alloted Project Cost')
+                        ->placeholder('From Annual Procurement Plan')
+                        ->prefix('₱')
+                        ->rules('numeric', 'gt:0.00'),
                 /*
                 TextInput::make('alloted_project_cost')
                     ->label('Actual Project Cost')
@@ -164,7 +171,7 @@ class ProjectResource extends Resource
                     ->label('Cost Variance')
                     ->placeholder('Alloted Cost - Actual Cost') #Pwedeng tanggalin from form builder to table builder
                     ->disabled(true),*/
-
+                ]),
             ]);
     }
 

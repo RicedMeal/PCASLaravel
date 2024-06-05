@@ -28,7 +28,7 @@ class PurchaseRequestFormResource extends Resource
 
     protected static ?string $navigationGroup = 'PROJECT MANAGEMENT (in-house)';
 
-    protected static ?string $modelLabel = 'Purchase Request Forms';
+    protected static ?string $modelLabel = 'Purchase Request Form';
 
     public static function getNavigationBadge(): ?string
     {
@@ -42,6 +42,7 @@ class PurchaseRequestFormResource extends Resource
             ->schema([
                 Wizard::make([
                     Wizard\Step::make('Purchase Request Form')
+                        ->icon('heroicon-m-information-circle')
                         ->schema([
                             Select::make('project_id')
                                 ->label('Project ID')
@@ -85,6 +86,7 @@ class PurchaseRequestFormResource extends Resource
 
                         ]),
                     Wizard\Step::make('Items List')
+                        ->icon('heroicon-m-list-bullet')
                         ->schema([
                             Repeater::make('purchase_request_items')
                             ->label('Add Items in Purchase Request Form')
@@ -181,6 +183,7 @@ class PurchaseRequestFormResource extends Resource
                         ]),
                     ]),
                     Wizard\Step::make('Total and Other Information')
+                        ->icon('heroicon-m-banknotes')
                         ->schema([
                             TextInput::make('total')
                                 ->label('Total')
@@ -221,6 +224,7 @@ class PurchaseRequestFormResource extends Resource
                                 ->placeholder('Enter Purpose'),
                     ]),
                     Wizard\Step::make('Signatories')
+                        ->icon('heroicon-m-user-circle')
                         ->schema([
                             TextInput::make('recommended_by_name')
                                 ->label('Recommended By Name')

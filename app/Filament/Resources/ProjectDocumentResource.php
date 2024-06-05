@@ -59,7 +59,10 @@ class ProjectDocumentResource extends Resource
                             return [$project->id => $project->id . ' - ' . $project->project_title];
                         })->toArray()
                     ),
-                Section::make()->schema([
+                Section::make('Project Documents')
+                    ->description('Upload the necessary documents for the project.')
+                    ->icon('heroicon-m-clipboard-document-check')
+                    ->schema([
                     FileUpload::make('purchase_request')
                         ->multiple(false)
                         ->placeholder('Upload a file')
