@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class MarketStudiesItems extends Model
 {
@@ -17,20 +16,19 @@ class MarketStudiesItems extends Model
         'particulars',
         'unit',
         'quantity',
+        'average_unit_price',
+        'average_amount',
+        'average_subtotal',
+        'market_studies_id'
     ];
-
-    public function market_studies_supplier(): BelongsToMany
-    {
-        return $this->belongsToMany(MarketStudiesSupplier::class);
-    }
 
     public function market_studies()
     {
         return $this->belongsTo(MarketStudies::class);
     }
 
-    public function suppliers_items(): BelongsToMany
+    public function market_studies_supplier_items() 
     {
-        return $this->belongsToMany(MarketStudiesSuppliersItems::class);
+        return $this->hasMany(MarketStudiesSupplierItems::class, 'market_studies_items_id');
     }
 }
