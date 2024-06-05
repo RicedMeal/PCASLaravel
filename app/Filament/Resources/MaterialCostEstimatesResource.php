@@ -20,6 +20,8 @@ use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Button;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
+use Filament\Support\Enums\IconPosition;
+
 
 
 class MaterialCostEstimatesResource extends Resource
@@ -34,7 +36,7 @@ class MaterialCostEstimatesResource extends Resource
 
     protected static ?string $navigationGroup = 'PROJECT MANAGEMENT (in-house)';
 
-    protected static ?string $modelLabel = 'Material Cost Estimates Form';
+    protected static ?string $modelLabel = 'Material & Cost Estimates Form';
 
     public static function getNavigationBadge(): ?string
     {
@@ -57,6 +59,7 @@ class MaterialCostEstimatesResource extends Resource
             ->schema([
                 Wizard::make([
                     Wizard\Step::make('Material and Cost Estimates Form')
+                        ->icon('heroicon-m-information-circle')
                         ->schema([
                             Select::make('project_id')
                             ->label('Project ID')
@@ -73,6 +76,7 @@ class MaterialCostEstimatesResource extends Resource
                             ->placeholder('Enter Location'),
                         ]),
                     Wizard\Step::make('Add Material and Cost Estimates Items')
+                        ->icon('heroicon-m-list-bullet')
                         ->schema([
                             Repeater::make('material_cost_estimates_items')
                             ->label('Items List')
@@ -81,7 +85,7 @@ class MaterialCostEstimatesResource extends Resource
                             ->addActionLabel('Add Item')
                             ->reorderableWithButtons()
                             ->collapsible()
-                            ->itemLabel(fn (array $state): ?string => $state['item_no'] ?? null)
+                            ->itemLabel(fn (array $state): ?string => isset($state['item_no'], $state['description']) ? $state['item_no'] . ' - ' . $state['description'] : null)
                             ->schema([
                                 TextInput::make('item_no')
                                     ->label('Item No.')
@@ -115,7 +119,7 @@ class MaterialCostEstimatesResource extends Resource
                                     ->label('Unit')
                                     ->required()
                                     ->columnSpan(1)
-                                    ->placeholder('Enter Unit')
+                                    ->placeholder('Select Unit')
                                     ->options([
                                         'box' => 'box',
                                         'length' => 'length',
@@ -157,6 +161,7 @@ class MaterialCostEstimatesResource extends Resource
                                     
                     ]),
                     Wizard\Step::make('Signatories')
+                    ->icon('heroicon-m-user-circle')
                         ->schema([
                             Select::make('calculate')  // This is where the button goes
                             ->label('Calculate Total Automatically?')

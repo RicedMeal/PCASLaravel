@@ -31,7 +31,7 @@ class MarketStudiesSupplierResource extends Resource
 
     protected static ?string $navigationGroup = 'PROJECT MANAGEMENT (in-house)';
 
-    protected static ?int $navigationSort = 7;
+    protected static ?int $navigationSort = 6;
 
     public static function form(Form $form): Form
     {
@@ -40,6 +40,7 @@ class MarketStudiesSupplierResource extends Resource
                 Section::make('Market Studies Supplier Information')
                             ->icon('heroicon-m-truck')
                             ->collapsible()
+                            ->iconPosition(IconPosition::Before)
                             ->description('Fill the necessary information for the Supplier. The Sub-Total will be calculated automatically.')
                             //>badgeColor('success')
                             ->columns(4)

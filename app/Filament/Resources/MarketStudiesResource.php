@@ -19,6 +19,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Support\Enums\IconPosition;
 
 class MarketStudiesResource extends Resource
 {
@@ -30,16 +31,18 @@ class MarketStudiesResource extends Resource
 
     protected static ?string $navigationGroup = 'PROJECT MANAGEMENT (in-house)';
 
-    protected static ?int $navigationSort = 6;
+    protected static ?int $navigationSort = 5;
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Section::make('Market Studies Information')
+                    ->icon('heroicon-m-information-circle')
+                    ->iconPosition(IconPosition::Before)
+                    ->collapsible()
                     ->columns(4)
                     ->description('Fill the necessary information for the Market Studies. The Average Sub-Total will be calculated automatically.')
-                    ->collapsible()
                     ->schema([
                         Select::make('project_id')
                             ->label('Project ID')
@@ -72,6 +75,8 @@ class MarketStudiesResource extends Resource
                             ->readonly(),
                     ]),
                 Section::make('Market Studies Items')
+                    ->icon('heroicon-m-list-bullet')
+                    ->iconPosition(IconPosition::Before)
                     ->collapsible()
                     ->description('Add items for the Market Studies and fill the necessary information. The Average Unit Price and Average Amount will be calculated automatically.')
                     ->schema([
