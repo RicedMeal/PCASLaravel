@@ -106,7 +106,7 @@ class ProjectResource extends Resource
                     ->label('Project Status'),
 
                 Select::make('completion_rate')
-                    ->required()
+                    #->required()
                     ->options([
                         '20%' => '20%',
                         '40%' => '40%',
