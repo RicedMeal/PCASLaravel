@@ -15,7 +15,11 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Wizard;
+use Filament\Forms\Components\ToggleButtons;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Button;
+use Filament\Forms\Get;
+use Filament\Forms\Set;
 
 
 class MaterialCostEstimatesResource extends Resource
@@ -35,6 +39,16 @@ class MaterialCostEstimatesResource extends Resource
     public static function getNavigationBadge(): ?string
     {
         return static::getModel()::count();
+    }
+
+    public static function updateTotal($get, $set):void
+    {
+        $items = $get('material_cost_estimates_items') ?? [];
+        $total = 0;
+        foreach ($items as $item) {
+            $total += (float) str_replace('₱', '', $item['amount'] ?? '0');
+        }
+        $set('total', number_format($total, 2, '.', ''));
     }
 
     public static function form(Form $form): Form
@@ -90,14 +104,13 @@ class MaterialCostEstimatesResource extends Resource
                                     ->rules(['gt:0'])
                                     ->columnSpan(1)
                                     ->placeholder('Enter Quantity')
-                                    ->live(debounce: 500)
-                                    #->reactive()
-                                    /*->afterStateUpdated(function ($get, $set, $old, $state) {
-                                        $quantity = (float) $state;
+                                    ->live(onBlur: true)
+                                    ->afterStateUpdated(function ($get, $set) {
+                                        $quantity = (float) $get('quantity');
                                         $unitCost = (float) $get('unit_cost');
-                                        $amount = number_format($quantity * $unitCost , 2, '.', '');
+                                        $amount = number_format($quantity * $unitCost, 2, '.', '');
                                         $set('amount', $amount);
-                                    })*/,
+                                    }),
                                 Select::make('unit')
                                     ->label('Unit')
                                     ->required()
@@ -131,8 +144,8 @@ class MaterialCostEstimatesResource extends Resource
                                     }),
                                 TextInput::make('amount')
                                     ->label('Amount')
-                                    ->live(onBlur: true)
-                                    #->reactive()
+                                    #->live(onBlur: true)
+                                    ->reactive()
                                     ->required()
                                     ->prefix('₱')
                                     ->type('number')
@@ -141,31 +154,40 @@ class MaterialCostEstimatesResource extends Resource
                                     ->columnSpan(1),
                             ]),
 
-
-                            TextInput::make('total')
-                                    #->readOnly()
-                                    ->label('Total')
-                                    ->required()
-                                    ->type('number')
-                                    ->step('0.01') 
-                                    ->prefix('₱')
-                                    ->rules(['gt:0.00'])
-                                    ->placeholder('Input any number to compute the total amount of the items list.')
-                                    ->live(debounce: 500)
-                                    #->reactive()
-                                    ->afterStateUpdated(function ($get, $set, $old, $state) {
-                                        $total = 0;
-                                        $items = $get('material_cost_estimates_items');
-
-                                        foreach ($items as $item) {
-                                            $total += (float) str_replace('₱', '', $item['amount']);
-                                        }
-                                        $set('total', number_format($total, 2, '.', ''));
-                                    }),
                                     
                     ]),
                     Wizard\Step::make('Signatories')
                         ->schema([
+                            Select::make('calculate')  // This is where the button goes
+                            ->label('Calculate Total Automatically?')
+                            ->reactive()
+                            #->default('Yes')
+                            ->options([
+                                'Yes' => 'Yes',
+                                'No' => 'No',
+                            ])
+                            ->afterStateUpdated(function ($get, $set, $state) {
+                                if ($state === 'Yes') {
+                                    self::updateTotal($get, $set);
+                                } elseif ($state === 'No') {
+                                    $set('total', null);
+                                }
+
+                            }),
+                            TextInput::make('total')
+                                #->readOnly()
+                                ->label('Total')
+                                ->required()
+                                #->reactive(),
+                                ->type('number')
+                                ->step('0.01') 
+                                ->prefix('₱')
+                                ->rules(['gt:0.00'])
+                                #->placeholder('Input any number to compute the total amount of the items list.')
+                                ->live(debounce: 500),
+                                #->afterStateUpdated(function ($get, $set) {
+                                #    self::updateTotal($get, $set);
+                                #}),
                             TextInput::make('prepared_by')
                                 ->label('Prepared By:')
                                 ->required()
