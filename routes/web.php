@@ -6,7 +6,7 @@ use App\Http\Controllers\ProjectDocumentController;
 use App\Http\Controllers\PurchaseRequestFormPDFController;
 use App\Http\Controllers\MaterialCostEstimatesController;
 use App\Http\Controllers\PFMOSuppliesController;
-use App\Http\Controllers\RequisitionPDFController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -21,9 +21,11 @@ use App\Http\Controllers\RequisitionPDFController;
 
 Route::view('/', 'welcome');
 
-Route::redirect('/', '/admin/login');
+Route::redirect('/', '/admin');
 
-
+Route::group(['prefix' => 'admin', 'middleware' => ['web', 'custom.auth']], function () {
+    Filament\Facades\Filament::routes();
+});
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
@@ -32,6 +34,8 @@ Route::view('dashboard', 'dashboard')
 Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
+
+
 
 //project creation route
 Route::get('/{record}/pdf', [DownloadPDFController::class, 'download'])->name('projects.pdf');
@@ -48,5 +52,7 @@ Route::get('/material-cost-estimates/{materialCostEstimate}/pdf', [MaterialCostE
 
 //route for downloading requisition pdf
 Route::get('/pfmo_supplies/{record}/pdf', [PFMOSuppliesController::class, 'pdf'])->name('pfmo_supplies.pdf');
+
+
 
 require __DIR__.'/auth.php';
