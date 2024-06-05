@@ -21,7 +21,8 @@ use App\Http\Controllers\StockCardController;
 
 Route::view('/', 'welcome');
 
-Route::redirect('/', '/admin');
+Route::redirect('/', '/admin/login');
+
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])

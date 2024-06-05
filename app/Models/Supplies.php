@@ -9,7 +9,7 @@ class Supplies extends Model
 {
     use HasFactory;
 
-    protected $table = 'supplies';
+    protected $table = 'project_supplies';
 
     protected $primaryKey = 'pr_no';
 
