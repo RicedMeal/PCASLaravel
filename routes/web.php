@@ -21,9 +21,7 @@ use App\Http\Controllers\PFMOSuppliesController;
 
 Route::view('/', 'welcome');
 
-Route::redirect('/', '/admin');
-
-
+Route::redirect('/', '/admin/login');
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
