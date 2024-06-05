@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('pca_users', function (Blueprint $table) {
             //roles
             $table->string('role')->default('ADMIN'); //Values are Admin, User **will try to add super admin later**
         });
@@ -22,7 +22,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('pca_users', function (Blueprint $table) {
             $table->dropColumn('role');
         });
     }

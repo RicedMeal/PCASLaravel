@@ -21,6 +21,8 @@ class User extends Authenticatable implements FilamentUser
      *
      * @var array<int, string>
      */
+    protected $table = 'pca_users';
+
 
     const ROLE_ADMIN = 'ADMIN'; //EDITOR in the video
 
@@ -34,7 +36,7 @@ class User extends Authenticatable implements FilamentUser
     public function canAccessPanel(Panel $panel): bool
     {           
         #return str_ends_with($this->email, '@plm.edu.ph'); -> This is possible for plm emails
-        return $this->isAdmin() || $this->isUser();  
+        return $this->isAdmin() || $this->isUser();
     }
 
     public function isAdmin(): bool

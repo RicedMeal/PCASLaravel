@@ -23,6 +23,10 @@ Route::view('/', 'welcome');
 
 Route::redirect('/', '/admin/login');
 
+/*
+%id = request('id');
+*/
+
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
