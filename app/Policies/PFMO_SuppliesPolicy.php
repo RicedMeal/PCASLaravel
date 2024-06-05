@@ -7,7 +7,7 @@ use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
 class PFMO_SuppliesPolicy
-{
+{   /*
     # ADD THIS CODE TO ALL RESOURCES
     public function deleteAny(User $user): bool #FOR bulk deletion
     {
@@ -26,7 +26,7 @@ class PFMO_SuppliesPolicy
     # ADD THIS CODE TO ALL RESOURCES
     /**
      * Determine whether the user can view any models.
-     */
+     
     public function viewAny(User $user): bool
     {
         //
@@ -35,7 +35,7 @@ class PFMO_SuppliesPolicy
 
     /**
      * Determine whether the user can view the model.
-     */
+     
     public function view(User $user, PFMO_Supplies $pFMOSupplies): bool
     {
         //
@@ -44,7 +44,7 @@ class PFMO_SuppliesPolicy
 
     /**
      * Determine whether the user can create models.
-     */
+     
     public function create(User $user): bool
     {
         //
@@ -53,7 +53,7 @@ class PFMO_SuppliesPolicy
 
     /**
      * Determine whether the user can update the model.
-     */
+     
     public function update(User $user, PFMO_Supplies $pFMOSupplies): bool
     {
         //
@@ -63,7 +63,7 @@ class PFMO_SuppliesPolicy
 
     /**
      * Determine whether the user can delete the model.
-     */
+     
     public function delete(User $user, PFMO_Supplies $pFMOSupplies): bool
     {
         //
@@ -72,7 +72,7 @@ class PFMO_SuppliesPolicy
 
     /**
      * Determine whether the user can restore the model.
-     */
+     
     public function restore(User $user, PFMO_Supplies $pFMOSupplies): bool
     {
         //
@@ -81,10 +81,11 @@ class PFMO_SuppliesPolicy
 
     /**
      * Determine whether the user can permanently delete the model.
-     */
+     
     public function forceDelete(User $user, PFMO_Supplies $pFMOSupplies): bool
     {
         //
         return $user->isAdmin();
     }
+    */
 }

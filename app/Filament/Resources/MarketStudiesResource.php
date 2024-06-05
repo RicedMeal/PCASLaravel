@@ -55,11 +55,11 @@ class MarketStudiesResource extends Resource
                             ),
 
                         TextInput::make('end_user')
-                            ->readonly()
-                            ->label('Person in Charge')
-                            ->default(function () {
-                                return auth()->user()->name;
-                            }),
+                            #->readonly()
+                            ->label('Person in Charge'),
+                            #->default(function () {
+                            #    return auth()->user()->name;
+                            #}),
 
                         TextInput::make('abc')
                             ->label('ABC')

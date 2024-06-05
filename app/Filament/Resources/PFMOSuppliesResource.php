@@ -41,10 +41,10 @@ class PFMOSuppliesResource extends Resource
                     ->collapsible()
                     ->schema([
                         Forms\Components\TextInput::make('user')
-                            ->default(function () {
-                              return auth()->user()->name;
-                            })
-                            ->readOnly()
+                            #->default(function () {
+                            #  return auth()->user()->name;
+                           #})
+                            #->readOnly()
                             ->required(),
                         Forms\Components\DatePicker::make('entry_date')
                             ->required()

@@ -8,6 +8,7 @@ use Illuminate\Auth\Access\Response;
 
 class SuppliesPolicy
 {
+    /*
     # ADD THIS CODE TO ALL RESOURCES
     public function deleteAny(User $user): bool #FOR bulk deletion
     {
@@ -26,7 +27,7 @@ class SuppliesPolicy
     # ADD THIS CODE TO ALL RESOURCES
     /**
      * Determine whether the user can view any models.
-     */
+     
     public function viewAny(User $user): bool
     {
         //
@@ -35,7 +36,7 @@ class SuppliesPolicy
 
     /**
      * Determine whether the user can view the model.
-     */
+     
     public function view(User $user, Supplies $Supplies): bool
     {
         //
@@ -44,7 +45,7 @@ class SuppliesPolicy
 
     /**
      * Determine whether the user can create models.
-     */
+     
     public function create(User $user): bool
     {
         //
@@ -53,7 +54,7 @@ class SuppliesPolicy
 
     /**
      * Determine whether the user can update the model.
-     */
+     
     public function update(User $user, Supplies $Supplies): bool
     {
         //
@@ -61,9 +62,9 @@ class SuppliesPolicy
 
     }
 
-    /**
+    
      * Determine whether the user can delete the model.
-     */
+     
     public function delete(User $user, Supplies $Supplies): bool
     {
         //
@@ -72,7 +73,7 @@ class SuppliesPolicy
 
     /**
      * Determine whether the user can restore the model.
-     */
+     
     public function restore(User $user, Supplies $Supplies): bool
     {
         //
@@ -81,10 +82,11 @@ class SuppliesPolicy
 
     /**
      * Determine whether the user can permanently delete the model.
-     */
+     
     public function forceDelete(User $user, Supplies $Supplies): bool
     {
         //
         return $user->isAdmin();
     }
+    */
 }

@@ -66,11 +66,11 @@ class ProjectResource extends Resource
                         ->rules(['string', 'max:150'])
                         ->placeholder('Enter Project Description'),
                     TextInput::make('person_in_charge')
-                        ->readonly()
-                        ->label('Person in Charge')
-                        ->default(function () {
-                            return auth()->user()->name;
-                        }),
+                        #->readonly()
+                        ->label('Person in Charge'),
+                        #->default(function () {
+                        #    return auth()->user()->name;
+                        #}),
                     Select::make('quarter')
                         ->placeholder('Select Quarter to Implement Project')
                         ->required()
@@ -198,7 +198,7 @@ class ProjectResource extends Resource
                     ->color('gray')
                     ->label('Estimated Budget Cost') 
                     ->sortable(),
-                TextColumn::make('actual_cost')
+                /*TextColumn::make('actual_cost')
                     ->searchable()
                     ->prefix('₱')
                     ->placeholder('From Abstract of Canvass')
@@ -211,7 +211,7 @@ class ProjectResource extends Resource
                     ->prefix('₱')
                     ->color('red')
                     ->label('Cost Variance') //Alloted Project Cost (From APP) - Actual Cost (From Abstract of Canvass)
-                    ->sortable(),
+                    ->sortable(),*/
                 TextColumn::make('project_title')
                     ->searchable()
                     ->limit(30)

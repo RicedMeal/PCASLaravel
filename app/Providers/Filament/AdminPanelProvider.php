@@ -64,9 +64,9 @@ class AdminPanelProvider extends PanelProvider
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
             ])
-            ->authMiddleware([
-                Authenticate::class,
-            ])
+            #->authMiddleware([
+            #    Authenticate::class,
+            #])
             ->darkMode()
             ->profile(EditProfile::class)
         ;
