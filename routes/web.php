@@ -23,9 +23,7 @@ Route::view('/', 'welcome');
 
 Route::redirect('/', '/admin');
 
-Route::group(['prefix' => 'admin', 'middleware' => ['web', 'custom.auth']], function () {
-    Filament\Facades\Filament::routes();
-});
+
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
