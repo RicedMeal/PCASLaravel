@@ -67,7 +67,7 @@ class AdminPanelProvider extends PanelProvider
             #->authMiddleware([
             #    Authenticate::class,
             #])
-            ->darkMode()
+            ->darkMode(false)
             ->profile(EditProfile::class)
         ;
     }
