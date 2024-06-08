@@ -14,6 +14,7 @@ class MarketStudiesSupplierItems extends Model
     protected $fillable = [
         'market_studies_items_id',
         'market_studies_supplier_id',
+        'quantity', 
         'unit_price',
         'amount_per_supplier',
     ];
