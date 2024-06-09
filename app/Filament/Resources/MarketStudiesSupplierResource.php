@@ -31,7 +31,7 @@ class MarketStudiesSupplierResource extends Resource
 
     protected static ?string $navigationGroup = 'PROJECT MANAGEMENT (in-house)';
 
-    protected static ?int $navigationSort = 6;
+    protected static ?int $navigationSort = 5;
 
     public static function form(Form $form): Form
     {
@@ -61,17 +61,12 @@ class MarketStudiesSupplierResource extends Resource
                                     ->required()
                                     ->placeholder('Enter Supplier Contact')
                                     ->initialCountry('PH'),
-                                TextInput::make('sub_total')
-                                    ->label('Sub-Total')
-                                    ->prefix('₱')
-                                    ->helperText('Do not enter any value. This field will be calculated automatically.')
-                                    ->type('number')
-                                    ->rules('numeric', 'gt:0.00')
-                                    ->readOnly(),
+
                             ]),
                 Section::make('Market Studies Supplier Items')
                             ->icon('heroicon-m-banknotes')
                             ->collapsible()
+                            ->columns(3)
                             ->description('Fill the necessary information for the Supplier Items.')
                             ->iconPosition(IconPosition::Before)
                             ->schema([
@@ -108,6 +103,37 @@ class MarketStudiesSupplierResource extends Resource
                                             ->helperText('Amount of the Item of the Supplier')
                                             ->placeholder('Enter Amount'),
                                     ])
+                                ]),
+                    Section::make('Sub-total')
+                                ->icon('heroicon-m-currency-dollar')
+                                ->collapsible()
+                                ->description('The Sub-total will be calculated automatically.')
+                                ->iconPosition(IconPosition::Before)
+                                ->schema([
+                                    Select::make('calculate')  // This is where the button goes
+                                        ->label('Calculate Total Automatically?')
+                                        ->reactive()
+                                        #->default('Yes')
+                                        ->options([
+                                            'Yes' => 'Yes',
+                                            'No' => 'No',
+                                        ])
+                                        ->afterStateUpdated(function ($get, $set, $state) {
+                                            if ($state === 'Yes') {
+                                                self::updateTotal($get, $set);
+                                            } elseif ($state === 'No') {
+                                                $set('total', null);
+                                            }
+                                        }),
+            
+                                    TextInput::make('sub_total')
+                                        ->label('Sub-Total')
+                                        ->prefix('₱')
+                                        ->helperText('Do not enter any value. This field will be calculated automatically.')
+                                        ->type('number')
+                                        ->live(debounce: 500)
+                                        ->rules('numeric', 'gt:0.00')
+                                        ->readOnly(),
                                 ]),
             ]);
     }

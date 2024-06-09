@@ -22,7 +22,7 @@ class PurchaseRequestFormResource extends Resource
 
     protected static ?string $modelItems = Purchase_Request_Items::class;
 
-    protected static ?int $navigationSort = 4;
+    protected static ?int $navigationSort = 6;
 
     protected static ?string $navigationIcon = 'heroicon-o-document-plus';
 
@@ -180,7 +180,7 @@ class PurchaseRequestFormResource extends Resource
                                     #]),
                         ]),
                     ]),
-                    Wizard\Step::make('Total and Other Information')
+                    Wizard\Step::make('Other Information')
                         ->icon('heroicon-m-banknotes')
                         ->schema([
                             Select::make('calculate')  // This is where the button goes

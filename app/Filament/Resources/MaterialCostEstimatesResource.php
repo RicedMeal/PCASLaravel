@@ -160,7 +160,7 @@ class MaterialCostEstimatesResource extends Resource
 
                                     
                     ]),
-                    Wizard\Step::make('Signatories')
+                    Wizard\Step::make('Total and Signatories')
                     ->icon('heroicon-m-user-circle')
                         ->schema([
                             Select::make('calculate')  // This is where the button goes

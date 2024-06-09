@@ -31,7 +31,17 @@ class MarketStudiesResource extends Resource
 
     protected static ?string $navigationGroup = 'PROJECT MANAGEMENT (in-house)';
 
-    protected static ?int $navigationSort = 5;
+    protected static ?int $navigationSort = 4;
+
+    public static function updateTotal($get, $set):void
+    {
+        $items = $get('ms_supplier_items') ?? [];
+        $Subtotal = 0;
+        foreach ($items as $item) {
+            $Subtotal += (float) str_replace('₱', '', $item['amount_per_supplier'] ?? '0');
+        }
+        $set('sub_total', number_format($Subtotal, 2, '.', ''));
+    }
 
     public static function form(Form $form): Form
     {
@@ -42,7 +52,7 @@ class MarketStudiesResource extends Resource
                     ->iconPosition(IconPosition::Before)
                     ->collapsible()
                     ->columns(4)
-                    ->description('Fill the necessary information for the Market Studies. The Average Sub-Total will be calculated automatically.')
+                    ->description('Fill the necessary information for the Supplier.')
                     ->schema([
                         Select::make('project_id')
                             ->label('Project ID')

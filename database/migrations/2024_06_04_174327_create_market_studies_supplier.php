@@ -25,6 +25,7 @@ return new class extends Migration
             $table->unsignedBigInteger('market_studies_items_id');
             $table->unsignedBigInteger('market_studies_supplier_id')->nullable();
             $table->float('unit_price');
+            $table->integer('quantity');
             $table->float('amount_per_supplier');
             $table->timestamps();
             $table->foreign('market_studies_items_id')->references('id')->on('market_studies_items')->onUpdate('cascade');

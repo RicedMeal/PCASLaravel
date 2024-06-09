@@ -15,6 +15,7 @@ class MarketStudiesSupplierItems extends Model
         'market_studies_items_id',
         'market_studies_supplier_id',
         'unit_price',
+        'quantity',
         'amount_per_supplier',
     ];
 
