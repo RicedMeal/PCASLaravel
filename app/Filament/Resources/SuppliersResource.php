@@ -54,6 +54,7 @@ class SuppliersResource extends Resource
                     ->readOnly()
                     ->label('Representative Email'),
                 //
+              
             ]);
     }
 
@@ -62,10 +63,10 @@ class SuppliersResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name')
-                    ->label('Name')
-                    ->searchable()
-                    ->sortable()
-                    ->toggleable(),
+                ->label('Name')
+                ->searchable()
+                ->sortable()
+                ->toggleable(),
                 TextColumn::make('category')
                     ->label('Category')
                     ->searchable()
@@ -92,16 +93,16 @@ class SuppliersResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\ActionGroup::make([
-                    Tables\Actions\ViewAction::make()
-                        ->color('primary'),
-                    Tables\Actions\EditAction::make()
-                        ->color('primary'),
-                    ])
+                #Tables\Actions\ActionGroup::make([
+                #    Tables\Actions\ViewAction::make()
+                 #       ->color('primary'),
+                  #  Tables\Actions\EditAction::make()
+                  #      ->color('primary'),
+                   # ])
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    #Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -117,8 +118,8 @@ class SuppliersResource extends Resource
     {
         return [
             'index' => Pages\ListSuppliers::route('/'),
-            'create' => Pages\CreateSuppliers::route('/create'),
-            'edit' => Pages\EditSuppliers::route('/{record}/edit'),
+            #'create' => Pages\CreateSuppliers::route('/create'),
+            #'edit' => Pages\EditSuppliers::route('/{record}/edit'),
         ];
     }
 }

@@ -115,31 +115,43 @@ class SuppliesResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('ris_no')
-                ->label('RIS No.')
+                TextColumn::make('bur')
+                  ->label('BUR No.')
+                  ->searchable()
+                  ->sortable()
+                  ->toggleable(),
+                TextColumn::make('iar_no')
+                ->label('IAR No.')
                 ->searchable()
                 ->sortable()
-                ->dateTime()
                 ->toggleable(),
-                TextColumn::make('iar_no')
-                    ->label('IAR No.')
+                TextColumn::make('item_no')
+                    ->label('Items No.')
                     ->searchable()
                     ->sortable()
-                    ->dateTime()
                     ->toggleable(),
                 TextColumn::make('stock_no')
                     ->searchable()
                     ->sortable()
                     ->toggleable()
                     ->label('Stock No.'),
-                TextColumn::make('description')
+                TextColumn::make('item_description')
                     ->label('Description')
                     ->searchable()
                     ->sortable()
-                    ->date()
                     ->toggleable(),
-                TextColumn::make('unit')
-                    ->label('Unit')
+                TextColumn::make('supplier')
+                    ->label('Supplier')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(),
+              TextColumn::make('stock_type')
+                    ->label('Stock Type')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(),
+                TextColumn::make('pr_number')
+                    ->label('PR No.')
                     ->searchable()
                     ->sortable()
                     ->toggleable()
@@ -149,16 +161,16 @@ class SuppliesResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\ActionGroup::make([
-                    Tables\Actions\ViewAction::make()
-                        ->color('primary'),
-                    Tables\Actions\EditAction::make()
-                        ->color('primary'),
-                    ]),
+                #Tables\Actions\ActionGroup::make([
+                    #Tables\Actions\ViewAction::make()
+                      #  ->color('primary'),
+                    #Tables\Actions\EditAction::make()
+                    #    ->color('primary'),
+                   # ]),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                 #   Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -174,8 +186,8 @@ class SuppliesResource extends Resource
     {
         return [
             'index' => Pages\ListSupplies::route('/'),
-            'create' => Pages\CreateSupplies::route('/create'),
-            'edit' => Pages\EditSupplies::route('/{record}/edit'),
+           # 'create' => Pages\CreateSupplies::route('/create'),
+           # 'edit' => Pages\EditSupplies::route('/{record}/edit'),
         ];
     }
 }

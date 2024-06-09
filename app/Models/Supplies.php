@@ -9,46 +9,28 @@ class Supplies extends Model
 {
     use HasFactory;
 
-    protected $table = 'project_supplies';
-
-    protected $primaryKey = 'pr_no';
-
+   protected $table = 'delivered';
+    protected $primaryKey = 'id';
     protected $fillable = [
-        'stock_no',
-        'description',
-        'unit',
-        'delivered',
-        'issued',
-        'balance_after',
-        'status',
-        'date_issuance',
-        'requesting_office',
-        'report_no',
-        'ris_no',
-        'delivery_date',
         'actual_delivery_date',
-        'acceptance_date',
+        'stock_no',
         'iar_no',
         'item_no',
+        'stock_no',
+        'item_description',
+        'delivered',
+        'unit',
         'dr_no',
         'check_no',
         'po_no',
         'po_date',
         'po_amount',
-        'pr_no',
+        'pr_number',
         'price_per_purchase_request',
         'bur',
         'remarks',
-        'added'
-    ];
-
-    protected $dates = [
-        'date_issuance',
-        'delivery_date',
-        'actual_delivery_date',
-        'acceptance_date',
-        'po_date',
-        'deleted_at'
+        'supplier',
+        'photo',
     ];
 
 
