@@ -85,7 +85,7 @@ class PurchaseRequestFormResource extends Resource
                                 ->placeholder('Bus-00000'),
 
                         ]),
-                    Wizard\Step::make('Items List')
+                    /*Wizard\Step::make('Items List')
                         ->icon('heroicon-m-list-bullet')
                         ->schema([
                             Repeater::make('purchase_request_items')
@@ -233,7 +233,7 @@ class PurchaseRequestFormResource extends Resource
                                 ->columnSpan(2)
                                 ->rules(['string', 'max:150'])
                                 ->placeholder('Enter Purpose'),
-                    ]),
+                    ]),*/
                     Wizard\Step::make('Signatories')
                         ->icon('heroicon-m-user-circle')
                         ->schema([
