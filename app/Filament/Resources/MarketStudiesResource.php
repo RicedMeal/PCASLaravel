@@ -31,7 +31,7 @@ class MarketStudiesResource extends Resource
 
     protected static ?string $navigationGroup = 'PROJECT MANAGEMENT (in-house)';
 
-    protected static ?int $navigationSort = 5;
+    protected static ?int $navigationSort = 4;
 
     public static function form(Form $form): Form
     {

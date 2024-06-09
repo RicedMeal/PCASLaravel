@@ -20,9 +20,9 @@ class PurchaseRequestFormResource extends Resource
 {
     protected static ?string $model = Purchase_Request_Form::class;
 
-    protected static ?string $modelItems = Purchase_Request_Items::class;
+    //protected static ?string $modelItems = Purchase_Request_Items::class;
 
-    protected static ?int $navigationSort = 4;
+    protected static ?int $navigationSort = 6;
 
     protected static ?string $navigationIcon = 'heroicon-o-document-plus';
 
@@ -55,7 +55,7 @@ class PurchaseRequestFormResource extends Resource
                             TextInput::make('pr_no')
                                 ->label('PR No.')
                                 ->rules(['regex:/^\d{3}-\d{4}-\d{2}-\d{2}-\d{2}$/'])
-                                #->required()  
+                                #->required()
                                 ->columnSpan(1)
                                 ->placeholder('000-0000-00-00-00'),
 
@@ -64,7 +64,7 @@ class PurchaseRequestFormResource extends Resource
                                 ->required()
                                 //->default(now()->format('Y-m-d'))
                                 //->readOnly()
-                                ->columnSpan(1) 
+                                ->columnSpan(1)
                                 ->placeholder('Enter Date'),
 
                             TextInput::make('section')
@@ -85,67 +85,67 @@ class PurchaseRequestFormResource extends Resource
                                 ->placeholder('Bus-00000'),
 
                         ]),
-                    Wizard\Step::make('Items List')
-                        ->icon('heroicon-m-list-bullet')
-                        ->schema([
-                            Repeater::make('purchase_request_items')
-                            ->label('Add Items in Purchase Request Form')
-                            ->columns(4)
-                            ->relationship('purchase_request_items')
-                            ->addActionLabel('Add Item')
-                            ->reorderableWithButtons()
-                            ->collapsible()
-                            ->itemLabel(fn (array $state): ?string => isset($state['item_no'], $state['item_description']) ? $state['item_no'] . ' - ' . $state['item_description'] : null)
-                            ->schema([
-                                TextInput::make('item_no')
-                                    ->label('Item No.')
-                                    ->type('number')
-                                    ->columnSpan(1)
-                                    ->required()
-                                    ->unique()
-                                    ->rules(['gt:0'])
-                                    //->hint('Current Item No: ' . Purchase_Request_Items::max('item_no') + 1)
-                                    ->placeholder('Item No. should be unique'),
+                    // Wizard\Step::make('Items List')
+                    //     ->icon('heroicon-m-list-bullet')
+                    //     ->schema([
+                    //         Repeater::make('purchase_request_items')
+                    //         ->label('Add Items in Purchase Request Form')
+                    //         ->columns(4)
+                    //         ->relationship('purchase_request_items')
+                    //         ->addActionLabel('Add Item')
+                    //         ->reorderableWithButtons()
+                    //         ->collapsible()
+                    //         ->itemLabel(fn (array $state): ?string => isset($state['item_no'], $state['item_description']) ? $state['item_no'] . ' - ' . $state['item_description'] : null)
+                    //         ->schema([
+                    //             TextInput::make('item_no')
+                    //                 ->label('Item No.')
+                    //                 ->type('number')
+                    //                 ->columnSpan(1)
+                    //                 ->required()
+                    //                 ->unique()
+                    //                 ->rules(['gt:0'])
+                    //                 //->hint('Current Item No: ' . Purchase_Request_Items::max('item_no') + 1)
+                    //                 ->placeholder('Item No. should be unique'),
 
-                                TextInput::make('item_description')
-                                    ->label('Item Description')
-                                    ->required()
-                                    ->rules(['string', 'max:150'])
-                                    ->placeholder('Enter Item Description')
-                                    ->columnSpan(2),
-                                TextInput::make('quantity')
-                                    ->label('Quantity')
-                                    ->numeric()
-                                    ->type('number')
-                                    ->maxValue(9999999999999999)
-                                    ->minValue(1)
-                                    ->rules(['gt:0'])
-                                    ->required()
-                                    ->columnSpan(1)
-                                    ->placeholder('Enter Quantity')
-                                    ->live(onBlur: true)
-                                    ->afterStateUpdated(function ($get, $set, $old, $state) {
-                                        $quantity = (float) $state;
-                                        $estimateUnitCost = (float) $get('estimate_unit_cost');
-                                        $estimateCost = number_format($quantity * $estimateUnitCost , 2, '.', '');
-                                        $set('estimate_cost', $estimateCost);
-                                    }),
-                                Select::make('unit')
-                                    ->label('Unit')
-                                    ->required()
-                                    ->placeholder('Select Unit')
-                                    ->columnSpan(1)
-                                    ->options([
-                                        'box' => 'box',
-                                        'length' => 'length',
-                                        'lot' => 'lot',
-                                        'pack' => 'pack',
-                                        'pcs.' => 'pcs.',
-                                        'ream' => 'ream',
-                                        'roll' => 'roll',
-                                        'set' => 'set',
-                                        'unit' => 'unit',
-                                    ]),
+                    //             Select::make('unit')
+                    //                 ->label('Unit')
+                    //                 ->required()
+                    //                 ->placeholder('Select Unit')
+                    //                 ->columnSpan(1)
+                    //                 ->options([
+                    //                     'box' => 'box',
+                    //                     'length' => 'length',
+                    //                     'lot' => 'lot',
+                    //                     'pack' => 'pack',
+                    //                     'pcs.' => 'pcs.',
+                    //                     'ream' => 'ream',
+                    //                     'roll' => 'roll',
+                    //                     'set' => 'set',
+                    //                     'unit' => 'unit',
+                    //                 ]),
+                    //             TextInput::make('item_description')
+                    //                 ->label('Item Description')
+                    //                 ->required()
+                    //                 ->rules(['string', 'max:150'])
+                    //                 ->placeholder('Enter Item Description')
+                    //                 ->columnSpan(2),
+                    //             TextInput::make('quantity')
+                    //                 ->label('Quantity')
+                    //                 ->numeric()
+                    //                 ->type('number')
+                    //                 ->maxValue(9999999999999999)
+                    //                 ->minValue(1)
+                    //                 ->rules(['gt:0'])
+                    //                 ->required()
+                    //                 ->columnSpan(1)
+                    //                 ->placeholder('Enter Quantity')
+                    //                 ->live(onBlur: true)
+                    //                 ->afterStateUpdated(function ($get, $set, $old, $state) {
+                    //                     $quantity = (float) $state;
+                    //                     $estimateUnitCost = (float) $get('estimate_unit_cost');
+                    //                     $estimateCost = number_format($quantity * $estimateUnitCost , 2, '.', '');
+                    //                     $set('estimate_cost', $estimateCost);
+                    //                 }),
 
                                 TextInput::make('estimate_unit_cost')
                                     ->label('Estimated Unit Cost')
@@ -172,42 +172,19 @@ class PurchaseRequestFormResource extends Resource
                                     ->columnSpan(2)
                                     ->type('number') 
                                     ->step('0.01') 
-                                    #->live(onBlur: true)
+                                    ->live(onBlur: true)
                                     ->readOnly()
-                                    ->placeholder('Enter Estimated Cost'),
-                                    #->extraAttributes([
-                                    #    'min' => 0,
-                                     #   'max' => 9999999999999999.99,
-                                    #    'pattern' => '\d+(\.\d{2})?',
-                                    #]),
+                                    ->placeholder('Enter Estimated Cost')
+                                    ->extraAttributes([
+                                        'min' => 0,
+                                        'max' => 9999999999999999.99,
+                                        'pattern' => '\d+(\.\d{2})?',
+                                    ]),
                         ]),
                     ]),
                     Wizard\Step::make('Total and Other Information')
                         ->icon('heroicon-m-banknotes')
                         ->schema([
-                            Select::make('calculate')  // This is where the button goes
-                            ->label('Calculate Total Automatically?')
-                            ->reactive()
-                            #->default('Yes')
-                            ->options([
-                                'Yes' => 'Yes',
-                                'No' => 'No',
-                            ])
-                            ->afterStateUpdated(function ($get, $set, $state) {
-                                if ($state === 'Yes') {
-                                    $total = 0;
-                                    $items = $get('purchase_request_items');
-
-                                    foreach ($items as $item) {
-                                        $total += (float) str_replace('₱', '', $item['estimate_cost']);
-                                    }
-
-                                    $set('total', number_format($total, 2, '.', ''));
-                                } elseif ($state === 'No') {
-                                    $set('total', null);
-                                }
-
-                            }),
                             TextInput::make('total')
                                 ->label('Total')
                                 ->columnSpan(2)
@@ -217,16 +194,16 @@ class PurchaseRequestFormResource extends Resource
                                 ->prefix('₱')
                                 ->required()
                                 ->live(onBlur: true)
-                                /*->afterStateUpdated(function ($get, $set, $old, $state) {
+                                ->afterStateUpdated(function ($get, $set, $old, $state) {
                                         $total = 0;
                                         $items = $get('purchase_request_items');
 
-                                        foreach ($items as $item) {
-                                            $total += (float) str_replace('₱', '', $item['estimate_cost']);
-                                        }
+                            //             foreach ($items as $item) {
+                            //                 $total += (float) str_replace('₱', '', $item['estimate_cost']);
+                            //             }
 
                                         $set('total', number_format($total, 2, '.', ''));
-                                    })*/
+                                    })
                                 ->placeholder('Enter Total')
                                 ->extraAttributes([
                                     'min' => 0,
@@ -259,7 +236,7 @@ class PurchaseRequestFormResource extends Resource
                                 ->required()
                                 ->rules(['string', 'max:100'])
                                 ->placeholder('Enter Recommended By Designation'),
-                            TextInput::make('approved_by_name') 
+                            TextInput::make('approved_by_name')
                                 ->label('Approved By Name')
                                 ->required()
                                 ->rules(['string', 'max:100'])
@@ -271,7 +248,7 @@ class PurchaseRequestFormResource extends Resource
                                 ->placeholder('Enter Approved By Designation'),
                         ]),
                 ])->columnSpanFull(),
-            ]);      
+            ]);
     }
 
     public static function table(Table $table): Table
@@ -307,8 +284,8 @@ class PurchaseRequestFormResource extends Resource
 
             ])
             ->filters([
-                
-                
+
+
             ])
             ->actions([
                 Tables\Actions\ActionGroup::make([
@@ -332,14 +309,14 @@ class PurchaseRequestFormResource extends Resource
                 Tables\Actions\CreateAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -347,5 +324,5 @@ class PurchaseRequestFormResource extends Resource
             'create' => Pages\CreatePurchaseRequestForm::route('/create'),
             'edit' => Pages\EditPurchaseRequestForm::route('/{record}/edit'),
         ];
-    }    
+    }
 }
