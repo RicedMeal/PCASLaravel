@@ -18,14 +18,14 @@ class Purchase_Request_Form extends Model
         'section',
         'sai_no',
         'bus_no',
-        // 'total',
+        'total',
         'delivery_duration',
         'purpose',
         'recommended_by_name',
         'recommended_by_designation',
         'approved_by_name',
         'approved_by_designation'
-
+        
     ];
 
     public function project()
@@ -33,9 +33,9 @@ class Purchase_Request_Form extends Model
         return $this->belongsTo(Project::class);
     }
 
-    // public function purchase_request_items()
-    // {
-    //     return $this->hasMany(Purchase_Request_Items::class, 'purchase_request_form_id');
-    // }
+    public function purchase_request_items()
+    {
+        return $this->hasMany(Purchase_Request_Items::class, 'purchase_request_form_id');
+    }
 
 }

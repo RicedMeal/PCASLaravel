@@ -31,16 +31,8 @@ class MarketStudiesSupplierResource extends Resource
 
     protected static ?string $navigationGroup = 'PROJECT MANAGEMENT (in-house)';
 
-    protected static ?int $navigationSort = 5;
-    public static function updateTotal($get, $set):void
-    {
-        $items = $get('ms_supplier_items') ?? [];
-        $Subtotal = 0;
-        foreach ($items as $item) {
-            $Subtotal += (float) str_replace('₱', '', $item['amount_per_supplier'] ?? '0');
-        }
-        $set('sub_total', number_format($Subtotal, 2, '.', ''));
-    }
+    protected static ?int $navigationSort = 6;
+
     public static function form(Form $form): Form
     {
         return $form
@@ -49,9 +41,9 @@ class MarketStudiesSupplierResource extends Resource
                             ->icon('heroicon-m-truck')
                             ->collapsible()
                             ->iconPosition(IconPosition::Before)
-                            ->description('Fill the necessary information for the Supplier.')
+                            ->description('Fill the necessary information for the Supplier. The Sub-Total will be calculated automatically.')
                             //>badgeColor('success')
-                            ->columns(3)
+                            ->columns(4)
                             ->iconPosition(IconPosition::Before)
                             ->schema([
                                 TextInput::make('supplier_name')
@@ -69,6 +61,13 @@ class MarketStudiesSupplierResource extends Resource
                                     ->required()
                                     ->placeholder('Enter Supplier Contact')
                                     ->initialCountry('PH'),
+                                TextInput::make('sub_total')
+                                    ->label('Sub-Total')
+                                    ->prefix('₱')
+                                    ->helperText('Do not enter any value. This field will be calculated automatically.')
+                                    ->type('number')
+                                    ->rules('numeric', 'gt:0.00')
+                                    ->readOnly(),
                             ]),
                 Section::make('Market Studies Supplier Items')
                             ->icon('heroicon-m-banknotes')
@@ -81,7 +80,7 @@ class MarketStudiesSupplierResource extends Resource
                                     ->addActionLabel('Add Supplier Item')
                                     ->relationship('ms_supplier_items')
                                     ->collapsible()
-                                    ->columns(4)
+                                    ->columns(3)
                                     ->schema([
                                        Select::make('market_studies_items_id')
                                         ->label('Item ID')
@@ -92,22 +91,6 @@ class MarketStudiesSupplierResource extends Resource
                                                 return [$marketStudiesItem->id => $marketStudiesItem->id . ' - ' . $marketStudiesItem->particulars];
                                             })->toArray()
                                         ),
-
-                                        TextInput::make('quantity')
-                                            ->label('Quantity')
-                                            ->required()
-                                            ->type('number')
-                                            ->rules(['gt:0'])
-                                            ->live(onBlur: true)
-                                            ->helperText('Quantity needed for the Item of the Supplier')
-                                            ->afterStateUpdated(function ($get, $set, $old, $state) {
-                                            $quantity = (float) $state;
-                                            $UnitPrice = (float) $get('unit_price');
-                                            $amountPerSupplier = number_format($quantity * $UnitPrice , 2, '.', '');
-                                            $set('amount_per_supplier', $amountPerSupplier);
-                                            })
-                                            ->placeholder('Enter Quantity'),
-
                                         TextInput::make('unit_price')
                                             ->label('Unit Price')
                                             ->required()
@@ -115,58 +98,17 @@ class MarketStudiesSupplierResource extends Resource
                                             ->type('number')
                                             ->rules('numeric')
                                             ->helperText('Unit Price of the Item of the Supplier')
-                                            ->live(onBlur: true)
-                                            ->afterStateUpdated(function ($get, $set, $old, $state) {
-                                                $quantity = (float) $get('quantity');
-                                                $UnitPrice = (float) $get('unit_price');
-                                                $amountPerSupplier = number_format($quantity * $UnitPrice, 2, '.', '');
-                                                $set('amount_per_supplier', $amountPerSupplier);
-                                            })
                                             ->placeholder('Enter Unit Price'),
 
                                         TextInput::make('amount_per_supplier')
                                             ->label('Amount Per Supplier')
                                             ->prefix('₱')
                                             ->rules('numeric')
-                                            ->live(onBlur: true)
-                                            ->readOnly()
                                             ->type('number')
-                                            ->helperText('Amount of the Item of the Supplier'),
-                                            //->placeholder('Enter Amount'),
-
+                                            ->helperText('Amount of the Item of the Supplier')
+                                            ->placeholder('Enter Amount'),
                                     ])
                                 ]),
-                Section::make('Sub-total')
-                    ->icon('heroicon-m-currency-dollar')
-                    ->collapsible()
-                    ->description('The Sub-total will be calculated automatically.')
-                    ->iconPosition(IconPosition::Before)
-                    ->schema([
-                        Select::make('calculate')  // This is where the button goes
-                            ->label('Calculate Total Automatically?')
-                            ->reactive()
-                            #->default('Yes')
-                            ->options([
-                                'Yes' => 'Yes',
-                                'No' => 'No',
-                            ])
-                            ->afterStateUpdated(function ($get, $set, $state) {
-                                if ($state === 'Yes') {
-                                    self::updateTotal($get, $set);
-                                } elseif ($state === 'No') {
-                                    $set('total', null);
-                                }
-                            }),
-
-                        TextInput::make('sub_total')
-                            ->label('Sub-Total')
-                            ->prefix('₱')
-                            ->helperText('Do not enter any value. This field will be calculated automatically.')
-                            ->type('number')
-                            ->live(debounce: 500)
-                            ->rules('numeric', 'gt:0.00')
-                            ->readOnly(),
-                    ]),
             ]);
     }
 
@@ -183,12 +125,12 @@ class MarketStudiesSupplierResource extends Resource
                     ->label('Supplier Address')
                     ->searchable()
                     ->sortable(),
-
+                
                 Tables\Columns\TextColumn::make('supplier_contact')
                     ->label('Supplier Contact')
                     ->searchable()
                     ->sortable(),
-
+                
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Date Created')
                     ->searchable()
