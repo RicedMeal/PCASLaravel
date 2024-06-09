@@ -63,10 +63,10 @@ class SuppliersResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name')
-                ->label('Name')
-                ->searchable()
-                ->sortable()
-                ->toggleable(),
+                    ->label('Name')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(),
                 TextColumn::make('category')
                     ->label('Category')
                     ->searchable()

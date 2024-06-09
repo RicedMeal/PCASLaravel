@@ -5,9 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Procurement extends Model
+class Procurements extends Model
 {
     use HasFactory;
+
+    protected $table = 'procurements';
 
     protected $fillable = [
         'code',

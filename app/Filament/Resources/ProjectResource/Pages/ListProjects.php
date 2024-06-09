@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\ProjectResource\Pages;
 
 use App\Filament\Resources\ProjectResource;
+use App\Filament\Resources\ProjectsResource\Widgets\AnnualProcurementPlanTable as WidgetsAnnualProcurementPlanTable;
 use App\Models\Project;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
@@ -47,5 +48,11 @@ class ListProjects extends ListRecords
             ->badgeColor('warning'),
         ];
 
+    }
+    protected function getFooterWidgets(): array
+    {
+        return [
+            WidgetsAnnualProcurementPlanTable::class
+        ];
     }
 }
