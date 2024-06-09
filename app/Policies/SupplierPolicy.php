@@ -43,15 +43,15 @@ class SupplierPolicy
     }
 
     /**
-     * Determine whether the user can create models.
-     
+      Determine whether the user can create models.
+     */
     public function create(User $user): bool
     {
         //
         return $user->isAdmin();
     }
 
-    /**
+    /*
      * Determine whether the user can update the model.
      
     public function update(User $user, Supplier $Supplier): bool
