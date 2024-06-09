@@ -107,22 +107,6 @@ class PurchaseRequestFormResource extends Resource
                                     //->hint('Current Item No: ' . Purchase_Request_Items::max('item_no') + 1)
                                     ->placeholder('Item No. should be unique'),
 
-                                Select::make('unit')
-                                    ->label('Unit')
-                                    ->required()
-                                    ->placeholder('Select Unit')
-                                    ->columnSpan(1)
-                                    ->options([
-                                        'box' => 'box',
-                                        'length' => 'length',
-                                        'lot' => 'lot',
-                                        'pack' => 'pack',
-                                        'pcs.' => 'pcs.',
-                                        'ream' => 'ream',
-                                        'roll' => 'roll',
-                                        'set' => 'set',
-                                        'unit' => 'unit',
-                                    ]),
                                 TextInput::make('item_description')
                                     ->label('Item Description')
                                     ->required()
@@ -146,6 +130,22 @@ class PurchaseRequestFormResource extends Resource
                                         $estimateCost = number_format($quantity * $estimateUnitCost , 2, '.', '');
                                         $set('estimate_cost', $estimateCost);
                                     }),
+                                Select::make('unit')
+                                    ->label('Unit')
+                                    ->required()
+                                    ->placeholder('Select Unit')
+                                    ->columnSpan(1)
+                                    ->options([
+                                        'box' => 'box',
+                                        'length' => 'length',
+                                        'lot' => 'lot',
+                                        'pack' => 'pack',
+                                        'pcs.' => 'pcs.',
+                                        'ream' => 'ream',
+                                        'roll' => 'roll',
+                                        'set' => 'set',
+                                        'unit' => 'unit',
+                                    ]),
 
                                 TextInput::make('estimate_unit_cost')
                                     ->label('Estimated Unit Cost')
@@ -172,19 +172,42 @@ class PurchaseRequestFormResource extends Resource
                                     ->columnSpan(2)
                                     ->type('number') 
                                     ->step('0.01') 
-                                    ->live(onBlur: true)
+                                    #->live(onBlur: true)
                                     ->readOnly()
-                                    ->placeholder('Enter Estimated Cost')
-                                    ->extraAttributes([
-                                        'min' => 0,
-                                        'max' => 9999999999999999.99,
-                                        'pattern' => '\d+(\.\d{2})?',
-                                    ]),
+                                    ->placeholder('Enter Estimated Cost'),
+                                    #->extraAttributes([
+                                    #    'min' => 0,
+                                     #   'max' => 9999999999999999.99,
+                                    #    'pattern' => '\d+(\.\d{2})?',
+                                    #]),
                         ]),
                     ]),
                     Wizard\Step::make('Total and Other Information')
                         ->icon('heroicon-m-banknotes')
                         ->schema([
+                            Select::make('calculate')  // This is where the button goes
+                            ->label('Calculate Total Automatically?')
+                            ->reactive()
+                            #->default('Yes')
+                            ->options([
+                                'Yes' => 'Yes',
+                                'No' => 'No',
+                            ])
+                            ->afterStateUpdated(function ($get, $set, $state) {
+                                if ($state === 'Yes') {
+                                    $total = 0;
+                                    $items = $get('purchase_request_items');
+
+                                    foreach ($items as $item) {
+                                        $total += (float) str_replace('₱', '', $item['estimate_cost']);
+                                    }
+
+                                    $set('total', number_format($total, 2, '.', ''));
+                                } elseif ($state === 'No') {
+                                    $set('total', null);
+                                }
+
+                            }),
                             TextInput::make('total')
                                 ->label('Total')
                                 ->columnSpan(2)
@@ -194,7 +217,7 @@ class PurchaseRequestFormResource extends Resource
                                 ->prefix('₱')
                                 ->required()
                                 ->live(onBlur: true)
-                                ->afterStateUpdated(function ($get, $set, $old, $state) {
+                                /*->afterStateUpdated(function ($get, $set, $old, $state) {
                                         $total = 0;
                                         $items = $get('purchase_request_items');
 
@@ -203,7 +226,7 @@ class PurchaseRequestFormResource extends Resource
                                         }
 
                                         $set('total', number_format($total, 2, '.', ''));
-                                    })
+                                    })*/
                                 ->placeholder('Enter Total')
                                 ->extraAttributes([
                                     'min' => 0,

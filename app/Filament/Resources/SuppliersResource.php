@@ -62,16 +62,14 @@ class SuppliersResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name')
-                ->label('Name')
-                ->searchable()
-                ->sortable()
-                ->dateTime()
-                ->toggleable(),
+                    ->label('Name')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(),
                 TextColumn::make('category')
                     ->label('Category')
                     ->searchable()
                     ->sortable()
-                    ->dateTime()
                     ->toggleable(),
                 TextColumn::make('address')
                     ->searchable()
@@ -82,14 +80,12 @@ class SuppliersResource extends Resource
                     ->label('Contact Number')
                     ->searchable()
                     ->sortable()
-                    ->date()
                     ->toggleable(),
                 TextColumn::make('email')
                     ->label('email')
                     ->searchable()
                     ->sortable()
-                    ->toggleable()
-                    ->sortable(),
+                    ->toggleable(),
                 //
             ])
             ->filters([
