@@ -67,6 +67,8 @@ class ProjectResource extends Resource
                         ->placeholder('Enter Project Description'),
                     TextInput::make('person_in_charge')
                         #->readonly()
+                        ->required()
+                        ->placeholder('Enter the Person in Charge')
                         ->label('Person in Charge'),
                         #->default(function () {
                         #    return auth()->user()->name;

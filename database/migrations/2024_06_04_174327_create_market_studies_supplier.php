@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create('market_studies_supplier', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('market_studies_id');
             $table->string('supplier_name');
             $table->string('supplier_address');
             $table->string('supplier_contact');
             $table->float('sub_total')->nullable();
+            $table->foreign('market_studies_id')->references('id')->on('market_studies')->onUpdate('cascade');
             $table->timestamps();
         });
 

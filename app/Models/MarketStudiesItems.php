@@ -18,8 +18,7 @@ class MarketStudiesItems extends Model
         'quantity',
         'average_unit_price',
         'average_amount',
-        'average_subtotal',
-        'market_studies_id'
+        'market_studies_id',
     ];
 
     public function market_studies()
@@ -31,4 +30,15 @@ class MarketStudiesItems extends Model
     {
         return $this->hasMany(MarketStudiesSupplierItems::class, 'market_studies_items_id');
     }
+
+    public function market_studies_supplier() 
+    {
+        return $this->hasMany(MarketStudiesSupplier::class, 'market_studies_items_id');
+    }
+
+    public function purchase_request_form() 
+    {
+        return $this->hasMany(Purchase_Request_Form::class, 'market_studies_items_id');
+    }
+    
 }

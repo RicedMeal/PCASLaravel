@@ -13,19 +13,21 @@ class Purchase_Request_Form extends Model
 
     protected $fillable =
     [   'project_id',
+        'market_studies_items_id',
+        'market_studies_id',
         'pr_no',
         'date',
         'section',
         'sai_no',
         'bus_no',
-        'total',
+        //'total',
         'delivery_duration',
         'purpose',
         'recommended_by_name',
         'recommended_by_designation',
         'approved_by_name',
-        'approved_by_designation'
-        
+        'approved_by_designation',
+
     ];
 
     public function project()
@@ -33,9 +35,14 @@ class Purchase_Request_Form extends Model
         return $this->belongsTo(Project::class);
     }
 
-    public function purchase_request_items()
+    public function market_studies()
     {
-        return $this->hasMany(Purchase_Request_Items::class, 'purchase_request_form_id');
+        return $this->belongsTo(MarketStudies::class, 'market_studies_id');
+    }
+
+    public function market_studies_items()
+    {
+        return $this->belongsTo(MarketStudiesItems::class, 'market_studies_items_id');
     }
 
 }

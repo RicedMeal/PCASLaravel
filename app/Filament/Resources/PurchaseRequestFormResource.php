@@ -20,8 +20,6 @@ class PurchaseRequestFormResource extends Resource
 {
     protected static ?string $model = Purchase_Request_Form::class;
 
-    protected static ?string $modelItems = Purchase_Request_Items::class;
-
     protected static ?int $navigationSort = 6;
 
     protected static ?string $navigationIcon = 'heroicon-o-document-plus';
@@ -43,6 +41,7 @@ class PurchaseRequestFormResource extends Resource
                 Wizard::make([
                     Wizard\Step::make('Purchase Request Form')
                         ->icon('heroicon-m-information-circle')
+                        ->columns(3)
                         ->schema([
                             Select::make('project_id')
                                 ->label('Project ID')
@@ -83,6 +82,18 @@ class PurchaseRequestFormResource extends Resource
                                 ->columnSpan(1)
                                 ->rules(['regex:/^Bus-\d{5}$/'])
                                 ->placeholder('Bus-00000'),
+                                TextInput::make('delivery_duration')
+                                ->label('Delivery Duration')
+                                ->required()
+                                ->columnSpan(1)
+                                ->rules(['string', 'max:50'])
+                                ->placeholder('Enter Delivery Duration'),
+                            TextInput::make('purpose')
+                                ->label('Purpose')
+                                ->required()
+                                ->columnSpan(2)
+                                ->rules(['string', 'max:150'])
+                                ->placeholder('Enter Purpose')
 
                         ]),
                     /*Wizard\Step::make('Items List')
@@ -179,60 +190,6 @@ class PurchaseRequestFormResource extends Resource
                                    #     'pattern' => '\d+(\.\d{2})?',
                                     #]),
                         ]),
-                    ]),
-                    Wizard\Step::make('Other Information')
-                        ->icon('heroicon-m-banknotes')
-                        ->schema([
-                            Select::make('calculate')  // This is where the button goes
-                            ->label('Calculate Total Automatically?')
-                            ->reactive()
-                            #->default('Yes')
-                            ->options([
-                                'Yes' => 'Yes',
-                                'No' => 'No',
-                            ])
-                            ->afterStateUpdated(function ($get, $set, $state) {
-                                if ($state === 'Yes') {
-                                    $total = 0;
-                                    $items = $get('purchase_request_items');
-
-                                    foreach ($items as $item) {
-                                        $total += (float) str_replace('₱', '', $item['estimate_cost']);
-                                    }
-
-                                    $set('total', number_format($total, 2, '.', ''));
-                                } elseif ($state === 'No') {
-                                    $set('total', null);
-                                }
-
-                            }),
-                            TextInput::make('total')
-                                ->label('Total')
-                                ->columnSpan(2)
-                                ->rules(['gt:0.00'])
-                                ->type('number') 
-                                ->step('0.01') 
-                                ->prefix('₱')
-                                ->required()
-                                ->live(onBlur: true)
-                                ->placeholder('Enter Total')
-                                ->extraAttributes([
-                                    'min' => 0,
-                                    'max' => 9999999999999999.99,
-                                    'pattern' => '\d+(\.\d{2})?'
-                                ]),
-                            TextInput::make('delivery_duration')
-                                ->label('Delivery Duration')
-                                ->required()
-                                ->columnSpan(2)
-                                ->rules(['string', 'max:50'])
-                                ->placeholder('Enter Delivery Duration'),
-                            TextInput::make('purpose')
-                                ->label('Purpose')
-                                ->required()
-                                ->columnSpan(2)
-                                ->rules(['string', 'max:150'])
-                                ->placeholder('Enter Purpose'),
                     ]),*/
                     Wizard\Step::make('Signatories')
                         ->icon('heroicon-m-user-circle')

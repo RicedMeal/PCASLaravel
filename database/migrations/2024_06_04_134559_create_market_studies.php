@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('project_id');
             $table->string('end_user');
             $table->float('abc')->nullable();
+            $table->float('average_subtotal')->nullable();
             $table->timestamps();
             $table->foreign('project_id')->references('id')->on('projects')->onUpdate('cascade');
         });
@@ -23,14 +24,15 @@ return new class extends Migration
         Schema::create('market_studies_items', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('market_studies_id');
+            //$table->unsignedBigInteger('pr_id')->nullable();
             $table->integer('item_no');
             $table->string('particulars');
             $table->string('unit');
             $table->integer('quantity');
             $table->float('average_unit_price')->nullable();
             $table->float('average_amount')->nullable();
-            $table->float('average_subtotal')->nullable();
             $table->timestamps();
+            //$table->foreign('pr_id')->references('id')->on('purchase_request_form')->onUpdate('cascade');
             $table->foreign('market_studies_id')->references('id')->on('market_studies')->onUpdate('cascade');
         });
 

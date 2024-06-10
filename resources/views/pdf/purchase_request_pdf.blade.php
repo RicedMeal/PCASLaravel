@@ -111,14 +111,14 @@
             <td style="padding: 15px"></td>
             <td style="padding: 15px"></td>
         </tr>
-        @foreach ($purchaseRequestItems as $item)
+        @foreach ($marketStudiesItems as $item)
         <tr>
             <td class="center" style="padding: 5px">{{ $item->item_no }}</td>
             <td class="center" style="padding: 5px">{{ $item->unit }}</td>
-            <td class="center" style="padding: 5px">{{ $item->item_description }}</td>
+            <td class="center" style="padding: 5px">{{ $item->particulars }}</td>
             <td class="center" style="padding: 5px">{{ $item->quantity }}</td>
-            <td class="center" style="padding: 5px">{{ $item->estimate_unit_cost }}</td>
-            <td class="center" style="padding: 5px">{{ $item->estimate_cost }}</td>
+            <td class="center" style="padding: 5px">{{ $item->average_unit_price }}</td>
+            <td class="center" style="padding: 5px">{{ $item->average_amount }}</td>
         </tr>
         @endforeach
         <tr>
@@ -135,7 +135,7 @@
             <td style="padding: 5px"></td>
             <td style="padding: 5px"></td>
             <td class="bold center" style="padding: 5px">TOTAL</td>
-            <td class="bold center" style="padding: 5px">{{ $purchaseRequestForm->total }}</td>
+            <td class="bold center" style="padding: 5px">{{ $marketStudies->average_subtotal }}</td>
             <tr>
                 <td style="padding: 15px"></td>
                 <td style="padding: 15px"></td>

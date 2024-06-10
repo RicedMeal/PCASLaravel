@@ -20,6 +20,8 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Support\Enums\IconPosition;
+use Illuminate\Support\Facades\Log;
+
 
 class MarketStudiesResource extends Resource
 {
@@ -33,16 +35,6 @@ class MarketStudiesResource extends Resource
 
     protected static ?int $navigationSort = 4;
 
-    public static function updateTotal($get, $set):void
-    {
-        $items = $get('ms_supplier_items') ?? [];
-        $Subtotal = 0;
-        foreach ($items as $item) {
-            $Subtotal += (float) str_replace('₱', '', $item['amount_per_supplier'] ?? '0');
-        }
-        $set('sub_total', number_format($Subtotal, 2, '.', ''));
-    }
-
     public static function form(Form $form): Form
     {
         return $form
@@ -51,7 +43,8 @@ class MarketStudiesResource extends Resource
                     ->icon('heroicon-m-information-circle')
                     ->iconPosition(IconPosition::Before)
                     ->collapsible()
-                    ->columns(4)
+                    //->relationship('market_studies_supplier')
+                    ->columns(3)
                     ->description('Fill the necessary information for the Supplier.')
                     ->schema([
                         Select::make('project_id')
@@ -66,7 +59,9 @@ class MarketStudiesResource extends Resource
 
                         TextInput::make('end_user')
                             #->readonly()
-                            ->label('Person in Charge'),
+                            ->required()
+                            ->label('Person in Charge')
+                            ->placeholder('Enter Person in Charge'),
                             #->default(function () {
                             #    return auth()->user()->name;
                             #}),
@@ -76,13 +71,6 @@ class MarketStudiesResource extends Resource
                             ->placeholder('From Annual Procurement Plan')
                             ->prefix('₱')
                             ->rules('numeric', 'gt:0.00'),
-                            
-                        TextInput::make('average_subtotal')
-                            ->label('Average Sub-Total')
-                            ->prefix('₱')
-                            ->rules('numeric', 'gt:0.00')
-                            ->helperText('Do not fill this field. Automatically calculated.')
-                            ->readonly(),
                     ]),
                 Section::make('Market Studies Items')
                     ->icon('heroicon-m-list-bullet')
@@ -105,7 +93,6 @@ class MarketStudiesResource extends Resource
                                     ->required()
                                     ->type('number')
                                     ->columnSpan(1)
-                                    ->unique()
                                     ->rules(['gt:0'])
                                     //->hint('Current Item No: ' . Purchase_Request_Items::max('item_no') + 1)
                                     ->placeholder('Item No. should be unique'),
@@ -147,6 +134,12 @@ class MarketStudiesResource extends Resource
                                 TextInput::make('average_unit_price')
                                     ->label('Average Unit Price')
                                     ->prefix('₱')
+                                    ->formatStateUsing(function ($record) {
+                                        if ($record) {
+                                            return $record->market_studies_supplier_items()->avg('unit_price');
+                                        }
+                                        return null;
+                                    })
                                     ->readonly()
                                     ->helperText('Do not fill this field. Automatically calculated.')
                                     ->rules('numeric', 'gt:0.00'),
@@ -154,6 +147,13 @@ class MarketStudiesResource extends Resource
                                 TextInput::make('average_amount')
                                     ->label('Average Amount')
                                     ->prefix('₱')
+                                    ->formatStateUsing(function ($record) {
+                                        if ($record) {
+                                            return $record->market_studies_supplier_items()->avg('amount_per_supplier');
+                                        }
+                                        return null;
+                                    })
+                                    ->default(fn($record) => $record ? $record->average_amount : 0)
                                     ->helperText('Do not fill this field. Automatically calculated.')
                                     ->rules('numeric', 'gt:0.00')
                                     ->readonly(),
@@ -162,6 +162,25 @@ class MarketStudiesResource extends Resource
                                     // }),
                     ]),
                 ]),
+            Section::make('Sub-total')
+                ->icon('heroicon-m-currency-dollar')
+                ->collapsible()
+                ->description('The Sub-total will be calculated automatically.')
+                ->iconPosition(IconPosition::Before)
+                ->schema([
+                TextInput::make('average_subtotal')
+                            ->label('Average Sub-Total')
+                            ->prefix('₱')
+                            ->rules('numeric', 'gt:0.00')
+                            ->helperText('Do not fill this field. Automatically calculated.')
+                            ->formatStateUsing(function ($record) {
+                                if ($record) {
+                                    return $record->market_studies_supplier()->avg('sub_total');
+                                }
+                                return null;
+                            })
+                            ->readonly(),
+                        ]),
             ]);
     }
 
@@ -169,23 +188,18 @@ class MarketStudiesResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('market_studies_items.item_no')
-                    ->label('Item No')
+                Tables\Columns\TextColumn::make('project.project_title')
+                ->label('Project Title')
+                ->searchable()
+                ->sortable(),
+
+                Tables\Columns\TextColumn::make('market_studies.average_subtotal')
+                    ->label('Average Sub-Total')
                     ->searchable()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('market_studies_items.particulars')
                     ->label('Particulars')
-                    ->searchable()
-                    ->sortable(),
-                
-                Tables\Columns\TextColumn::make('market_studies_items.average_unit_price')
-                    ->label('Average Unit Price')
-                    ->searchable()
-                    ->sortable(),
-                
-                Tables\Columns\TextColumn::make('market_studies_items.average_amount')
-                    ->label('Average Amount')
                     ->searchable()
                     ->sortable(),
 

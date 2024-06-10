@@ -20,6 +20,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Ysfkaya\FilamentPhoneInput\Forms\PhoneInput;
+use App\Models\MarketStudies;
 
 class MarketStudiesSupplierResource extends Resource
 {
@@ -29,9 +30,19 @@ class MarketStudiesSupplierResource extends Resource
 
     protected static ?string $modelLabel = 'Market Studies Supplier';
 
-    protected static ?string $navigationGroup = 'PROJECT MANAGEMENT (in-house)';
+    protected static ?string $navigationGroup = 'MARKETSTUDY MANAGEMENT (in-house)';
 
     protected static ?int $navigationSort = 5;
+
+    public static function updateTotal($get, $set):void
+    {
+        $items = $get('ms_supplier_items') ?? [];
+        $Subtotal = 0;
+        foreach ($items as $item) {
+            $Subtotal += (float) str_replace('₱', '', $item['amount_per_supplier'] ?? '0');
+        }
+        $set('sub_total', number_format($Subtotal, 2, '.', ''));
+    }
 
     public static function form(Form $form): Form
     {
@@ -46,6 +57,15 @@ class MarketStudiesSupplierResource extends Resource
                             ->columns(4)
                             ->iconPosition(IconPosition::Before)
                             ->schema([
+                                Select::make('market_studies_id')
+                                ->label('Market Study ID')
+                                ->required()
+                                ->placeholder('Select Market Study ID')
+                                ->options(
+                                    MarketStudies::with('project')->get()->mapWithKeys(function ($marketStudy) {
+                                        return [$marketStudy->id => $marketStudy->id . ' - ' . $marketStudy->project->project_title];
+                                    })->toArray()
+                                ),
                                 TextInput::make('supplier_name')
                                     ->label('Supplier Name')
                                     ->required()
@@ -66,7 +86,6 @@ class MarketStudiesSupplierResource extends Resource
                 Section::make('Market Studies Supplier Items')
                             ->icon('heroicon-m-banknotes')
                             ->collapsible()
-                            ->columns(3)
                             ->description('Fill the necessary information for the Supplier Items.')
                             ->iconPosition(IconPosition::Before)
                             ->schema([
@@ -75,7 +94,7 @@ class MarketStudiesSupplierResource extends Resource
                                     ->addActionLabel('Add Supplier Item')
                                     ->relationship('ms_supplier_items')
                                     ->collapsible()
-                                    ->columns(3)
+                                    ->columns(4)
                                     ->schema([
                                        Select::make('market_studies_items_id')
                                         ->label('Item ID')
@@ -95,46 +114,68 @@ class MarketStudiesSupplierResource extends Resource
                                             ->helperText('Unit Price of the Item of the Supplier')
                                             ->placeholder('Enter Unit Price'),
 
+                                        TextInput::make('quantity')
+                                            ->label('Quantity')
+                                            ->required()
+                                            ->type('number')
+                                            ->rules(['gt:0'])
+                                            ->live(onBlur: true)
+                                            ->helperText('Quantity needed for the Item of the Supplier')
+                                            ->afterStateUpdated(function ($get, $set, $old, $state) {
+                                            $quantity = (float) $state;
+                                            $UnitPrice = (float) $get('unit_price');
+                                            $amountPerSupplier = number_format($quantity * $UnitPrice , 2, '.', '');
+                                            $set('amount_per_supplier', $amountPerSupplier);
+                                            })
+                                            ->placeholder('Enter Quantity'),
+
                                         TextInput::make('amount_per_supplier')
                                             ->label('Amount Per Supplier')
                                             ->prefix('₱')
                                             ->rules('numeric')
+                                            ->live(onBlur: true)
+                                            ->afterStateUpdated(function ($get, $set, $old, $state) {
+                                                $quantity = (float) $get('quantity');
+                                                $UnitPrice = (float) $get('unit_price');
+                                                $amountPerSupplier = number_format($quantity * $UnitPrice, 2, '.', '');
+                                                $set('amount_per_supplier', $amountPerSupplier);
+                                            })
                                             ->type('number')
                                             ->helperText('Amount of the Item of the Supplier')
                                             ->placeholder('Enter Amount'),
                                     ])
                                 ]),
                     Section::make('Sub-total')
-                                ->icon('heroicon-m-currency-dollar')
-                                ->collapsible()
-                                ->description('The Sub-total will be calculated automatically.')
-                                ->iconPosition(IconPosition::Before)
-                                ->schema([
-                                    Select::make('calculate')  // This is where the button goes
-                                        ->label('Calculate Total Automatically?')
-                                        ->reactive()
-                                        #->default('Yes')
-                                        ->options([
-                                            'Yes' => 'Yes',
-                                            'No' => 'No',
-                                        ])
-                                        ->afterStateUpdated(function ($get, $set, $state) {
-                                            if ($state === 'Yes') {
-                                                self::updateTotal($get, $set);
-                                            } elseif ($state === 'No') {
-                                                $set('total', null);
-                                            }
-                                        }),
-            
-                                    TextInput::make('sub_total')
-                                        ->label('Sub-Total')
-                                        ->prefix('₱')
-                                        ->helperText('Do not enter any value. This field will be calculated automatically.')
-                                        ->type('number')
-                                        ->live(debounce: 500)
-                                        ->rules('numeric', 'gt:0.00')
-                                        ->readOnly(),
-                                ]),
+                        ->icon('heroicon-m-currency-dollar')
+                        ->collapsible()
+                        ->description('The Sub-total will be calculated automatically.')
+                        ->iconPosition(IconPosition::Before)
+                        ->schema([
+                            Select::make('calculate')  // This is where the button goes
+                                ->label('Calculate Total Automatically?')
+                                ->reactive()
+                                #->default('Yes')
+                                ->options([
+                                    'Yes' => 'Yes',
+                                    'No' => 'No',
+                                ])
+                                ->afterStateUpdated(function ($get, $set, $state) {
+                                    if ($state === 'Yes') {
+                                        self::updateTotal($get, $set);
+                                    } elseif ($state === 'No') {
+                                        $set('total', null);
+                                    }
+                                }),
+
+                            TextInput::make('sub_total')
+                                ->label('Sub-Total')
+                                ->prefix('₱')
+                                ->helperText('Do not enter any value. This field will be calculated automatically.')
+                                ->type('number')
+                                ->live(debounce: 500)
+                                ->rules('numeric', 'gt:0.00')
+                                ->readOnly(),
+                        ]),
             ]);
     }
 
