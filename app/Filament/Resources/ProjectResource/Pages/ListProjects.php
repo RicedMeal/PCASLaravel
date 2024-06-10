@@ -30,12 +30,12 @@ class ListProjects extends ListRecords
             })
             ->badge(Project::query()->where('project_status', 'Ongoing')->whereNull('deleted_at')->count())
             ->badgeColor('primary'),
-            'Urgent' => Tab::make()
-            ->modifyQueryUsing(function($query){
-                $query->where('project_status', 'Urgent')->whereNull('deleted_at');
-            })
-            ->badge(Project::query()->where('project_status', 'Urgent')->whereNull('deleted_at')->count())
-            ->badgeColor('danger'),
+            #'Urgent' => Tab::make()
+           # ->modifyQueryUsing(function($query){
+             #   $query->where('project_status', 'Urgent')->whereNull('deleted_at');
+            #})
+            #->badge(Project::query()->where('project_status', 'Urgent')->whereNull('deleted_at')->count())
+           # ->badgeColor('danger'),
             'Completed' => Tab::make()->modifyQueryUsing(function($query){
                 $query->where('project_status', 'Completed')->whereNull('deleted_at');
             })
