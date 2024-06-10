@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\ProjectResource\Pages;
 
 use App\Filament\Resources\ProjectResource;
+use App\Filament\Resources\ProjectResource\Widgets\AnnualProcurementPlanTable;
 use App\Filament\Resources\ProjectsResource\Widgets\AnnualProcurementPlanTable as WidgetsAnnualProcurementPlanTable;
 use App\Models\Project;
 use Filament\Actions;
@@ -52,7 +53,7 @@ class ListProjects extends ListRecords
     protected function getFooterWidgets(): array
     {
         return [
-            WidgetsAnnualProcurementPlanTable::class
+            AnnualProcurementPlanTable::class
         ];
     }
 }

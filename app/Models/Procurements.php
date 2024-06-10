@@ -12,7 +12,7 @@ class Procurements extends Model
     protected $table = 'procurements';
 
     protected $fillable = [
-        'code',
+     'code',
         'project',
         'category',
         'procurement_project',
