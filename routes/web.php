@@ -38,7 +38,7 @@ Route::get('/{record}/pdf', [DownloadPDFController::class, 'download'])->name('p
 Route::get('/project-documents/{id}/download-all', [ProjectDocumentController::class, 'downloadAllPdfs'])->name('project-documents.downloadAllPdfs');
 
 //purchase request form download route
-Route::get('/purchase-request/{record}/pdf', [PurchaseRequestFormPDFController::class, 'pdf'])->name('purchase-request.pdf');
+Route::get('/purchase-request/{id}/pdf', [PurchaseRequestFormPDFController::class, 'pdf'])->name('purchase-request.pdf');
 
 // Route for generating PDF
 Route::get('/pfmo-supplies/{suppliesId}/pdf', [PFMOSuppliesController::class, 'pdf'])->name('pfmo_supplies.pdf');

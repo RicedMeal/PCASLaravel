@@ -16,7 +16,7 @@ class PurchaseRequestFormPDFController extends Controller
         $purchaseRequestForm = Purchase_Request_Form::where('id', $prId)->first();
 
         //retrieve purchase request items data
-        $marketStudiesItems = MarketStudiesItems::where('id', $purchaseRequestForm->id)->get();
+        $marketStudiesItems = MarketStudiesItems::where($purchaseRequestForm->market_studies_id)->get();
 
         $marketStudies = MarketStudies::where('id', $purchaseRequestForm->id)->first();
 
