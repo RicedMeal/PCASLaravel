@@ -41,10 +41,6 @@ class MarketStudiesTable extends BaseWidget
                     ->searchable()
                     ->sortable()
                     ->label('Average Amount'),
-                Tables\Columns\TextColumn::make('average_subtotal')
-                    ->searchable()
-                    ->sortable()
-                    ->label('Average Subtotal'),
                 
             ]);
     }

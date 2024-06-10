@@ -32,7 +32,7 @@ class MarketStudiesSupplierResource extends Resource
 
     protected static ?string $navigationGroup = 'MARKETSTUDY MANAGEMENT (in-house)';
 
-    protected static ?int $navigationSort = 5;
+    protected static ?int $navigationSort = 1;
 
     public static function updateTotal($get, $set):void
     {
