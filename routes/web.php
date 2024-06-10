@@ -40,6 +40,9 @@ Route::get('/project-documents/{id}/download-all', [ProjectDocumentController::c
 //purchase request form download route
 Route::get('/purchase-request/{record}/pdf', [PurchaseRequestFormPDFController::class, 'pdf'])->name('purchase-request.pdf');
 
+// Route for generating PDF
+Route::get('/pfmo-supplies/{suppliesId}/pdf', [PFMOSuppliesController::class, 'pdf'])->name('pfmo_supplies.pdf');
+
 //route for downloading material cost estimates pdf
 Route::get('/material-cost-estimates/{materialCostEstimate}/pdf', [MaterialCostEstimatesController::class, 'pdf'])->name('material-cost-estimates.pdf');
 
