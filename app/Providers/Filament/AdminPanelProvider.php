@@ -46,6 +46,7 @@ class AdminPanelProvider extends PanelProvider
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->navigationGroups([
                 'PROJECT MANAGEMENT (in-house)',
+                'MARKETSTUDY MANAGEMENT (in-house)',
                 'SUPPLY INVENTORY',
                 'PROCUREMENT OFFICE',
             ])

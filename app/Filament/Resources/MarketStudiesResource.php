@@ -31,7 +31,7 @@ class MarketStudiesResource extends Resource
 
     protected static ?string $modelLabel = 'Market Studies';
 
-    protected static ?string $navigationGroup = 'PROJECT MANAGEMENT (in-house)';
+    protected static ?string $navigationGroup = 'MARKETSTUDY MANAGEMENT (in-house)';
 
     protected static ?int $navigationSort = 4;
 
