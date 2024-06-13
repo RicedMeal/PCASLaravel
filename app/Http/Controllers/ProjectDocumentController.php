@@ -20,7 +20,8 @@ class ProjectDocumentController extends Controller
 
         // Prepare the zip file name
         $zipFileName = 'project_' . $projectDocument->id . '_all_pdfs.zip';
-        $zipFilePath = public_path('storage/' . $zipFileName);
+        $zipFilePath = public_path('/uploads/' . $zipFileName);
+
 
         // Create a new zip archive
         $zip = new ZipArchive;
@@ -28,9 +29,9 @@ class ProjectDocumentController extends Controller
         if ($zip->open($zipFilePath, ZipArchive::CREATE | ZipArchive::OVERWRITE) === true) {
             foreach ($pdfs as $pdf) {
                 // Check if $pdf is a valid file name
-                if (is_string($pdf) && file_exists(public_path('storage/' . $pdf))) {
+                if (is_string($pdf) && file_exists(public_path('/uploads/' . $pdf))) {
                     // Add the file to the root of the zip archive
-                    $zip->addFile(public_path('storage/' . $pdf), basename($pdf));
+                    $zip->addFile(public_path('/uploads/' . $pdf), basename($pdf));
                 }
             }
 
