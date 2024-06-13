@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('project_id');
             $table->unsignedBigInteger('market_studies_id')->nullable();
-            $table->unsignedBigInteger('market_studies_items_id')->nullable(); // Corrected column name
-            $table->string('pr_no');
+            $table->json('market_studies_items_id')->nullable(); // Corrected column name
+            $table->string('pr_no')->nullable();
             $table->date('date');
             $table->string('section')->nullable();
             $table->string('sai_no')->nullable();
@@ -30,7 +30,7 @@ return new class extends Migration
             $table->string('approved_by_designation');
             $table->timestamps();
             $table->foreign('market_studies_id')->references('id')->on('market_studies')->onUpdate('cascade');
-            $table->foreign('market_studies_items_id')->references('id')->on('market_studies_items')->onUpdate('cascade'); // Corrected foreign key
+            //$table->foreign('market_studies_items_id')->references('id')->on('market_studies_items')->onUpdate('cascade'); // Corrected foreign key
             $table->foreign('project_id')->references('id')->on('projects')->onUpdate('cascade');
         });
     }

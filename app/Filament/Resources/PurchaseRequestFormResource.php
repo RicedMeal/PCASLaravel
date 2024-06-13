@@ -15,6 +15,8 @@ use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Repeater;
 use App\Models\Purchase_Request_Items;
 use Filament\Forms\Components\Wizard;
+use App\Models\MarketStudiesItems;
+use Filament\Forms\Components\CheckboxList;
 
 class PurchaseRequestFormResource extends Resource
 {
@@ -51,6 +53,31 @@ class PurchaseRequestFormResource extends Resource
                                         return [$project->id => $project->id . ' - ' . $project->project_title];
                                     })->toArray()
                                 ),
+                            Select::make('market_studies_id')
+                                ->label('Market Studies ID')
+                                ->required()
+                                ->options(
+                                    MarketStudiesItems::all()->unique('market_studies_id')->mapWithKeys(function ($marketStudiesItems) {
+                                        return [$marketStudiesItems->market_studies_id => $marketStudiesItems->market_studies_id];
+                                    })->toArray()
+                                )
+                                ->reactive()
+                                ->afterStateUpdated(fn (callable $set) => $set('market_studies_items_id', null)),
+                            CheckboxList::make('market_studies_items_id')
+                            ->label('Market Studies Items ID')
+                            ->required()
+                            ->options(function (callable $get) {
+                                $marketStudiesId = $get('market_studies_id');
+                                if ($marketStudiesId) {
+                                    return MarketStudiesItems::where('market_studies_id', $marketStudiesId)
+                                        ->get()
+                                        ->mapWithKeys(function ($marketStudiesItem) {
+                                            return [$marketStudiesItem->id => $marketStudiesItem->particulars];
+                                        })
+                                        ->toArray();
+                                }
+                                return [];
+                            }),
                             TextInput::make('pr_no')
                                 ->label('PR No.')
                                 ->rules(['regex:/^\d{3}-\d{4}-\d{2}-\d{2}-\d{2}$/'])

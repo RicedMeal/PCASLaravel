@@ -13,8 +13,8 @@ class Purchase_Request_Form extends Model
 
     protected $fillable =
     [   'project_id',
-        'market_studies_items_id',
         'market_studies_id',
+        'market_studies_items_id',
         'pr_no',
         'date',
         'section',

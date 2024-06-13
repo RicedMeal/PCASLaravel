@@ -129,13 +129,21 @@
             <td style="padding: 15px"></td>
             <td style="padding: 15px"></td>
         </tr>
-        <tr>
-            <td style="padding: 5px"></td>
-            <td style="padding: 5px"></td>
-            <td style="padding: 5px"></td>
-            <td style="padding: 5px"></td>
-            <td class="bold center" style="padding: 5px">TOTAL</td>
-            <td class="bold center" style="padding: 5px">{{ $marketStudies->average_subtotal }}</td>
+                    @if ($marketStudies)
+                <tr>
+                    <td style="padding: 5px"></td>
+                    <td style="padding: 5px"></td>
+                    <td style="padding: 5px"></td>
+                    <td style="padding: 5px"></td>
+                    <td class="bold center" style="padding: 5px">TOTAL</td>
+                    <td class="bold center" style="padding: 5px">{{ $marketStudies->average_subtotal }}</td>
+                </tr>
+            @else
+                <tr>
+                    <td colspan="6" class="bold center" style="padding: 5px">Market Studies data not found</td>
+                </tr>
+            @endif
+
             <tr>
                 <td style="padding: 15px"></td>
                 <td style="padding: 15px"></td>
