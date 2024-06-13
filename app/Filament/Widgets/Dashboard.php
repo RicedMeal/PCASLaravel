@@ -15,7 +15,7 @@ class Dashboard extends BaseWidget
     {
         $ongoingProjectsCount = Project::where('project_status', 'Ongoing')->count();
         $completedProjectsCount = Project::where('project_status', 'Completed')->count();
-        $urgentDeadlineCount = Project::where('project_status', 'Urgent', now())->count();
+       # $urgentDeadlineCount = Project::where('project_status', 'Urgent', now())->count();
 
         return [
             #Change the values depends on the on going projects and completed projects
@@ -29,11 +29,11 @@ class Dashboard extends BaseWidget
                 ->descriptionIcon('heroicon-o-check-circle', IconPosition::Before)
                 ->chart([7, 7, 7, 7, 7, 7, 7, 7])
                 ->color('success'),
-            Stat::make('Urgent Projects', value($urgentDeadlineCount))
-                ->description('Urgent project document submission deadline')
-                ->descriptionIcon('heroicon-o-shield-exclamation', IconPosition::Before)
-                ->chart([7, 7, 7, 7, 7, 7, 7, 7])
-                ->color('danger'),        
+            #Stat::make('Urgent Projects', value($urgentDeadlineCount))
+            #    ->description('Urgent project document submission deadline')
+            #    ->descriptionIcon('heroicon-o-shield-exclamation', IconPosition::Before)
+             #   ->chart([7, 7, 7, 7, 7, 7, 7, 7])
+              #  ->color('danger'),        
         ];
     }
 }
