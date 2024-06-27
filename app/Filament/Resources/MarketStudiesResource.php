@@ -22,6 +22,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Support\Enums\IconPosition;
 use Illuminate\Support\Facades\Log;
 
+#sample comment
 
 class MarketStudiesResource extends Resource
 {
